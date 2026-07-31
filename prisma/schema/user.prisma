@@ -1,0 +1,20 @@
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  name         String
+  phone        String?
+  avatar       String?
+  isBanned     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  properties        Property[]      @relation("LandlordProperties")
+  rentalRequests    RentalRequest[] @relation("TenantRentalRequests")
+  payments          Payment[]       @relation("UserPayments")
+  reviews           Review[]        @relation("UserReviews")
+  createdCategories Category[]      @relation("CategoryCreator")
+
+  @@map("users")
+}

@@ -1,0 +1,8 @@
+node_modules
+/src/generated/prisma
+.env
+_inbox
+dist
+.vercel
+_agents
+PLAN.md
