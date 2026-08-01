@@ -1,6 +1,6 @@
 import config from "../config";
 import jwt, { type SignOptions } from "jsonwebtoken";
-import type { ITokenPayload } from "../types";
+import type { ITokenPayload } from "../modules/auth/auth.types";
 
 export type { ITokenPayload };
 

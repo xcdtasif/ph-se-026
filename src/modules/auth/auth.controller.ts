@@ -1,11 +1,12 @@
-import type { IAuthRequest, IAuthTokens } from "../../types";
 import type { Request, Response } from "express";
+import type { IAuthRequest } from "../../types";
 import {
   registerUser,
   loginUser,
   refreshTokens,
   getCurrentUser,
 } from "./auth.service";
+import type { IAuthTokens } from "./auth.types";
 import { sendResponse, StatusCodes } from "../../utils/send-response";
 import config from "../../config";
 

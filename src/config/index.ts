@@ -22,7 +22,6 @@ const config = {
 
   ADMIN_EMAIL: env.ADMIN_EMAIL!,
   ADMIN_PASSWORD: env.ADMIN_PASSWORD!,
-  ADMIN_NAME: env.ADMIN_NAME!,
 };
 
 export default config;

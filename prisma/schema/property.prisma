@@ -5,17 +5,9 @@ model Property {
   title       String
   description String
   location    String
-  address     String
-  city        String
-  state       String
-  zipCode     String
-  country     String         @default("Bangladesh")
+  mapLocation String?
   price       Decimal        @db.Decimal(10, 2)
-  bedrooms    Int
-  bathrooms   Int
-  areaSqft    Int
-  amenities   String[]
-  images      String[]
+  images      String[]       @default([])
   isAvailable Boolean        @default(true)
   status      PropertyStatus @default(ACTIVE)
   createdAt   DateTime       @default(now())
@@ -28,7 +20,7 @@ model Property {
 
   @@index([landlordId])
   @@index([categoryId])
-  @@index([city, state])
+  @@index([location])
   @@index([isAvailable])
   @@map("properties")
 }

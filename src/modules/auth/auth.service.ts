@@ -7,7 +7,7 @@ import {
   verifyRefreshToken,
 } from "../../utils/jwt";
 import { ApiError } from "../../middleware/global-error";
-import type { IAuthTokens, IRegisterInput, ILoginInput } from "../../types";
+import type { IAuthTokens, IRegisterInput, ILoginInput } from "./auth.types";
 
 export const registerUser = async (
   input: IRegisterInput,

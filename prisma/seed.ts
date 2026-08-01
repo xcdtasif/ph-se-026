@@ -1,38 +1,36 @@
 import { prisma } from "../src/lib/prisma";
-import { hashPassword } from "../src/utils/password";
 import config from "../src/config";
+import {
+  findOrCreateCategory,
+  findOrCreateProperty,
+  findOrCreateUser,
+} from "./seed.helpers";
 
 async function main() {
   console.log("Starting database seed...");
 
-  // Create admin user from config
-  const adminEmail = config.ADMIN_EMAIL;
-  const adminPassword = config.ADMIN_PASSWORD;
-  const adminName = config.ADMIN_NAME;
-
-  const passwordHash = await hashPassword(adminPassword);
-
-  await prisma.user.upsert({
-    where: { email: adminEmail },
-    // If the admin already exists, overwrite with the latest env file config
-    update: {
-      passwordHash: passwordHash,
-      name: adminName,
-      role: "ADMIN", // Enforces admin role even if it was modified
-    },
-    // If the admin does not exist, create it cleanly
-    create: {
-      email: adminEmail,
-      passwordHash: passwordHash,
-      name: adminName,
-      role: "ADMIN",
-    },
+  // 1. Seed Users
+  const admin01 = await findOrCreateUser({
+    email: config.ADMIN_EMAIL,
+    rawPassword: config.ADMIN_PASSWORD,
+    name: "Admin 01",
+    role: "ADMIN",
   });
 
-  console.log("Admin user successfully synchronized");
+  const landlord01 = await findOrCreateUser({
+    email: "landlord01@email.com",
+    name: "Landlord 01",
+    role: "LANDLORD",
+  });
 
-  // Create default categories
-  const categories = [
+  const tenant01 = await findOrCreateUser({
+    email: "tenant01@email.com",
+    name: "Tenant 01",
+    role: "TENANT",
+  });
+
+  // 2. Seed Categories
+  const categoriesData = [
     {
       name: "Apartment",
       description: "Modern apartments in residential buildings",
@@ -40,25 +38,87 @@ async function main() {
     { name: "House", description: "Standalone houses with private yards" },
     { name: "Studio", description: "Compact studio apartments for singles" },
     { name: "Condo", description: "Condominiums with shared amenities" },
-    { name: "Townhouse", description: "Multi-level townhouses" },
     { name: "Villa", description: "Luxury villas with premium features" },
-    {
-      name: "Shared Room",
-      description: "Budget-friendly shared accommodations",
-    },
-    { name: "Commercial", description: "Commercial spaces for business" },
   ];
 
-  for (const cat of categories) {
-    await prisma.category.upsert({
-      where: { name: cat.name },
-      update: {},
-      create: {
-        name: cat.name,
-        description: cat.description,
-      },
-    });
-    console.log("Category created:", cat.name);
+  const categoryMap = new Map<string, string>();
+
+  for (const cat of categoriesData) {
+    const category = await findOrCreateCategory(cat, admin01.id);
+    categoryMap.set(cat.name, category.id);
+  }
+
+  // 3. Seed Properties
+  const properties = [
+    {
+      title: "Modern Apartment in Gulshan",
+      description:
+        "Spacious 2-bedroom apartment with modern amenities, balcony, and city view.",
+      location: "Gulshan-1, Dhaka",
+      mapLocation: "https://maps.google.com/?q=Gulshan+1+Dhaka",
+      price: 45000,
+      images: ["https://example.com/apt1.jpg", "https://example.com/apt2.jpg"],
+      categoryId: categoryMap.get("Apartment")!,
+      landlordId: landlord01.id,
+      isAvailable: true,
+    },
+    {
+      title: "Luxury Villa in Banani",
+      description:
+        "Exclusive 4-bedroom villa with private garden, swimming pool, and garage.",
+      location: "Banani, Dhaka",
+      mapLocation: "https://maps.google.com/?q=Banani+Dhaka",
+      price: 180000,
+      images: [
+        "https://example.com/villa1.jpg",
+        "https://example.com/villa2.jpg",
+      ],
+      categoryId: categoryMap.get("Villa")!,
+      landlordId: landlord01.id,
+      isAvailable: true,
+    },
+    {
+      title: "Cozy Studio in Dhanmondi",
+      description:
+        "Compact studio perfect for students or young professionals.",
+      location: "Dhanmondi-27, Dhaka",
+      mapLocation: "https://maps.google.com/?q=Dhanmondi+27+Dhaka",
+      price: 18000,
+      images: ["https://example.com/studio1.jpg"],
+      categoryId: categoryMap.get("Studio")!,
+      landlordId: landlord01.id,
+      isAvailable: true,
+    },
+    {
+      title: "Family House in Uttara",
+      description:
+        "3-bedroom house with backyard, parking space, and modern kitchen.",
+      location: "Uttara Sector-7, Dhaka",
+      mapLocation: "https://maps.google.com/?q=Uttara+Sector+7+Dhaka",
+      price: 55000,
+      images: [
+        "https://example.com/house1.jpg",
+        "https://example.com/house2.jpg",
+      ],
+      categoryId: categoryMap.get("House")!,
+      landlordId: landlord01.id,
+      isAvailable: true,
+    },
+    {
+      title: "Premium Condo in Bashundhara",
+      description: "High-rise condo with gym, pool, and 24/7 security.",
+      location: "Bashundhara R/A, Dhaka",
+      mapLocation: "https://maps.google.com/?q=Bashundhara+Dhaka",
+      price: 65000,
+      images: ["https://example.com/condo1.jpg"],
+      categoryId: categoryMap.get("Condo")!,
+      landlordId: landlord01.id,
+      isAvailable: true,
+    },
+  ];
+
+  for (const prop of properties) {
+    await findOrCreateProperty(prop);
   }
 
   console.log("Database seed completed!");
