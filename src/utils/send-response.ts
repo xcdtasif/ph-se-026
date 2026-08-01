@@ -1,18 +1,6 @@
-import { Response } from "express";
-
-type TMeta = {
-  page: number;
-  limit: number;
-  total: number;
-};
-
-type TResponseData<T> = {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  data: T;
-  meta?: TMeta;
-};
+import type { Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import type { TResponseData } from "../types";
 
 export const sendResponse = <T>(res: Response, data: TResponseData<T>) => {
   res.status(data.statusCode).json({
@@ -23,3 +11,5 @@ export const sendResponse = <T>(res: Response, data: TResponseData<T>) => {
     meta: data.meta,
   });
 };
+
+export { StatusCodes };

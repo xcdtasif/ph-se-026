@@ -1,7 +1,7 @@
 import app from "./app";
 import config from "./config";
 
-const port = Number(config.PORT ?? 3000);
+const port = Number(config.PORT);
 
 if (config.NODE_ENV !== "production") {
   app.listen(port, () => {

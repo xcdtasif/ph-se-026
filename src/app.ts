@@ -1,24 +1,23 @@
 import express, { type Application } from "express";
 import cookieParser from "cookie-parser";
-// import authRouter from "./modules/auth/auth.routes";
-// import usersRouter from "./modules/user/user.routes";
-// import { notFoundHandler } from "./middleware/not-found";
-// import { globalErrorHandler } from "./middleware/global-error";
+import cors from "cors";
+import authRouter from "./modules/auth/auth.routes";
+import { notFoundHandler } from "./middleware/not-found";
+import { globalErrorHandler } from "./middleware/global-error";
 
 const app: Application = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+app.use("/api/auth", authRouter);
 
-// app.use("/auth", authRouter);
-// app.use("/users", usersRouter);
+app.use(notFoundHandler);
 
-// app.use(notFoundHandler);
-
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 export default app;
