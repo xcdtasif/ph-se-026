@@ -1,0 +1,142 @@
+import type { Request, Response } from "express";
+import type { IAuthRequest } from "../../types";
+import {
+  createProperty,
+  updateProperty,
+  deleteProperty,
+  getLandlordProperties,
+  getLandlordRentalRequests,
+  updateRentalRequestStatus,
+  getLandlordPropertyById,
+} from "./landlord.service";
+import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { ApiError } from "../../middleware/global-error";
+
+export const createPropertyController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const property = await createProperty(landlordId, req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.CREATED,
+    message: "Property created successfully",
+    data: property,
+  });
+};
+
+export const updatePropertyController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const id = req.params.id as string;
+
+  const property = await updateProperty(id, landlordId, req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Property updated successfully",
+    data: property,
+  });
+};
+
+export const deletePropertyController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const id = req.params.id as string;
+
+  await deleteProperty(id, landlordId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Property deleted successfully",
+    data: null,
+  });
+};
+
+export const getMyPropertiesController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const sortBy = (req.query.sortBy as string) || "createdAt";
+  const sortOrder = (req.query.sortOrder as "asc" | "desc") || "desc";
+
+  const result = await getLandlordProperties(landlordId, {
+    page,
+    limit,
+    sortBy,
+    sortOrder,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Properties retrieved successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+};
+
+export const getMyPropertyController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const id = req.params.id as string;
+
+  const property = await getLandlordPropertyById(id, landlordId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Property retrieved successfully",
+    data: property,
+  });
+};
+
+export const getMyRentalRequestsController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const requests = await getLandlordRentalRequests(landlordId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Rental requests retrieved successfully",
+    data: requests,
+  });
+};
+
+export const updateRentalRequestStatusController = async (
+  req: IAuthRequest,
+  res: Response,
+) => {
+  const landlordId = req.user!.id;
+  const id = req.params.id as string;
+  const { status } = req.body;
+
+  if (!["APPROVED", "REJECTED"].includes(status)) {
+    throw new ApiError("Invalid status. Must be APPROVED or REJECTED", 400);
+  }
+
+  const request = await updateRentalRequestStatus(id, landlordId, status);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: `Rental request ${status.toLowerCase()} successfully`,
+    data: request,
+  });
+};

@@ -5,6 +5,15 @@ export interface IPaginationMeta {
   limit: number;
   total: number;
   totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface IPaginationOptions {
+  page: number;
+  limit: number;
+  sortBy: string;
+  sortOrder: "asc" | "desc";
 }
 
 export type TPaginatedResponse<T> = {

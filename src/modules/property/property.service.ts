@@ -75,6 +75,8 @@ export const getProperties = async (
       limit,
       total,
       totalPages,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1,
     },
   };
 };
