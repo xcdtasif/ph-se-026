@@ -1,10 +1,11 @@
 import { prisma } from "../../lib/prisma";
-import { ApiError } from "../../middleware/global-error";
+import { AppError } from "../../utils/app-error";
 import type {
   IPaginationOptions,
   IPaginationMeta,
   TPaginatedResponse,
 } from "../../types";
+import { StatusCodes } from "http-status-codes";
 
 export const createProperty = async (
   landlordId: string,
@@ -43,11 +44,14 @@ export const updateProperty = async (
 ) => {
   const property = await prisma.property.findUnique({ where: { id } });
   if (!property) {
-    throw new ApiError("Property not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Property not found");
   }
 
   if (property.landlordId !== landlordId) {
-    throw new ApiError("You can only update your own properties", 403);
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "You can only update your own properties",
+    );
   }
 
   const updateData: Record<string, unknown> = {};
@@ -68,9 +72,9 @@ export const updateProperty = async (
   });
 
   if (activeRequests > 0) {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
       "Cannot update property with active rental requests",
-      400,
     );
   }
 
@@ -83,11 +87,14 @@ export const updateProperty = async (
 export const deleteProperty = async (id: string, landlordId: string) => {
   const property = await prisma.property.findUnique({ where: { id } });
   if (!property) {
-    throw new ApiError("Property not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Property not found");
   }
 
   if (property.landlordId !== landlordId) {
-    throw new ApiError("You can only delete your own properties", 403);
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "You can only delete your own properties",
+    );
   }
 
   // Check for active rental requests
@@ -99,9 +106,9 @@ export const deleteProperty = async (id: string, landlordId: string) => {
   });
 
   if (activeRequests > 0) {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
       "Cannot delete property with active rental requests",
-      400,
     );
   }
 
@@ -199,20 +206,20 @@ export const updateRequestStatus = async (
   });
 
   if (!request) {
-    throw new ApiError("Request not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Request not found");
   }
 
   if (request.property.landlordId !== landlordId) {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
       "You can only manage requests for your own properties",
-      403,
     );
   }
 
   if (request.status !== "MOVE_IN_REQUESTED") {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
       `Cannot ${status.toLowerCase()} a ${request.status.toLowerCase()} request`,
-      400,
     );
   }
 
@@ -255,11 +262,14 @@ export const getLandlordPropertyById = async (
   });
 
   if (!property) {
-    throw new ApiError("Property not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Property not found");
   }
 
   if (property.landlordId !== landlordId) {
-    throw new ApiError("You can only view your own properties", 403);
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "You can only view your own properties",
+    );
   }
 
   return property;

@@ -8,7 +8,7 @@ import {
   getCategoryById,
 } from "./category.service";
 import { sendResponse, StatusCodes } from "../../utils/send-response";
-import { ApiError } from "../../middleware/global-error";
+import { AppError } from "../../utils/app-error";
 
 export const getCategories = async (req: Request, res: Response) => {
   const categories = await getAllCategories();
@@ -67,7 +67,7 @@ export const getCategory = async (req: Request, res: Response) => {
   const category = await getCategoryById(id);
 
   if (!category) {
-    throw new ApiError("Category not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Category not found");
   }
 
   sendResponse(res, {

@@ -6,8 +6,9 @@ import {
   type ITokenPayload,
   verifyRefreshToken,
 } from "../../utils/jwt";
-import { ApiError } from "../../middleware/global-error";
+import { AppError } from "../../utils/app-error";
 import type { IAuthTokens, IRegisterInput, ILoginInput } from "./auth.types";
+import { StatusCodes } from "http-status-codes";
 
 export const registerUser = async (
   input: IRegisterInput,
@@ -17,7 +18,10 @@ export const registerUser = async (
   });
 
   if (existingUser) {
-    throw new ApiError("User with this email already exists", 409);
+    throw new AppError(
+      StatusCodes.CONFLICT,
+      "User with this email already exists",
+    );
   }
 
   const passwordHash = await hashPassword(input.password);
@@ -50,11 +54,11 @@ export const loginUser = async (input: ILoginInput): Promise<IAuthTokens> => {
   });
 
   if (!user) {
-    throw new ApiError("Invalid email or password", 401);
+    throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid email or password");
   }
 
   if (user.isBanned) {
-    throw new ApiError("Account is banned", 403);
+    throw new AppError(StatusCodes.FORBIDDEN, "Account is banned");
   }
 
   const isPasswordValid = await comparePassword(
@@ -63,7 +67,7 @@ export const loginUser = async (input: ILoginInput): Promise<IAuthTokens> => {
   );
 
   if (!isPasswordValid) {
-    throw new ApiError("Invalid email or password", 401);
+    throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid email or password");
   }
 
   const payload: ITokenPayload = {
@@ -86,7 +90,10 @@ export const refreshTokens = async (
   try {
     payload = verifyRefreshToken(refreshToken);
   } catch {
-    throw new ApiError("Invalid or expired refresh token", 401);
+    throw new AppError(
+      StatusCodes.UNAUTHORIZED,
+      "Invalid or expired refresh token",
+    );
   }
 
   const user = await prisma.user.findUnique({
@@ -95,7 +102,7 @@ export const refreshTokens = async (
   });
 
   if (!user || user.isBanned) {
-    throw new ApiError("User not found or banned", 401);
+    throw new AppError(StatusCodes.UNAUTHORIZED, "User not found or banned");
   }
 
   const newPayload: ITokenPayload = {
@@ -126,7 +133,7 @@ export const getCurrentUser = async (userId: string) => {
   });
 
   if (!user) {
-    throw new ApiError("User not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found");
   }
 
   return user;

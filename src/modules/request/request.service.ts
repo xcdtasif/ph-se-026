@@ -1,10 +1,11 @@
 import { prisma } from "../../lib/prisma";
-import { ApiError } from "../../middleware/global-error";
+import { AppError } from "../../utils/app-error";
 import type {
   IPaginationOptions,
   IPaginationMeta,
   TPaginatedResponse,
 } from "../../types";
+import { StatusCodes } from "http-status-codes";
 
 export const createRequest = async (
   tenantId: string,
@@ -19,11 +20,14 @@ export const createRequest = async (
   });
 
   if (!property) {
-    throw new ApiError("Property not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Property not found");
   }
 
   if (property.status !== "AVAILABLE") {
-    throw new ApiError("Property is not available for rent", 400);
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "Property is not available for rent",
+    );
   }
 
   // Check if tenant already has a pending/approved/active request for this property
@@ -38,9 +42,9 @@ export const createRequest = async (
   });
 
   if (existingRequest) {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
       "You already have a pending or approved request for this property",
-      400,
     );
   }
 
@@ -91,7 +95,7 @@ export const updateRequestStatus = async (
   });
 
   if (!request) {
-    throw new ApiError("Request not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Request not found");
   }
 
   const isMoveIn =
@@ -108,9 +112,9 @@ export const updateRequestStatus = async (
   // Authorization checks - landlord actions must own the property
   if (isMoveIn || (isMoveOut && !isTenantMoveOutRequest)) {
     if (request.property.landlordId !== userId) {
-      throw new ApiError(
+      throw new AppError(
+        StatusCodes.FORBIDDEN,
         "You can only manage requests for your own properties",
-        403,
       );
     }
   }
@@ -120,20 +124,26 @@ export const updateRequestStatus = async (
     userRole === "TENANT" &&
     (isMoveIn || (isMoveOut && !isTenantMoveOutRequest))
   ) {
-    throw new ApiError("Tenants cannot approve or reject requests", 403);
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "Tenants cannot approve or reject requests",
+    );
   }
 
   // Prevent landlords from requesting move-out
   if (userRole === "LANDLORD" && data.status === "MOVE_OUT_REQUESTED") {
-    throw new ApiError("Landlords cannot request move-out", 403);
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "Landlords cannot request move-out",
+    );
   }
 
   if (isTenantMoveOutRequest) {
     // State transition validation for MOVE_IN approval/rejection
     if (isMoveIn && request.status !== "MOVE_IN_REQUESTED") {
-      throw new ApiError(
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
         "Request is not in a state to be approved/rejected",
-        400,
       );
     }
 
@@ -143,9 +153,9 @@ export const updateRequestStatus = async (
         request.status,
       )
     ) {
-      throw new ApiError(
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
         "Can only request move-out for approved or active rentals, or after move-out rejection",
-        400,
       );
     }
 
@@ -155,9 +165,9 @@ export const updateRequestStatus = async (
 
     // Request must be submitted 1st-10th
     if (now.getDate() > 10) {
-      throw new ApiError(
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
         "Move-out requests must be submitted between 1st and 10th of the month",
-        400,
       );
     }
 
@@ -177,9 +187,9 @@ export const updateRequestStatus = async (
       requestedMoveOut < earliestMoveOut ||
       requestedMoveOut > lastDayCurrentMonth
     ) {
-      throw new ApiError(
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
         `Move-out date must be between 11th and ${lastDayCurrentMonth.getDate()}th of current month`,
-        400,
       );
     }
   }
@@ -189,7 +199,10 @@ export const updateRequestStatus = async (
     !isTenantMoveOutRequest &&
     request.status !== "MOVE_OUT_REQUESTED"
   ) {
-    throw new ApiError("Request is not in move-out requested state", 400);
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "Request is not in move-out requested state",
+    );
   }
 
   const updateData: Record<string, unknown> = {
@@ -214,14 +227,17 @@ export const updateRequestStatus = async (
   } else if (data.status === "MOVE_OUT_APPROVED") {
     const finalMoveOutDate = data.moveOutDate ?? request.moveOutDate;
     if (!finalMoveOutDate) {
-      throw new ApiError("Move-out date is required", 400);
+      throw new AppError(StatusCodes.BAD_REQUEST, "Move-out date is required");
     }
 
     const damageAmount = data.damageAmount ?? 0;
     const refundAmount = Number(request.securityDeposit) - damageAmount;
 
     if (refundAmount < 0) {
-      throw new ApiError("Damage amount cannot exceed security deposit", 400);
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
+        "Damage amount cannot exceed security deposit",
+      );
     }
 
     updateData.moveOutDate = new Date(finalMoveOutDate);
@@ -345,11 +361,14 @@ export const markRequestAsMovedIn = async (requestId: string) => {
   });
 
   if (!request) {
-    throw new ApiError("Request not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Request not found");
   }
 
   if (request.status !== "MOVE_IN_APPROVED") {
-    throw new ApiError("Request must be in MOVE_IN_APPROVED status", 400);
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "Request must be in MOVE_IN_APPROVED status",
+    );
   }
 
   await prisma.$transaction([
@@ -376,11 +395,14 @@ export const markRequestAsMovedOut = async (requestId: string) => {
   });
 
   if (!request) {
-    throw new ApiError("Request not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Request not found");
   }
 
   if (request.status !== "MOVE_OUT_APPROVED") {
-    throw new ApiError("Request must be in MOVE_OUT_APPROVED status", 400);
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "Request must be in MOVE_OUT_APPROVED status",
+    );
   }
 
   await prisma.$transaction([

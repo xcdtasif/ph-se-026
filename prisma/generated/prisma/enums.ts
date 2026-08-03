@@ -18,14 +18,6 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const RequestType = {
-  MOVE_IN: 'MOVE_IN',
-  MOVE_OUT: 'MOVE_OUT'
-} as const
-
-export type RequestType = (typeof RequestType)[keyof typeof RequestType]
-
-
 export const RequestStatus = {
   MOVE_IN_REQUESTED: 'MOVE_IN_REQUESTED',
   MOVE_IN_APPROVED: 'MOVE_IN_APPROVED',
@@ -58,9 +50,9 @@ export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvi
 
 
 export const PaymentType = {
-  FIRST_PAYMENT: 'FIRST_PAYMENT',
+  SECURITY_DEPOSIT: 'SECURITY_DEPOSIT',
   MONTHLY_RENT: 'MONTHLY_RENT',
-  REFUND: 'REFUND'
+  MOVE_OUT_REFUND: 'MOVE_OUT_REFUND'
 } as const
 
 export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]

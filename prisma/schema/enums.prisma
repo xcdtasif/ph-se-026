@@ -4,11 +4,6 @@ enum UserRole {
   ADMIN
 }
 
-enum RequestType {
-  MOVE_IN
-  MOVE_OUT
-}
-
 enum RequestStatus {
   MOVE_IN_REQUESTED
   MOVE_IN_APPROVED
@@ -32,9 +27,9 @@ enum PaymentProvider {
 }
 
 enum PaymentType {
-  FIRST_PAYMENT
+  SECURITY_DEPOSIT
   MONTHLY_RENT
-  REFUND
+  MOVE_OUT_REFUND
 }
 
 enum PropertyStatus {

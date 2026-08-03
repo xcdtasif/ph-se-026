@@ -9,8 +9,8 @@ import {
   updateRequestStatus,
   getLandlordPropertyById,
 } from "./landlord.service";
+import { AppError } from "../../utils/app-error";
 import { sendResponse, StatusCodes } from "../../utils/send-response";
-import { ApiError } from "../../middleware/global-error";
 
 export const createPropertyController = async (
   req: IAuthRequest,
@@ -143,9 +143,9 @@ export const updateRequestStatusController = async (
   const { status, rejectedReason } = req.body;
 
   if (!["MOVE_IN_APPROVED", "MOVE_IN_REJECTED"].includes(status)) {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
       "Invalid status. Must be MOVE_IN_APPROVED or MOVE_IN_REJECTED",
-      400,
     );
   }
 

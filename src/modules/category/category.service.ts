@@ -1,6 +1,6 @@
+import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../lib/prisma";
-import { ApiError } from "../../middleware/global-error";
-
+import { AppError } from "../../utils/app-error";
 export const getAllCategories = async () => {
   return prisma.category.findMany({
     orderBy: { name: "asc" },
@@ -28,9 +28,8 @@ export const updateCategory = async (
 ) => {
   const category = await prisma.category.findUnique({ where: { id } });
   if (!category) {
-    throw new ApiError("Category not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Category not found");
   }
-
   const data: { name?: string; description?: string | null } = {};
 
   if (name !== undefined) data.name = name;
@@ -45,7 +44,7 @@ export const updateCategory = async (
 export const deleteCategory = async (id: string) => {
   const category = await prisma.category.findUnique({ where: { id } });
   if (!category) {
-    throw new ApiError("Category not found", 404);
+    throw new AppError(StatusCodes.NOT_FOUND, "Category not found");
   }
 
   // Check if category has properties
@@ -53,13 +52,11 @@ export const deleteCategory = async (id: string) => {
     where: { categoryId: id },
   });
   if (propertiesCount > 0) {
-    throw new ApiError(
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
       "Cannot delete category with associated properties",
-      400,
     );
   }
-
-  return prisma.category.delete({ where: { id } });
 };
 
 export const getCategoryById = async (id: string) => {

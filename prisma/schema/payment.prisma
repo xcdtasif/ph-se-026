@@ -3,13 +3,14 @@ model Payment {
   requestId             String
   userId                String
   amount                Decimal         @db.Decimal(10, 2)
+  currency              String          @default("BDT")
   type                  PaymentType
   provider              PaymentProvider @default(STRIPE)
   transactionId         String          @unique
   status                PaymentStatus   @default(PENDING)
   periodStart           DateTime?
   periodEnd             DateTime?
-  stripePaymentIntentId String?
+  stripePaymentIntentId String?         @unique
   paidAt                DateTime?
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
