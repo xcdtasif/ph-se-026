@@ -70,11 +70,11 @@ npm install
 cp .env.example .env   # then edit values
 
 # Database setup
-npx prisma generate
-npx prisma db push     # or: npx prisma migrate dev
+npm run db:generate
+npm run db:migrate     # or: npx prisma db push
 
 # Seed database (creates test users, categories, properties, requests, reviews)
-npx tsx prisma/seeds/index.ts
+npm run db:seed
 
 # Development
 npm run dev
@@ -83,123 +83,165 @@ npm run dev
 npm run build
 
 # Production
-npm start
+node dist/server.mjs
 ```
+
+---
+
+## Available Scripts
+
+| Command               | Description                                               |
+| --------------------- | --------------------------------------------------------- |
+| `npm run dev`         | Development with tsx watch                                |
+| `npm run build`       | Type-check + build with tsup (includes `prisma generate`) |
+| `npm run db:generate` | Generate Prisma Client                                    |
+| `npm run db:migrate`  | Run Prisma migrations (dev)                               |
+| `npm run db:seed`     | Seed database with test data                              |
 
 ---
 
 ## Environment Variables
 
-| Variable                | Required | Description                              |
-| ----------------------- | -------- | ---------------------------------------- |
-| `DATABASE_URL`          | Yes      | PostgreSQL connection string             |
-| `JWT_ACCESS_SECRET`     | Yes      | Access token secret (64+ chars)          |
-| `JWT_REFRESH_SECRET`    | Yes      | Refresh token secret (64+ chars)         |
-| `JWT_ACCESS_EXPIRY`     | Yes      | Access token TTL (e.g., `15m`)           |
-| `JWT_REFRESH_EXPIRY`    | Yes      | Refresh token TTL (e.g., `7d`)           |
-| `STRIPE_SECRET_KEY`     | Yes      | Stripe secret key (`sk_test_...`)        |
-| `STRIPE_WEBHOOK_SECRET` | Yes      | Stripe webhook secret (`whsec_...`)      |
-| `STRIPE_API_VERSION`    | Yes      | Stripe API version (`2026-07-29.dahlia`) |
-| `FRONTEND_URL`          | Yes      | Frontend base URL for redirects          |
-| `PORT`                  | No       | Server port (default: 5000)              |
-| `NODE_ENV`              | No       | `development` / `production`             |
+| Variable                        | Required | Description                                        |
+| ------------------------------- | -------- | -------------------------------------------------- |
+| `NODE_ENV`                      | Yes      | `development` \| `production`                      |
+| `PORT`                          | Yes      | Server port (default: 5000)                        |
+| `FRONTEND_URL`                  | Yes      | Frontend URL for Stripe redirects                  |
+| `DATABASE_URL`                  | Yes      | PostgreSQL connection string                       |
+| `BCRYPT_SALT_ROUNDS`            | Yes      | Password hash rounds (10\|12\|14)                  |
+| `JWT_ACCESS_SECRET`             | Yes      | 64+ char random string                             |
+| `JWT_ACCESS_SECRET_EXPIRES_IN`  | Yes      | Access token TTL (15m\|1h\|1d)                     |
+| `JWT_REFRESH_SECRET`            | Yes      | 64+ char random string (different from access)     |
+| `JWT_REFRESH_SECRET_EXPIRES_IN` | Yes      | Refresh token TTL (7d\|30d)                        |
+| `STRIPE_SECRET_KEY`             | Yes      | Stripe secret key (`sk_test_...` or `sk_live_...`) |
+| `STRIPE_WEBHOOK_SECRET`         | Yes      | Stripe webhook signing secret (`whsec_...`)        |
+| `ADMIN_EMAIL`                   | No       | Seeded admin email (used by seed script)           |
+| `ADMIN_PASSWORD`                | No       | Seeded admin password (used by seed script)        |
 
 ---
 
 ## API Endpoints
 
+All responses follow:
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "string",
+  "data": {},
+  "meta": {}   // pagination meta when applicable
+}
+```
+
 ### Authentication (`/api/auth`)
-| Method | Endpoint    | Role          | Description          |
-| ------ | ----------- | ------------- | -------------------- |
-| POST   | `/register` | Public        | Register new user    |
-| POST   | `/login`    | Public        | Login, sets cookies  |
-| POST   | `/refresh`  | Public        | Refresh access token |
-| POST   | `/logout`   | Authenticated | Clear cookies        |
-| GET    | `/me`       | Authenticated | Get current user     |
+
+| Method | Endpoint    | Role          | Description                             |
+| ------ | ----------- | ------------- | --------------------------------------- |
+| POST   | `/register` | Public        | Register new user (TENANT, LANDLORD)    |
+| POST   | `/login`    | Public        | Login, sets httpOnly cookies            |
+| POST   | `/refresh`  | Public        | Refresh access token via refresh cookie |
+| GET    | `/me`       | Authenticated | Get current user profile                |
+| POST   | `/logout`   | Authenticated | Clear cookies                           |
 
 ### Categories (`/api/categories`)
+
 | Method | Endpoint | Role   | Description         |
 | ------ | -------- | ------ | ------------------- |
-| POST   | `/`      | Admin  | Create category     |
+| POST   | `/`      | ADMIN  | Create category     |
 | GET    | `/`      | Public | List all categories |
 | GET    | `/:id`   | Public | Get category by ID  |
 
 ### Properties (`/api/properties`)
-| Method | Endpoint       | Role     | Description                          |
-| ------ | -------------- | -------- | ------------------------------------ |
-| GET    | `/`            | Public   | Browse properties (filter, paginate) |
-| GET    | `/:id`         | Public   | Get property details                 |
-| POST   | `/`            | Landlord | Create property                      |
-| GET    | `/landlord/my` | Landlord | List own properties                  |
-| PATCH  | `/:id`         | Landlord | Update own property                  |
-| DELETE | `/:id`         | Landlord | Delete own property                  |
+
+| Method | Endpoint | Role   | Description                                                                 |
+| ------ | -------- | ------ | --------------------------------------------------------------------------- |
+| GET    | `/`      | Public | Browse properties (filter: city, min/max rent, category, status; paginated) |
+| GET    | `/:id`   | Public | Get property details with landlord + category                               |
+
+### Landlord Properties (`/api/landlord/properties`)
+
+| Method | Endpoint | Role     | Description                     |
+| ------ | -------- | -------- | ------------------------------- |
+| POST   | `/`      | LANDLORD | Create property listing         |
+| GET    | `/`      | LANDLORD | List own properties (paginated) |
+| PATCH  | `/:id`   | LANDLORD | Update own property             |
+| DELETE | `/:id`   | LANDLORD | Delete own property             |
 
 ### Requests (`/api/requests`)
-| Method | Endpoint                         | Role            | Description                |
-| ------ | -------------------------------- | --------------- | -------------------------- |
-| POST   | `/`                              | Tenant          | Create rental request      |
-| GET    | `/my`                            | Tenant          | List own requests          |
-| GET    | `/:id`                           | Tenant/Landlord | Get request details        |
-| PATCH  | `/:id/cancel`                    | Tenant          | Cancel pending request     |
-| GET    | `/landlord/property/:propertyId` | Landlord        | List requests for property |
-| PATCH  | `/:id/approve-move-in`           | Landlord        | Approve move-in            |
-| PATCH  | `/:id/reject-move-in`            | Landlord        | Reject move-in             |
-| PATCH  | `/:id/approve-move-out`          | Landlord        | Approve move-out           |
-| PATCH  | `/:id/reject-move-out`           | Landlord        | Reject move-out            |
+
+| Method | Endpoint | Role            | Description                                     |
+| ------ | -------- | --------------- | ----------------------------------------------- |
+| POST   | `/`      | TENANT          | Submit move-in request                          |
+| GET    | `/`      | TENANT          | List own requests (paginated, filter by status) |
+| GET    | `/:id`   | TENANT/LANDLORD | Get request details                             |
+| PATCH  | `/:id`   | TENANT          | Request move-out (1st-10th of month)            |
+
+### Landlord Requests (`/api/landlord/requests`)
+
+| Method | Endpoint                | Role     | Description                                                    |
+| ------ | ----------------------- | -------- | -------------------------------------------------------------- |
+| GET    | `/`                     | LANDLORD | List requests for own properties (paginated, filter by status) |
+| PATCH  | `/:id/approve-move-in`  | LANDLORD | Approve move-in                                                |
+| PATCH  | `/:id/reject-move-in`   | LANDLORD | Reject move-in                                                 |
+| PATCH  | `/:id/approve-move-out` | LANDLORD | Approve move-out                                               |
+| PATCH  | `/:id/reject-move-out`  | LANDLORD | Reject move-out                                                |
 
 ### Payments (`/api/payments`)
-| Method | Endpoint   | Role   | Description                    |
-| ------ | ---------- | ------ | ------------------------------ |
-| POST   | `/`        | Tenant | Create Stripe Checkout Session |
-| GET    | `/my`      | Tenant | List own payments              |
-| GET    | `/:id`     | Tenant | Get payment details            |
-| POST   | `/webhook` | Stripe | Webhook handler (raw body)     |
-| GET    | `/admin`   | Admin  | List all payments              |
+
+| Method | Endpoint   | Role   | Description                                            |
+| ------ | ---------- | ------ | ------------------------------------------------------ |
+| POST   | `/`        | TENANT | Create Stripe Checkout Session (returns `checkoutUrl`) |
+| GET    | `/`        | TENANT | List own payments (paginated, filter by status, type)  |
+| GET    | `/:id`     | TENANT | Get payment details                                    |
+| POST   | `/webhook` | Stripe | Webhook handler (raw body, signature verified)         |
 
 ### Reviews (`/api/reviews`)
-| Method | Endpoint                  | Role   | Description                       |
-| ------ | ------------------------- | ------ | --------------------------------- |
-| POST   | `/`                       | Tenant | Create review (after MOVED_OUT)   |
-| GET    | `/properties/:id/reviews` | Public | Get property reviews + avg rating |
+
+| Method | Endpoint                  | Role   | Description                                                        |
+| ------ | ------------------------- | ------ | ------------------------------------------------------------------ |
+| POST   | `/`                       | TENANT | Create review (only after request status = `MOVED_OUT`)            |
+| GET    | `/properties/:id/reviews` | Public | Get property reviews (paginated, includes `averageRating` in meta) |
 
 ### Admin (`/api/admin`)
-| Method | Endpoint      | Role  | Description                        |
-| ------ | ------------- | ----- | ---------------------------------- |
-| GET    | `/users`      | Admin | List users (paginated, filterable) |
-| PATCH  | `/users/:id`  | Admin | Ban/unban user                     |
-| GET    | `/stats`      | Admin | Platform statistics                |
-| GET    | `/properties` | Admin | All properties                     |
-| GET    | `/requests`   | Admin | All requests                       |
-| GET    | `/payments`   | Admin | All payments                       |
+
+| Method | Endpoint      | Role  | Description                                                                   |
+| ------ | ------------- | ----- | ----------------------------------------------------------------------------- |
+| GET    | `/stats`      | ADMIN | Platform statistics (users, properties, requests, payments, totalTransaction) |
+| GET    | `/users`      | ADMIN | List users (paginated, filter: role, isBanned, search)                        |
+| PATCH  | `/users/:id`  | ADMIN | Ban/unban user (`{ isBanned: boolean, banReason?: string }`)                  |
+| GET    | `/properties` | ADMIN | All properties (filter: status, landlordId)                                   |
+| GET    | `/requests`   | ADMIN | All requests (filter: status)                                                 |
+| GET    | `/payments`   | ADMIN | All payments (filter: status, type)                                           |
 
 ---
 
-## Test Credentials (Seeded)
+## Request Status Flow (8 States)
 
-| Role     | Email                  | Password   |
-| -------- | ---------------------- | ---------- |
-| Admin    | `admin01@email.com`    | `1a2s3d4f` |
-| Landlord | `landlord01@email.com` | `1a2s3d4f` |
-| Tenant   | `tenant01@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant02@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant03@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant04@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant05@email.com`   | `1a2s3d4f` |
+```
+MOVE_IN_REQUESTED → MOVE_IN_APPROVED → MOVED_IN → MOVE_OUT_REQUESTED → MOVE_OUT_APPROVED → MOVED_OUT
+                      ↓ (reject)
+                  MOVE_IN_REJECTED
+
+MOVE_OUT_APPROVED → MOVE_OUT_REJECTED (if landlord rejects)
+```
+
+- **MOVED_IN / MOVED_OUT**: Internal only, triggered by payment webhooks
+- **Move-out window**: Request 1st-10th, move-out date 11th-last day of current month
 
 ---
 
-## Payment Flow (Stripe)
+## Payment Flow (Stripe Checkout)
 
-1. **Tenant** creates request → status `MOVE_IN_REQUESTED`
-2. **Landlord** approves → status `MOVE_IN_APPROVED`
-3. **Tenant** calls `POST /payments` with `{ requestId, type: "SECURITY_DEPOSIT" }`
+1. Tenant creates request → `MOVE_IN_REQUESTED`
+2. Landlord approves → `MOVE_IN_APPROVED`
+3. Tenant calls `POST /payments` with `{ requestId, type: "SECURITY_DEPOSIT" }`
 4. Returns `checkoutUrl` → tenant pays on Stripe hosted page
 5. **Stripe webhook** (`checkout.session.completed`) fires:
    - Payment → `PAID`
    - Request → `MOVED_IN`
    - Property → `RENTED`
-6. **Move-out**: Landlord approves → status `MOVE_OUT_APPROVED`
-7. **Tenant** pays `MOVE_OUT_REFUND` → webhook:
+6. **Move-out**: Landlord approves → `MOVE_OUT_APPROVED`
+7. Tenant pays `MOVE_OUT_REFUND` → webhook:
    - Payment → `REFUNDED`
    - Request → `MOVED_OUT`
    - Property → `AVAILABLE`
@@ -218,15 +260,28 @@ stripe listen --forward-to localhost:5000/api/payments/webhook
 
 ---
 
+## Test Credentials (Seeded)
+
+| Role     | Email                  | Password   |
+| -------- | ---------------------- | ---------- |
+| Admin    | `admin01@email.com`    | `1a2s3d4f` |
+| Landlord | `landlord01@email.com` | `1a2s3d4f` |
+| Tenant   | `tenant01@email.com`   | `1a2s3d4f` |
+| Tenant   | `tenant02@email.com`   | `1a2s3d4f` |
+| Tenant   | `tenant03@email.com`   | `1a2s3d4f` |
+| Tenant   | `tenant04@email.com`   | `1a2s3d4f` |
+| Tenant   | `tenant05@email.com`   | `1a2s3d4f` |
+
+---
+
 ## API Documentation
 
 See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 - Importing the Postman collection (`ph-se-026.postman_collection.json`)
-- Setting up environments (local + production)
+- Setting up environments (local + production: `https://ph-se-026.vercel.app/api`)
 - Authentication flow
 - Testing all endpoints
 - Payment flow walkthrough
-- Environment variables reference
 
 ---
 
@@ -234,7 +289,7 @@ See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 
 1. Push to GitHub
 2. Import project in Vercel
-3. Add all environment variables
+3. Add all environment variables (see table above)
 4. Set build command: `npm run build`
 5. Set output directory: `dist`
 6. Deploy
@@ -253,18 +308,6 @@ See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 - **Review**: id, rating (1-5), comment, userId, propertyId, requestId (unique)
 
 All models use UUID primary keys. Monetary values use `Decimal` for precision.
-
----
-
-## Scripts
-
-```bash
-npm run dev        # Development with tsx watch
-npm run build      # Type-check + build with tsup
-npm run start      # Run production build
-npm run lint       # ESLint
-npm run format     # Prettier
-```
 
 ---
 
