@@ -66,8 +66,8 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 | `images`          | String[]       | Array of image URLs              |
 | `amenities`       | String[]       | Array of amenities               |
 | `status`          | PropertyStatus | AVAILABLE / RENTED / UNAVAILABLE |
-| `landlordId`      | UUID           | Foreign key → User               |
-| `categoryId`      | UUID           | Foreign key → Category           |
+| `landlordId`      | UUID           | Foreign key to User              |
+| `categoryId`      | UUID           | Foreign key to Category          |
 | `createdAt`       | DateTime       | `@default(now())`                |
 | `updatedAt`       | DateTime       | `@updatedAt`                     |
 
@@ -79,8 +79,8 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 | `status`      | RequestStatus | 8 states (see flow diagram)     |
 | `moveInDate`  | DateTime      |                                 |
 | `moveOutDate` | DateTime?     | Optional                        |
-| `tenantId`    | UUID          | Foreign key → User              |
-| `propertyId`  | UUID          | Foreign key → Property          |
+| `tenantId`    | UUID          | Foreign key to User             |
+| `propertyId`  | UUID          | Foreign key to Property         |
 | `createdAt`   | DateTime      | `@default(now())`               |
 | `updatedAt`   | DateTime      | `@updatedAt`                    |
 
@@ -94,8 +94,8 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 | `status`                | PaymentStatus | PENDING / PAID / FAILED / REFUNDED                |
 | `type`                  | PaymentType   | SECURITY_DEPOSIT / MONTHLY_RENT / MOVE_OUT_REFUND |
 | `stripePaymentIntentId` | String        | Stripe Session ID, `@unique`                      |
-| `userId`                | UUID          | Foreign key → User                                |
-| `requestId`             | UUID          | Foreign key → Request                             |
+| `userId`                | UUID          | Foreign key to User                               |
+| `requestId`             | UUID          | Foreign key to Request                            |
 | `createdAt`             | DateTime      | `@default(now())`                                 |
 | `updatedAt`             | DateTime      | `@updatedAt`                                      |
 
@@ -106,8 +106,8 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 | `id`         | UUID     | Primary key, `@default(uuid())`   |
 | `rating`     | Int      | 1-5                               |
 | `comment`    | String?  | Optional                          |
-| `userId`     | UUID     | Foreign key → User                |
-| `propertyId` | UUID     | Foreign key → Property            |
+| `userId`     | UUID     | Foreign key to User               |
+| `propertyId` | UUID     | Foreign key to Property           |
 | `requestId`  | UUID     | `@unique` (one review per rental) |
 | `createdAt`  | DateTime | `@default(now())`                 |
 | `updatedAt`  | DateTime | `@updatedAt`                      |
@@ -199,15 +199,15 @@ node dist/server.mjs
 
 | Variable                        | Required | Description                                        |
 | ------------------------------- | -------- | -------------------------------------------------- |
-| `NODE_ENV`                      | Yes      | `development` \| `production`                      |
+| `NODE_ENV`                      | Yes      | `development` or `production`                      |
 | `PORT`                          | Yes      | Server port (default: 5000)                        |
 | `FRONTEND_URL`                  | Yes      | Frontend URL for Stripe redirects                  |
 | `DATABASE_URL`                  | Yes      | PostgreSQL connection string                       |
-| `BCRYPT_SALT_ROUNDS`            | Yes      | Password hash rounds (10\|12\|14)                  |
+| `BCRYPT_SALT_ROUNDS`            | Yes      | Password hash rounds (10                           | 12   | 14) |
 | `JWT_ACCESS_SECRET`             | Yes      | 64+ char random string                             |
-| `JWT_ACCESS_SECRET_EXPIRES_IN`  | Yes      | Access token TTL (15m\|1h\|1d)                     |
+| `JWT_ACCESS_SECRET_EXPIRES_IN`  | Yes      | Access token TTL (15m                              | 1h   | 1d) |
 | `JWT_REFRESH_SECRET`            | Yes      | 64+ char random string (different from access)     |
-| `JWT_REFRESH_SECRET_EXPIRES_IN` | Yes      | Refresh token TTL (7d\|30d)                        |
+| `JWT_REFRESH_SECRET_EXPIRES_IN` | Yes      | Refresh token TTL (7d                              | 30d) |
 | `STRIPE_SECRET_KEY`             | Yes      | Stripe secret key (`sk_test_...` or `sk_live_...`) |
 | `STRIPE_WEBHOOK_SECRET`         | Yes      | Stripe webhook signing secret (`whsec_...`)        |
 | `ADMIN_EMAIL`                   | No       | Seeded admin email (used by seed script)           |
@@ -224,7 +224,7 @@ All responses follow:
   "statusCode": 200,
   "message": "string",
   "data": {},
-  "meta": {}   // pagination meta when applicable
+  "meta": {}
 }
 ```
 
@@ -313,9 +313,11 @@ All responses follow:
 ## Request Status Flow (8 States)
 
 ```
-MOVE_IN_REQUESTED → MOVE_IN_APPROVED → MOVED_IN → MOVE_OUT_REQUESTED → MOVE_OUT_APPROVED → MOVED_OUT
-↓ (reject)                                        ↓ (reject)
-MOVE_IN_REJECTED                                  MOVE_OUT_REJECTED
+MOVE_IN_REQUESTED -> MOVE_IN_APPROVED -> MOVED_IN -> MOVE_OUT_REQUESTED -> MOVE_OUT_APPROVED -> MOVED_OUT
+↓                                                    ↓
+↓ (reject)                                           ↓ (reject)
+↓                                                    ↓
+MOVE_IN_REJECTED                                     MOVE_OUT_REJECTED
 ```
 
 - **MOVED_IN / MOVED_OUT**: Internal only, triggered by payment webhooks
@@ -325,19 +327,19 @@ MOVE_IN_REJECTED                                  MOVE_OUT_REJECTED
 
 ## Payment Flow (Stripe Checkout)
 
-1. Tenant creates request → `MOVE_IN_REQUESTED`
-2. Landlord approves → `MOVE_IN_APPROVED`
+1. Tenant creates request -> `MOVE_IN_REQUESTED`
+2. Landlord approves -> `MOVE_IN_APPROVED`
 3. Tenant calls `POST /payments` with `{ requestId, type: "SECURITY_DEPOSIT" }`
-4. Returns `checkoutUrl` → tenant pays on Stripe hosted page
+4. Returns `checkoutUrl` -> tenant pays on Stripe hosted page
 5. **Stripe webhook** (`checkout.session.completed`) fires:
-   - Payment → `PAID`
-   - Request → `MOVED_IN`
-   - Property → `RENTED`
-6. **Move-out**: Landlord approves → `MOVE_OUT_APPROVED`
-7. Tenant pays `MOVE_OUT_REFUND` → webhook:
-   - Payment → `REFUNDED`
-   - Request → `MOVED_OUT`
-   - Property → `AVAILABLE`
+   - Payment -> `PAID`
+   - Request -> `MOVED_IN`
+   - Property -> `RENTED`
+6. **Move-out**: Landlord approves -> `MOVE_OUT_APPROVED`
+7. Tenant pays `MOVE_OUT_REFUND` -> webhook:
+   - Payment -> `REFUNDED`
+   - Request -> `MOVED_OUT`
+   - Property -> `AVAILABLE`
 
 **Test Card**: `4242 4242 4242 4242` (any future date, any CVC)
 
@@ -378,13 +380,18 @@ See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 
 ---
 
-## Deployment (Vercel)
+## Deployment (Vercel CLI)
 
-1. Push to GitHub
-2. Import project in Vercel
-3. Add all environment variables (see table above)
-4. Set build command: `npm run build`
-5. Set output directory: `dist`
-6. Deploy
+```bash
+# Install Vercel CLI
+npm i -g vercel
 
-**Vercel config** (`vercel.json`) included for serverless function handling.
+# Login
+vercel login
+
+# Deploy from project root
+vercel --prod
+```
+
+**Vercel config** (`vercel.json`) included for serverless function handling. \
+**Environment variables** must be added in Vercel Dashboard -> Project -> Settings -> Environment Variables.
