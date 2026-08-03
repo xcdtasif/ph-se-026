@@ -5,8 +5,8 @@ import {
   deletePropertyController,
   getMyPropertiesController,
   getMyPropertyController,
-  getMyRentalRequestsController,
-  updateRentalRequestStatusController,
+  getMyRequestsController,
+  updateRequestStatusController,
 } from "./landlord.controller";
 import { authenticate, authorize } from "../../middleware/auth";
 import { validate } from "../../middleware/validate";
@@ -15,6 +15,7 @@ import {
   updatePropertySchema,
   deletePropertySchema,
   landlordParamsSchema,
+  landlordRequestParamsSchema,
   landlordQuerySchema,
 } from "./landlord.validation";
 
@@ -52,12 +53,12 @@ router.delete(
   deletePropertyController,
 );
 
-router.get("/requests", getMyRentalRequestsController);
+router.get("/requests", getMyRequestsController);
 
 router.patch(
   "/requests/:id",
-  validate(landlordParamsSchema),
-  updateRentalRequestStatusController,
+  validate(landlordRequestParamsSchema),
+  updateRequestStatusController,
 );
 
 export default router;

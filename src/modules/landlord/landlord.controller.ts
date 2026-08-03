@@ -5,8 +5,8 @@ import {
   updateProperty,
   deleteProperty,
   getLandlordProperties,
-  getLandlordRentalRequests,
-  updateRentalRequestStatus,
+  getLandlordRequests,
+  updateRequestStatus,
   getLandlordPropertyById,
 } from "./landlord.service";
 import { sendResponse, StatusCodes } from "../../utils/send-response";
@@ -104,39 +104,62 @@ export const getMyPropertyController = async (
   });
 };
 
-export const getMyRentalRequestsController = async (
+export const getMyRequestsController = async (
   req: IAuthRequest,
   res: Response,
 ) => {
   const landlordId = req.user!.id;
-  const requests = await getLandlordRentalRequests(landlordId);
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const sortBy = (req.query.sortBy as string) || "createdAt";
+  const sortOrder = (req.query.sortOrder as "asc" | "desc") || "desc";
+  const status = req.query.status as string | undefined;
+
+  const options: Record<string, unknown> = {
+    page,
+    limit,
+    sortBy,
+    sortOrder,
+  };
+  if (status !== undefined) options.status = status;
+
+  const result = await getLandlordRequests(landlordId, options as any);
 
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: "Rental requests retrieved successfully",
-    data: requests,
+    message: "Requests retrieved successfully",
+    data: result.data,
+    meta: result.meta,
   });
 };
 
-export const updateRentalRequestStatusController = async (
+export const updateRequestStatusController = async (
   req: IAuthRequest,
   res: Response,
 ) => {
   const landlordId = req.user!.id;
   const id = req.params.id as string;
-  const { status } = req.body;
+  const { status, rejectedReason } = req.body;
 
-  if (!["APPROVED", "REJECTED"].includes(status)) {
-    throw new ApiError("Invalid status. Must be APPROVED or REJECTED", 400);
+  if (!["MOVE_IN_APPROVED", "MOVE_IN_REJECTED"].includes(status)) {
+    throw new ApiError(
+      "Invalid status. Must be MOVE_IN_APPROVED or MOVE_IN_REJECTED",
+      400,
+    );
   }
 
-  const request = await updateRentalRequestStatus(id, landlordId, status);
+  const request = await updateRequestStatus(
+    id,
+    landlordId,
+    status,
+    rejectedReason,
+  );
 
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: `Rental request ${status.toLowerCase()} successfully`,
+    message: `Request ${status.toLowerCase()} successfully`,
     data: request,
   });
 };

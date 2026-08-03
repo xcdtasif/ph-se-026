@@ -1,16 +1,16 @@
 model Review {
-  id              String   @id @default(uuid())
-  tenantId        String
-  propertyId      String
-  rentalRequestId String   @unique
-  rating          Int
-  comment         String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id         String   @id @default(uuid())
+  tenantId   String
+  propertyId String
+  requestId  String   @unique
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  tenant        User          @relation("UserReviews", fields: [tenantId], references: [id], onDelete: Cascade)
-  property      Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  rentalRequest RentalRequest @relation(fields: [rentalRequestId], references: [id], onDelete: Cascade)
+  tenant   User     @relation("UserReviews", fields: [tenantId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  request  Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([propertyId])

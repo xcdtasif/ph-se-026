@@ -1,9 +1,8 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import "dotenv/config";
 import { PrismaClient } from "../../prisma/generated/prisma/client";
 import config from "../config";
 
-const connectionString = config.DATABASE_URL;
+const connectionString = config.databaseUrl;
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });

@@ -1,24 +1,7 @@
 import { prisma } from "../../src/lib/prisma";
 
-// Helper for Reviews
-export async function upsertReview(reviewData: {
-  id: string;
-  propertyId: string;
-  tenantId: string;
-  rentalRequestId: string;
-  rating: number;
-  comment: string;
-}) {
-  const review = await prisma.review.upsert({
-    where: { id: reviewData.id },
-    update: {},
-    create: reviewData,
-  });
-  return review;
-}
-
 export async function seedReviews(
-  propertyMap: Map<string, { id: string; title: string; price: number }>,
+  propertyMap: Map<string, { id: string; title: string; monthlyRent: number }>,
   requestMap: Map<string, { id: string; propertyId: string; tenantId: string }>,
   tenants: {
     tenant01: { id: string };
@@ -32,10 +15,9 @@ export async function seedReviews(
 
   const reviews = [
     {
-      id: "00000000-0000-0000-0000-000000100001",
       propertyId: propertyMap.get("Luxury Apartment in Gulshan")!.id,
       tenantId: tenants.tenant01.id,
-      rentalRequestId: requestMap.get(
+      requestId: requestMap.get(
         `${propertyMap.get("Luxury Apartment in Gulshan")!.id}-${
           tenants.tenant01.id
         }`,
@@ -45,12 +27,11 @@ export async function seedReviews(
         "Amazing apartment! The location is perfect, and the landlord is very responsive. Highly recommended!",
     },
     {
-      id: "00000000-0000-0000-0000-000000100002",
       propertyId: propertyMap.get("Cozy Studio in Banani")!.id,
-      tenantId: tenants.tenant03.id,
-      rentalRequestId: requestMap.get(
+      tenantId: tenants.tenant02.id,
+      requestId: requestMap.get(
         `${propertyMap.get("Cozy Studio in Banani")!.id}-${
-          tenants.tenant03.id
+          tenants.tenant02.id
         }`,
       )!.id,
       rating: 5,
@@ -58,12 +39,11 @@ export async function seedReviews(
         "Perfect for a single professional. Clean, well-maintained, and great value for money.",
     },
     {
-      id: "00000000-0000-0000-0000-000000100003",
       propertyId: propertyMap.get("Modern House in Dhanmondi")!.id,
-      tenantId: tenants.tenant02.id,
-      rentalRequestId: requestMap.get(
+      tenantId: tenants.tenant03.id,
+      requestId: requestMap.get(
         `${propertyMap.get("Modern House in Dhanmondi")!.id}-${
-          tenants.tenant02.id
+          tenants.tenant03.id
         }`,
       )!.id,
       rating: 4,
@@ -71,12 +51,11 @@ export async function seedReviews(
         "Great house with a beautiful garden. Minor maintenance issues but overall very satisfied.",
     },
     {
-      id: "00000000-0000-0000-0000-000000100004",
       propertyId: propertyMap.get("Luxury Villa in Bashundhara")!.id,
-      tenantId: tenants.tenant05.id,
-      rentalRequestId: requestMap.get(
+      tenantId: tenants.tenant04.id,
+      requestId: requestMap.get(
         `${propertyMap.get("Luxury Villa in Bashundhara")!.id}-${
-          tenants.tenant05.id
+          tenants.tenant04.id
         }`,
       )!.id,
       rating: 5,
@@ -84,12 +63,11 @@ export async function seedReviews(
         "Absolutely stunning villa! The private pool and garden are incredible. Worth every penny.",
     },
     {
-      id: "00000000-0000-0000-0000-000000100005",
       propertyId: propertyMap.get("Premium Condo in Uttara")!.id,
-      tenantId: tenants.tenant04.id,
-      rentalRequestId: requestMap.get(
+      tenantId: tenants.tenant05.id,
+      requestId: requestMap.get(
         `${propertyMap.get("Premium Condo in Uttara")!.id}-${
-          tenants.tenant04.id
+          tenants.tenant05.id
         }`,
       )!.id,
       rating: 3,
@@ -99,7 +77,18 @@ export async function seedReviews(
   ];
 
   for (const review of reviews) {
-    await upsertReview(review);
+    let existingReview = await prisma.review.findFirst({
+      where: {
+        propertyId: review.propertyId,
+        tenantId: review.tenantId,
+      },
+    });
+
+    if (!existingReview) {
+      await prisma.review.create({
+        data: review,
+      });
+    }
   }
 
   console.log("Reviews seeded");

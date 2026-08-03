@@ -2,7 +2,7 @@ import { prisma } from "../../src/lib/prisma";
 import { seedUsers } from "./users";
 import { seedCategories } from "./categories";
 import { seedProperties } from "./properties";
-import { seedRentalRequests } from "./rental-requests";
+import { seedRequests } from "./requests";
 import { seedReviews } from "./reviews";
 
 async function main() {
@@ -20,13 +20,12 @@ async function main() {
   } = await seedUsers();
 
   // 2. Seed Categories
-  const categoryMap = await seedCategories(admin01.id);
-
+  const categoryMap = await seedCategories();
   // 3. Seed Properties
   const propertyMap = await seedProperties(categoryMap, landlord01.id);
 
-  // 4. Seed Rental Requests
-  const requestMap = await seedRentalRequests(propertyMap, {
+  // 4. Seed Requests
+  const requestMap = await seedRequests(propertyMap, {
     tenant01,
     tenant02,
     tenant03,

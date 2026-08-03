@@ -10,31 +10,44 @@ import type { IAuthTokens } from "./auth.types";
 import { sendResponse, StatusCodes } from "../../utils/send-response";
 import config from "../../config";
 
+const expiresInToMs = (expiresIn: string): number => {
+  const match = expiresIn.match(/^(\d+)([smhd])$/);
+  const value = parseInt(match![1]!, 10);
+  const unit = match![2] as "s" | "m" | "h" | "d";
+  const multipliers: Record<"s" | "m" | "h" | "d", number> = {
+    s: 1000,
+    m: 60 * 1000,
+    h: 60 * 60 * 1000,
+    d: 24 * 60 * 60 * 1000,
+  };
+  return value * multipliers[unit];
+};
+
 const setTokenCookies = (res: Response, tokens: IAuthTokens) => {
   res.cookie("accessToken", tokens.accessToken, {
     httpOnly: true,
-    secure: config.NODE_ENV === "production",
+    secure: config.nodeEnv === "production",
     sameSite: "lax",
-    maxAge: 15 * 60 * 1000,
+    maxAge: expiresInToMs(config.jwtAccessSecretExpiresIn),
   });
 
   res.cookie("refreshToken", tokens.refreshToken, {
     httpOnly: true,
-    secure: config.NODE_ENV === "production",
+    secure: config.nodeEnv === "production",
     sameSite: "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: expiresInToMs(config.jwtRefreshSecretExpiresIn),
   });
 };
 
 const clearTokenCookies = (res: Response) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
-    secure: config.NODE_ENV === "production",
+    secure: config.nodeEnv === "production",
     sameSite: "lax",
   });
   res.clearCookie("refreshToken", {
     httpOnly: true,
-    secure: config.NODE_ENV === "production",
+    secure: config.nodeEnv === "production",
     sameSite: "lax",
   });
 };

@@ -10,8 +10,8 @@ export default defineConfig({
   minify: true,
   banner: {
     js: /* ts */ `
-  import { createRequire } from "module";
-  const require = createRequire(import.meta.url);
+      import { createRequire } from "module";
+      const require = createRequire(import.meta.url);
     `,
   },
 });

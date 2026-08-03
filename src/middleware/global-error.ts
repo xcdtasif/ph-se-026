@@ -55,6 +55,7 @@ export const globalErrorHandler = (
   }
 
   console.error("Error:", err);
+  console.error("Stack:", err.stack);
 
   return sendResponse(res, {
     success: false,

@@ -14,32 +14,38 @@ export const getProperties = async (
     minPrice,
     maxPrice,
     categoryId,
-    isAvailable,
+    status,
     page,
     limit,
     sortBy,
     sortOrder,
   } = filters;
 
-  const where: Prisma.PropertyWhereInput = { status: "ACTIVE" };
+  const where: Prisma.PropertyWhereInput = {};
+
+  if (status) {
+    where.status = status;
+  } else {
+    where.status = "AVAILABLE";
+  }
+
+  console.log("getProperties where:", where);
 
   if (location) {
     where.location = { contains: location, mode: "insensitive" };
   }
 
   if (minPrice || maxPrice) {
-    where.price = {};
-    if (minPrice) where.price.gte = minPrice;
-    if (maxPrice) where.price.lte = maxPrice;
+    where.monthlyRent = {};
+    if (minPrice) where.monthlyRent.gte = minPrice;
+    if (maxPrice) where.monthlyRent.lte = maxPrice;
   }
 
   if (categoryId) {
     where.categoryId = categoryId;
   }
 
-  if (isAvailable !== undefined) {
-    where.isAvailable = isAvailable;
-  }
+  console.log("Final where:", where);
 
   const [properties, total] = await Promise.all([
     prisma.property.findMany({
@@ -65,11 +71,16 @@ export const getProperties = async (
 
   const totalPages = Math.ceil(total / limit);
 
-  return {
-    data: properties.map((p) => ({
+  const transformedProperties: IPropertyWithRelations[] = properties.map(
+    (p) => ({
       ...p,
-      price: Number(p.price),
-    })) as IPropertyWithRelations[],
+      monthlyRent: Number(p.monthlyRent),
+      securityDeposit: Number(p.securityDeposit),
+    }),
+  );
+
+  return {
+    data: transformedProperties,
     meta: {
       page,
       limit,
@@ -101,9 +112,9 @@ export const getPropertyById = async (id: string) => {
   if (!property) {
     return null;
   }
-
   return {
     ...property,
-    price: Number(property.price),
+    monthlyRent: Number(property.monthlyRent),
+    securityDeposit: Number(property.securityDeposit),
   };
 };

@@ -5,7 +5,7 @@ export interface IPropertyFilters {
   minPrice?: number;
   maxPrice?: number;
   categoryId?: string;
-  isAvailable?: boolean;
+  status?: "AVAILABLE" | "RENTED" | "UNAVAILABLE";
   page: number;
   limit: number;
   sortBy: string;
@@ -20,10 +20,10 @@ export interface IPropertyWithRelations {
   description: string;
   location: string;
   mapLocation: string | null;
-  price: number;
+  monthlyRent: number;
+  securityDeposit: number;
   images: string[];
-  isAvailable: boolean;
-  status: string;
+  status: "AVAILABLE" | "RENTED" | "UNAVAILABLE";
   createdAt: Date;
   updatedAt: Date;
   category: { id: string; name: string };

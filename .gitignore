@@ -6,3 +6,5 @@ dist
 .vercel
 _agent
 PLAN.md
+*.log
+*.txt

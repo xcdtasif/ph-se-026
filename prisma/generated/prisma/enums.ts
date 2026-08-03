@@ -18,21 +18,33 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const RentalStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  ACTIVE: 'ACTIVE',
-  COMPLETED: 'COMPLETED'
+export const RequestType = {
+  MOVE_IN: 'MOVE_IN',
+  MOVE_OUT: 'MOVE_OUT'
 } as const
 
-export type RentalStatus = (typeof RentalStatus)[keyof typeof RentalStatus]
+export type RequestType = (typeof RequestType)[keyof typeof RequestType]
+
+
+export const RequestStatus = {
+  MOVE_IN_REQUESTED: 'MOVE_IN_REQUESTED',
+  MOVE_IN_APPROVED: 'MOVE_IN_APPROVED',
+  MOVE_IN_REJECTED: 'MOVE_IN_REJECTED',
+  MOVED_IN: 'MOVED_IN',
+  MOVE_OUT_REQUESTED: 'MOVE_OUT_REQUESTED',
+  MOVE_OUT_APPROVED: 'MOVE_OUT_APPROVED',
+  MOVE_OUT_REJECTED: 'MOVE_OUT_REJECTED',
+  MOVED_OUT: 'MOVED_OUT'
+} as const
+
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 
 
 export const PaymentStatus = {
   PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
@@ -45,10 +57,19 @@ export const PaymentProvider = {
 export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider]
 
 
+export const PaymentType = {
+  FIRST_PAYMENT: 'FIRST_PAYMENT',
+  MONTHLY_RENT: 'MONTHLY_RENT',
+  REFUND: 'REFUND'
+} as const
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
+
+
 export const PropertyStatus = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  RENTED: 'RENTED'
+  AVAILABLE: 'AVAILABLE',
+  RENTED: 'RENTED',
+  UNAVAILABLE: 'UNAVAILABLE'
 } as const
 
 export type PropertyStatus = (typeof PropertyStatus)[keyof typeof PropertyStatus]

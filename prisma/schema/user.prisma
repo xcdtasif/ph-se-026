@@ -10,11 +10,10 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  properties        Property[]      @relation("LandlordProperties")
-  rentalRequests    RentalRequest[] @relation("TenantRentalRequests")
-  payments          Payment[]       @relation("UserPayments")
-  reviews           Review[]        @relation("UserReviews")
-  createdCategories Category[]      @relation("CategoryCreator")
+  properties Property[] @relation("LandlordProperties")
+  requests   Request[]  @relation("TenantRequests")
+  payments   Payment[]  @relation("UserPayments")
+  reviews    Review[]   @relation("UserReviews")
 
   @@map("users")
 }

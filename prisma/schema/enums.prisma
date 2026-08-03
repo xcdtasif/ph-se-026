@@ -4,26 +4,41 @@ enum UserRole {
   ADMIN
 }
 
-enum RentalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  ACTIVE
-  COMPLETED
+enum RequestType {
+  MOVE_IN
+  MOVE_OUT
+}
+
+enum RequestStatus {
+  MOVE_IN_REQUESTED
+  MOVE_IN_APPROVED
+  MOVE_IN_REJECTED
+  MOVED_IN
+  MOVE_OUT_REQUESTED
+  MOVE_OUT_APPROVED
+  MOVE_OUT_REJECTED
+  MOVED_OUT
 }
 
 enum PaymentStatus {
   PENDING
-  COMPLETED
+  PAID
   FAILED
+  REFUNDED
 }
 
 enum PaymentProvider {
   STRIPE
 }
 
+enum PaymentType {
+  FIRST_PAYMENT
+  MONTHLY_RENT
+  REFUND
+}
+
 enum PropertyStatus {
-  ACTIVE
-  INACTIVE
+  AVAILABLE
   RENTED
+  UNAVAILABLE
 }

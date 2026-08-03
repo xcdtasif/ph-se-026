@@ -20,7 +20,7 @@ export const authenticate = catchAsync(
     }
 
     try {
-      const decoded = jwt.verify(accessToken, config.JWT_ACCESS_SECRET) as {
+      const decoded = jwt.verify(accessToken, config.jwtAccessSecret) as {
         id: string;
         email: string;
         role: string;
@@ -78,7 +78,7 @@ export const optionalAuth = catchAsync(
     }
 
     try {
-      const decoded = jwt.verify(accessToken, config.JWT_ACCESS_SECRET) as {
+      const decoded = jwt.verify(accessToken, config.jwtAccessSecret) as {
         id: string;
         email: string;
         role: string;

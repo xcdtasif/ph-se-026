@@ -1,9 +1,9 @@
 import app from "./app";
 import config from "./config";
 
-const port = Number(config.PORT);
+const port = Number(config.port);
 
-if (config.NODE_ENV !== "production") {
+if (config.nodeEnv !== "production") {
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });

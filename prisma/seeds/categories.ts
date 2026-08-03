@@ -1,65 +1,49 @@
 import { prisma } from "../../src/lib/prisma";
 
-// Helper for Categories
-export async function upsertCategory(categoryData: {
-  id: string;
-  name: string;
-  description: string;
-  createdById: string;
-}) {
-  const category = await prisma.category.upsert({
-    where: { name: categoryData.name },
-    update: { id: categoryData.id },
-    create: {
-      id: categoryData.id,
-      name: categoryData.name,
-      description: categoryData.description,
-      createdById: categoryData.createdById,
-    },
-  });
-  return category;
-}
-
-export async function seedCategories(adminId: string) {
+export async function seedCategories() {
   console.log("Seeding categories...");
 
   const categoriesData = [
+    { name: "Apartment", description: "Modern apartments in city centers" },
+    { name: "House", description: "Standalone houses with yards" },
+    { name: "Studio", description: "Compact studio units for singles" },
+    { name: "Condo", description: "Condominiums with shared amenities" },
+    { name: "Villa", description: "Luxury villas with private pools" },
     {
-      id: "00000000-0000-0000-0000-000000000101",
-      name: "Apartment",
-      description: "Modern apartments in city centers",
+      name: "Townhouse",
+      description: "Multi-floor townhomes with shared walls",
     },
     {
-      id: "00000000-0000-0000-0000-000000000102",
-      name: "House",
-      description: "Standalone houses with yards",
+      name: "Loft",
+      description: "Open-concept loft spaces with high ceilings",
     },
     {
-      id: "00000000-0000-0000-0000-000000000103",
-      name: "Studio",
-      description: "Compact studio units for singles",
+      name: "Duplex",
+      description: "Two-unit properties with separate entrances",
     },
     {
-      id: "00000000-0000-0000-0000-000000000104",
-      name: "Condo",
-      description: "Condominiums with shared amenities",
+      name: "Penthouse",
+      description: "Top-floor luxury units with premium views",
     },
-    {
-      id: "00000000-0000-0000-0000-000000000105",
-      name: "Villa",
-      description: "Luxury villas with private pools",
-    },
+    { name: "Cottage", description: "Cozy small homes in residential areas" },
   ];
 
   const categoryMap = new Map<string, string>();
 
   for (const cat of categoriesData) {
-    const category = await upsertCategory({
-      id: cat.id,
-      name: cat.name,
-      description: cat.description,
-      createdById: adminId,
+    let category = await prisma.category.findFirst({
+      where: { name: cat.name },
     });
+
+    if (!category) {
+      category = await prisma.category.create({
+        data: {
+          name: cat.name,
+          description: cat.description,
+        },
+      });
+    }
+
     categoryMap.set(cat.name, category.id);
   }
 

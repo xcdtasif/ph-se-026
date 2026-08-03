@@ -2,12 +2,10 @@ model Category {
   id          String   @id @default(uuid())
   name        String   @unique
   description String?
-  createdById String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   properties Property[]
-  createdBy  User?      @relation("CategoryCreator", fields: [createdById], references: [id])
 
   @@map("categories")
 }

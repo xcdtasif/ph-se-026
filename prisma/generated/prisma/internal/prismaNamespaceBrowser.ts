@@ -54,7 +54,7 @@ export const ModelName = {
   Category: 'Category',
   Payment: 'Payment',
   Property: 'Property',
-  RentalRequest: 'RentalRequest',
+  Request: 'Request',
   Review: 'Review',
   User: 'User'
 } as const
@@ -79,7 +79,6 @@ export const CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -89,14 +88,17 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 
 export const PaymentScalarFieldEnum = {
   id: 'id',
-  rentalRequestId: 'rentalRequestId',
+  requestId: 'requestId',
   userId: 'userId',
   amount: 'amount',
+  type: 'type',
   provider: 'provider',
   transactionId: 'transactionId',
   status: 'status',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  stripePaymentIntentId: 'stripePaymentIntentId',
   paidAt: 'paidAt',
-  metadata: 'metadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -112,9 +114,9 @@ export const PropertyScalarFieldEnum = {
   description: 'description',
   location: 'location',
   mapLocation: 'mapLocation',
-  price: 'price',
+  monthlyRent: 'monthlyRent',
+  securityDeposit: 'securityDeposit',
   images: 'images',
-  isAvailable: 'isAvailable',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -123,31 +125,34 @@ export const PropertyScalarFieldEnum = {
 export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
 
 
-export const RentalRequestScalarFieldEnum = {
+export const RequestScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   propertyId: 'propertyId',
   status: 'status',
   moveInDate: 'moveInDate',
-  moveOutDate: 'moveOutDate',
   monthlyRent: 'monthlyRent',
   securityDeposit: 'securityDeposit',
   message: 'message',
-  approvedAt: 'approvedAt',
+  moveOutDate: 'moveOutDate',
+  damageAmount: 'damageAmount',
+  moveInApprovedAt: 'moveInApprovedAt',
+  moveOutApprovedAt: 'moveOutApprovedAt',
   rejectedAt: 'rejectedAt',
   rejectedReason: 'rejectedReason',
+  completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type RentalRequestScalarFieldEnum = (typeof RentalRequestScalarFieldEnum)[keyof typeof RentalRequestScalarFieldEnum]
+export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
 
 
 export const ReviewScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   propertyId: 'propertyId',
-  rentalRequestId: 'rentalRequestId',
+  requestId: 'requestId',
   rating: 'rating',
   comment: 'comment',
   createdAt: 'createdAt',
@@ -181,14 +186,6 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -203,13 +200,4 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

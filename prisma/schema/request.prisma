@@ -1,0 +1,32 @@
+model Request {
+  id         String        @id @default(uuid())
+  tenantId   String
+  propertyId String
+  status     RequestStatus @default(MOVE_IN_REQUESTED)
+
+  moveInDate      DateTime
+  monthlyRent     Decimal  @db.Decimal(10, 2)
+  securityDeposit Decimal  @db.Decimal(10, 2)
+  message         String?
+
+  moveOutDate  DateTime?
+  damageAmount Decimal?  @db.Decimal(10, 2)
+
+  moveInApprovedAt  DateTime?
+  moveOutApprovedAt DateTime?
+  rejectedAt        DateTime?
+  rejectedReason    String?
+  completedAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  tenant   User      @relation("TenantRequests", fields: [tenantId], references: [id], onDelete: Cascade)
+  property Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  payments Payment[]
+  review   Review?
+
+  @@index([tenantId])
+  @@index([propertyId])
+  @@index([status])
+  @@map("requests")
+}

@@ -9,7 +9,7 @@ export const notFoundHandler = (
   sendResponse(res, {
     success: false,
     statusCode: StatusCodes.NOT_FOUND,
-    message: `Route ${req.originalUrl} not found`,
+    message: `Route ${req.method} ${req.originalUrl} not found`,
     data: null,
   });
 };

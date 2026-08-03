@@ -2,13 +2,19 @@
 CREATE TYPE "UserRole" AS ENUM ('TENANT', 'LANDLORD', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "RentalStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED', 'ACTIVE', 'COMPLETED');
+CREATE TYPE "RequestType" AS ENUM ('MOVE_IN', 'MOVE_OUT');
 
 -- CreateEnum
-CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED');
+CREATE TYPE "RequestStatus" AS ENUM ('MOVE_IN_REQUESTED', 'APPROVED', 'REJECTED', 'ACTIVE', 'MOVE_OUT_REQUESTED', 'COMPLETED');
+
+-- CreateEnum
+CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'FAILED', 'REFUNDED');
 
 -- CreateEnum
 CREATE TYPE "PaymentProvider" AS ENUM ('STRIPE');
+
+-- CreateEnum
+CREATE TYPE "PaymentType" AS ENUM ('first_payment', 'monthly_rent', 'refund');
 
 -- CreateEnum
 CREATE TYPE "PropertyStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'RENTED');
@@ -28,14 +34,17 @@ CREATE TABLE "categories" (
 -- CreateTable
 CREATE TABLE "payments" (
     "id" TEXT NOT NULL,
-    "rentalRequestId" TEXT NOT NULL,
+    "requestId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "amount" DECIMAL(10,2) NOT NULL,
+    "type" "PaymentType" NOT NULL,
     "provider" "PaymentProvider" NOT NULL DEFAULT 'STRIPE',
     "transactionId" TEXT NOT NULL,
     "status" "PaymentStatus" NOT NULL DEFAULT 'PENDING',
+    "periodStart" TIMESTAMP(3),
+    "periodEnd" TIMESTAMP(3),
+    "stripePaymentIntentId" TEXT,
     "paidAt" TIMESTAMP(3),
-    "metadata" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -50,17 +59,10 @@ CREATE TABLE "properties" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "location" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
-    "zipCode" TEXT NOT NULL,
-    "country" TEXT NOT NULL DEFAULT 'Bangladesh',
+    "mapLocation" TEXT,
     "price" DECIMAL(10,2) NOT NULL,
-    "bedrooms" INTEGER NOT NULL,
-    "bathrooms" INTEGER NOT NULL,
-    "areaSqft" INTEGER NOT NULL,
-    "amenities" TEXT[],
-    "images" TEXT[],
+    "securityDeposit" DECIMAL(10,2) NOT NULL,
+    "images" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "isAvailable" BOOLEAN NOT NULL DEFAULT true,
     "status" "PropertyStatus" NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -70,23 +72,27 @@ CREATE TABLE "properties" (
 );
 
 -- CreateTable
-CREATE TABLE "rental_requests" (
+CREATE TABLE "requests" (
     "id" TEXT NOT NULL,
     "tenantId" TEXT NOT NULL,
     "propertyId" TEXT NOT NULL,
-    "status" "RentalStatus" NOT NULL DEFAULT 'PENDING',
+    "type" "RequestType" NOT NULL,
+    "status" "RequestStatus" NOT NULL,
     "moveInDate" TIMESTAMP(3) NOT NULL,
-    "moveOutDate" TIMESTAMP(3) NOT NULL,
     "monthlyRent" DECIMAL(10,2) NOT NULL,
     "securityDeposit" DECIMAL(10,2) NOT NULL,
     "message" TEXT,
-    "approvedAt" TIMESTAMP(3),
+    "moveOutDate" TIMESTAMP(3),
+    "damageAmount" DECIMAL(10,2),
+    "moveInApprovedAt" TIMESTAMP(3),
+    "moveOutApprovedAt" TIMESTAMP(3),
     "rejectedAt" TIMESTAMP(3),
     "rejectedReason" TEXT,
+    "completedAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "rental_requests_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "requests_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -94,7 +100,7 @@ CREATE TABLE "reviews" (
     "id" TEXT NOT NULL,
     "tenantId" TEXT NOT NULL,
     "propertyId" TEXT NOT NULL,
-    "rentalRequestId" TEXT NOT NULL,
+    "requestId" TEXT NOT NULL,
     "rating" INTEGER NOT NULL,
     "comment" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -123,7 +129,7 @@ CREATE TABLE "users" (
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "payments_rentalRequestId_key" ON "payments"("rentalRequestId");
+CREATE UNIQUE INDEX "payments_requestId_key" ON "payments"("requestId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "payments_transactionId_key" ON "payments"("transactionId");
@@ -135,7 +141,10 @@ CREATE INDEX "payments_userId_idx" ON "payments"("userId");
 CREATE INDEX "payments_status_idx" ON "payments"("status");
 
 -- CreateIndex
-CREATE INDEX "payments_transactionId_idx" ON "payments"("transactionId");
+CREATE INDEX "payments_type_idx" ON "payments"("type");
+
+-- CreateIndex
+CREATE INDEX "payments_periodStart_periodEnd_idx" ON "payments"("periodStart", "periodEnd");
 
 -- CreateIndex
 CREATE INDEX "properties_landlordId_idx" ON "properties"("landlordId");
@@ -144,22 +153,25 @@ CREATE INDEX "properties_landlordId_idx" ON "properties"("landlordId");
 CREATE INDEX "properties_categoryId_idx" ON "properties"("categoryId");
 
 -- CreateIndex
-CREATE INDEX "properties_city_state_idx" ON "properties"("city", "state");
+CREATE INDEX "properties_location_idx" ON "properties"("location");
 
 -- CreateIndex
 CREATE INDEX "properties_isAvailable_idx" ON "properties"("isAvailable");
 
 -- CreateIndex
-CREATE INDEX "rental_requests_tenantId_idx" ON "rental_requests"("tenantId");
+CREATE INDEX "requests_tenantId_idx" ON "requests"("tenantId");
 
 -- CreateIndex
-CREATE INDEX "rental_requests_propertyId_idx" ON "rental_requests"("propertyId");
+CREATE INDEX "requests_propertyId_idx" ON "requests"("propertyId");
 
 -- CreateIndex
-CREATE INDEX "rental_requests_status_idx" ON "rental_requests"("status");
+CREATE INDEX "requests_status_idx" ON "requests"("status");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "reviews_rentalRequestId_key" ON "reviews"("rentalRequestId");
+CREATE INDEX "requests_type_idx" ON "requests"("type");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "reviews_requestId_key" ON "reviews"("requestId");
 
 -- CreateIndex
 CREATE INDEX "reviews_tenantId_idx" ON "reviews"("tenantId");
@@ -174,7 +186,7 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 ALTER TABLE "categories" ADD CONSTRAINT "categories_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "payments" ADD CONSTRAINT "payments_rentalRequestId_fkey" FOREIGN KEY ("rentalRequestId") REFERENCES "rental_requests"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "payments" ADD CONSTRAINT "payments_requestId_fkey" FOREIGN KEY ("requestId") REFERENCES "requests"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payments" ADD CONSTRAINT "payments_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -186,10 +198,10 @@ ALTER TABLE "properties" ADD CONSTRAINT "properties_landlordId_fkey" FOREIGN KEY
 ALTER TABLE "properties" ADD CONSTRAINT "properties_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "rental_requests" ADD CONSTRAINT "rental_requests_tenantId_fkey" FOREIGN KEY ("tenantId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "requests" ADD CONSTRAINT "requests_tenantId_fkey" FOREIGN KEY ("tenantId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "rental_requests" ADD CONSTRAINT "rental_requests_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "properties"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "requests" ADD CONSTRAINT "requests_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "properties"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "reviews" ADD CONSTRAINT "reviews_tenantId_fkey" FOREIGN KEY ("tenantId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -198,4 +210,4 @@ ALTER TABLE "reviews" ADD CONSTRAINT "reviews_tenantId_fkey" FOREIGN KEY ("tenan
 ALTER TABLE "reviews" ADD CONSTRAINT "reviews_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "properties"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "reviews" ADD CONSTRAINT "reviews_rentalRequestId_fkey" FOREIGN KEY ("rentalRequestId") REFERENCES "rental_requests"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "reviews" ADD CONSTRAINT "reviews_requestId_fkey" FOREIGN KEY ("requestId") REFERENCES "requests"("id") ON DELETE CASCADE ON UPDATE CASCADE;

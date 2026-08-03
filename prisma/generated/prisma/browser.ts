@@ -33,10 +33,10 @@ export type Payment = Prisma.PaymentModel
  */
 export type Property = Prisma.PropertyModel
 /**
- * Model RentalRequest
+ * Model Request
  * 
  */
-export type RentalRequest = Prisma.RentalRequestModel
+export type Request = Prisma.RequestModel
 /**
  * Model Review
  * 

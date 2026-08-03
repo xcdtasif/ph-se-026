@@ -400,7 +400,7 @@ export const ModelName = {
   Category: 'Category',
   Payment: 'Payment',
   Property: 'Property',
-  RentalRequest: 'RentalRequest',
+  Request: 'Request',
   Review: 'Review',
   User: 'User'
 } as const
@@ -418,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "payment" | "property" | "rentalRequest" | "review" | "user"
+    modelProps: "category" | "payment" | "property" | "request" | "review" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -644,77 +644,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    RentalRequest: {
-      payload: Prisma.$RentalRequestPayload<ExtArgs>
-      fields: Prisma.RentalRequestFieldRefs
+    Request: {
+      payload: Prisma.$RequestPayload<ExtArgs>
+      fields: Prisma.RequestFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.RentalRequestFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload> | null
+          args: Prisma.RequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.RentalRequestFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>
+          args: Prisma.RequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>
         }
         findFirst: {
-          args: Prisma.RentalRequestFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload> | null
+          args: Prisma.RequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.RentalRequestFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>
+          args: Prisma.RequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>
         }
         findMany: {
-          args: Prisma.RentalRequestFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>[]
+          args: Prisma.RequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>[]
         }
         create: {
-          args: Prisma.RentalRequestCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>
+          args: Prisma.RequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>
         }
         createMany: {
-          args: Prisma.RentalRequestCreateManyArgs<ExtArgs>
+          args: Prisma.RequestCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.RentalRequestCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>[]
+          args: Prisma.RequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>[]
         }
         delete: {
-          args: Prisma.RentalRequestDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>
+          args: Prisma.RequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>
         }
         update: {
-          args: Prisma.RentalRequestUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>
+          args: Prisma.RequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>
         }
         deleteMany: {
-          args: Prisma.RentalRequestDeleteManyArgs<ExtArgs>
+          args: Prisma.RequestDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.RentalRequestUpdateManyArgs<ExtArgs>
+          args: Prisma.RequestUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.RentalRequestUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>[]
+          args: Prisma.RequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>[]
         }
         upsert: {
-          args: Prisma.RentalRequestUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalRequestPayload>
+          args: Prisma.RequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestPayload>
         }
         aggregate: {
-          args: Prisma.RentalRequestAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRentalRequest>
+          args: Prisma.RequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequest>
         }
         groupBy: {
-          args: Prisma.RentalRequestGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RentalRequestGroupByOutputType>[]
+          args: Prisma.RequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestGroupByOutputType>[]
         }
         count: {
-          args: Prisma.RentalRequestCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RentalRequestCountAggregateOutputType> | number
+          args: Prisma.RequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestCountAggregateOutputType> | number
         }
       }
     }
@@ -909,7 +909,6 @@ export const CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -919,14 +918,17 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 
 export const PaymentScalarFieldEnum = {
   id: 'id',
-  rentalRequestId: 'rentalRequestId',
+  requestId: 'requestId',
   userId: 'userId',
   amount: 'amount',
+  type: 'type',
   provider: 'provider',
   transactionId: 'transactionId',
   status: 'status',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  stripePaymentIntentId: 'stripePaymentIntentId',
   paidAt: 'paidAt',
-  metadata: 'metadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -942,9 +944,9 @@ export const PropertyScalarFieldEnum = {
   description: 'description',
   location: 'location',
   mapLocation: 'mapLocation',
-  price: 'price',
+  monthlyRent: 'monthlyRent',
+  securityDeposit: 'securityDeposit',
   images: 'images',
-  isAvailable: 'isAvailable',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -953,31 +955,34 @@ export const PropertyScalarFieldEnum = {
 export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
 
 
-export const RentalRequestScalarFieldEnum = {
+export const RequestScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   propertyId: 'propertyId',
   status: 'status',
   moveInDate: 'moveInDate',
-  moveOutDate: 'moveOutDate',
   monthlyRent: 'monthlyRent',
   securityDeposit: 'securityDeposit',
   message: 'message',
-  approvedAt: 'approvedAt',
+  moveOutDate: 'moveOutDate',
+  damageAmount: 'damageAmount',
+  moveInApprovedAt: 'moveInApprovedAt',
+  moveOutApprovedAt: 'moveOutApprovedAt',
   rejectedAt: 'rejectedAt',
   rejectedReason: 'rejectedReason',
+  completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type RentalRequestScalarFieldEnum = (typeof RentalRequestScalarFieldEnum)[keyof typeof RentalRequestScalarFieldEnum]
+export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
 
 
 export const ReviewScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   propertyId: 'propertyId',
-  rentalRequestId: 'rentalRequestId',
+  requestId: 'requestId',
   rating: 'rating',
   comment: 'comment',
   createdAt: 'createdAt',
@@ -1011,14 +1016,6 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -1033,15 +1030,6 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1093,6 +1081,20 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
+ * Reference to a field of type 'PaymentType'
+ */
+export type EnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentType[]'
+ */
+export type ListEnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType[]'>
+    
+
+
+/**
  * Reference to a field of type 'PaymentProvider'
  */
 export type EnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider'>
@@ -1121,27 +1123,6 @@ export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'PropertyStatus'
  */
 export type EnumPropertyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PropertyStatus'>
@@ -1156,16 +1137,16 @@ export type ListEnumPropertyStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
- * Reference to a field of type 'RentalStatus'
+ * Reference to a field of type 'RequestStatus'
  */
-export type EnumRentalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RentalStatus'>
+export type EnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus'>
     
 
 
 /**
- * Reference to a field of type 'RentalStatus[]'
+ * Reference to a field of type 'RequestStatus[]'
  */
-export type ListEnumRentalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RentalStatus[]'>
+export type ListEnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus[]'>
     
 
 
@@ -1194,6 +1175,13 @@ export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'UserRole[]'
  */
 export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1364,7 +1352,7 @@ export type GlobalOmitConfig = {
   category?: Prisma.CategoryOmit
   payment?: Prisma.PaymentOmit
   property?: Prisma.PropertyOmit
-  rentalRequest?: Prisma.RentalRequestOmit
+  request?: Prisma.RequestOmit
   review?: Prisma.ReviewOmit
   user?: Prisma.UserOmit
 }
