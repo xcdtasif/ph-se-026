@@ -1,4 +1,4 @@
-# RentNest — Rental Property Marketplace API
+# RentNest -- Rental Property Marketplace API
 
 A complete backend API for a rental property marketplace with three roles (Tenant, Landlord, Admin) built with Express, TypeScript, Prisma ORM, PostgreSQL, JWT authentication, and Stripe payments.
 
@@ -16,6 +16,101 @@ A complete backend API for a rental property marketplace with three roles (Tenan
 - **Validation**: Zod
 - **Build**: tsup
 - **Deploy**: Vercel-ready
+
+---
+
+## Database Schema
+
+All models use UUID primary keys. Monetary values use `Decimal` for precision.
+
+### User
+
+| Field          | Type     | Constraints                     |
+| -------------- | -------- | ------------------------------- |
+| `id`           | UUID     | Primary key, `@default(uuid())` |
+| `email`        | String   | `@unique`                       |
+| `passwordHash` | String   |                                 |
+| `role`         | UserRole | TENANT / LANDLORD / ADMIN       |
+| `name`         | String   |                                 |
+| `phone`        | String?  | Optional                        |
+| `avatar`       | String?  | Optional                        |
+| `isBanned`     | Boolean  | `@default(false)`               |
+| `banReason`    | String?  | Optional                        |
+| `createdAt`    | DateTime | `@default(now())`               |
+| `updatedAt`    | DateTime | `@updatedAt`                    |
+
+### Category
+
+| Field         | Type     | Constraints                     |
+| ------------- | -------- | ------------------------------- |
+| `id`          | UUID     | Primary key, `@default(uuid())` |
+| `name`        | String   |                                 |
+| `description` | String?  | Optional                        |
+| `createdAt`   | DateTime | `@default(now())`               |
+| `updatedAt`   | DateTime | `@updatedAt`                    |
+
+### Property
+
+| Field             | Type           | Constraints                      |
+| ----------------- | -------------- | -------------------------------- |
+| `id`              | UUID           | Primary key, `@default(uuid())`  |
+| `title`           | String         |                                  |
+| `description`     | String         |                                  |
+| `address`         | String         |                                  |
+| `city`            | String         |                                  |
+| `rent`            | Decimal        | Monthly rent                     |
+| `securityDeposit` | Decimal        |                                  |
+| `bedrooms`        | Int            |                                  |
+| `bathrooms`       | Int            |                                  |
+| `area`            | Float          | Square feet/meters               |
+| `images`          | String[]       | Array of image URLs              |
+| `amenities`       | String[]       | Array of amenities               |
+| `status`          | PropertyStatus | AVAILABLE / RENTED / UNAVAILABLE |
+| `landlordId`      | UUID           | Foreign key → User               |
+| `categoryId`      | UUID           | Foreign key → Category           |
+| `createdAt`       | DateTime       | `@default(now())`                |
+| `updatedAt`       | DateTime       | `@updatedAt`                     |
+
+### Request
+
+| Field         | Type          | Constraints                     |
+| ------------- | ------------- | ------------------------------- |
+| `id`          | UUID          | Primary key, `@default(uuid())` |
+| `status`      | RequestStatus | 8 states (see flow diagram)     |
+| `moveInDate`  | DateTime      |                                 |
+| `moveOutDate` | DateTime?     | Optional                        |
+| `tenantId`    | UUID          | Foreign key → User              |
+| `propertyId`  | UUID          | Foreign key → Property          |
+| `createdAt`   | DateTime      | `@default(now())`               |
+| `updatedAt`   | DateTime      | `@updatedAt`                    |
+
+### Payment
+
+| Field                   | Type          | Constraints                                       |
+| ----------------------- | ------------- | ------------------------------------------------- |
+| `id`                    | UUID          | Primary key, `@default(uuid())`                   |
+| `amount`                | Decimal       |                                                   |
+| `currency`              | String        | Default: `BDT`                                    |
+| `status`                | PaymentStatus | PENDING / PAID / FAILED / REFUNDED                |
+| `type`                  | PaymentType   | SECURITY_DEPOSIT / MONTHLY_RENT / MOVE_OUT_REFUND |
+| `stripePaymentIntentId` | String        | Stripe Session ID, `@unique`                      |
+| `userId`                | UUID          | Foreign key → User                                |
+| `requestId`             | UUID          | Foreign key → Request                             |
+| `createdAt`             | DateTime      | `@default(now())`                                 |
+| `updatedAt`             | DateTime      | `@updatedAt`                                      |
+
+### Review
+
+| Field        | Type     | Constraints                       |
+| ------------ | -------- | --------------------------------- |
+| `id`         | UUID     | Primary key, `@default(uuid())`   |
+| `rating`     | Int      | 1-5                               |
+| `comment`    | String?  | Optional                          |
+| `userId`     | UUID     | Foreign key → User                |
+| `propertyId` | UUID     | Foreign key → Property            |
+| `requestId`  | UUID     | `@unique` (one review per rental) |
+| `createdAt`  | DateTime | `@default(now())`                 |
+| `updatedAt`  | DateTime | `@updatedAt`                      |
 
 ---
 
@@ -293,22 +388,3 @@ See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 6. Deploy
 
 **Vercel config** (`vercel.json`) included for serverless function handling.
-
----
-
-## Database Schema (Key Models)
-
-- **User**: id, email, passwordHash, role (TENANT/LANDLORD/ADMIN), name, phone, avatar, isBanned, banReason
-- **Category**: id, name, description
-- **Property**: id, title, description, address, city, rent, securityDeposit, bedrooms, bathrooms, area, images, amenities, status (AVAILABLE/RENTED/UNAVAILABLE), landlordId, categoryId
-- **Request**: id, status (8 states), moveInDate, moveOutDate, tenantId, propertyId
-- **Payment**: id, amount, currency, status (PENDING/PAID/FAILED/REFUNDED), type (SECURITY_DEPOSIT/MONTHLY_RENT/MOVE_OUT_REFUND), stripePaymentIntentId (Stripe Session ID), userId, requestId
-- **Review**: id, rating (1-5), comment, userId, propertyId, requestId (unique)
-
-All models use UUID primary keys. Monetary values use `Decimal` for precision.
-
----
-
-## License
-
-MIT
