@@ -1,5 +1,4 @@
 import type { Response } from "express";
-import { StatusCodes } from "http-status-codes";
 import type { TResponseData } from "../types";
 
 export const sendResponse = <T>(res: Response, data: TResponseData<T>) => {
@@ -11,5 +10,3 @@ export const sendResponse = <T>(res: Response, data: TResponseData<T>) => {
     meta: data.meta,
   });
 };
-
-export { StatusCodes };

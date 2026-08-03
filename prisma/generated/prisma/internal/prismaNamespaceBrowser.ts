@@ -118,6 +118,7 @@ export const PropertyScalarFieldEnum = {
   monthlyRent: 'monthlyRent',
   securityDeposit: 'securityDeposit',
   images: 'images',
+  averageRating: 'averageRating',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

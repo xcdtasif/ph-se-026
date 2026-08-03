@@ -29,11 +29,13 @@ export type AggregateProperty = {
 export type PropertyAvgAggregateOutputType = {
   monthlyRent: runtime.Decimal | null
   securityDeposit: runtime.Decimal | null
+  averageRating: number | null
 }
 
 export type PropertySumAggregateOutputType = {
   monthlyRent: runtime.Decimal | null
   securityDeposit: runtime.Decimal | null
+  averageRating: number | null
 }
 
 export type PropertyMinAggregateOutputType = {
@@ -46,6 +48,7 @@ export type PropertyMinAggregateOutputType = {
   mapLocation: string | null
   monthlyRent: runtime.Decimal | null
   securityDeposit: runtime.Decimal | null
+  averageRating: number | null
   status: $Enums.PropertyStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -61,6 +64,7 @@ export type PropertyMaxAggregateOutputType = {
   mapLocation: string | null
   monthlyRent: runtime.Decimal | null
   securityDeposit: runtime.Decimal | null
+  averageRating: number | null
   status: $Enums.PropertyStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -77,6 +81,7 @@ export type PropertyCountAggregateOutputType = {
   monthlyRent: number
   securityDeposit: number
   images: number
+  averageRating: number
   status: number
   createdAt: number
   updatedAt: number
@@ -87,11 +92,13 @@ export type PropertyCountAggregateOutputType = {
 export type PropertyAvgAggregateInputType = {
   monthlyRent?: true
   securityDeposit?: true
+  averageRating?: true
 }
 
 export type PropertySumAggregateInputType = {
   monthlyRent?: true
   securityDeposit?: true
+  averageRating?: true
 }
 
 export type PropertyMinAggregateInputType = {
@@ -104,6 +111,7 @@ export type PropertyMinAggregateInputType = {
   mapLocation?: true
   monthlyRent?: true
   securityDeposit?: true
+  averageRating?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -119,6 +127,7 @@ export type PropertyMaxAggregateInputType = {
   mapLocation?: true
   monthlyRent?: true
   securityDeposit?: true
+  averageRating?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -135,6 +144,7 @@ export type PropertyCountAggregateInputType = {
   monthlyRent?: true
   securityDeposit?: true
   images?: true
+  averageRating?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -238,6 +248,7 @@ export type PropertyGroupByOutputType = {
   monthlyRent: runtime.Decimal
   securityDeposit: runtime.Decimal
   images: string[]
+  averageRating: number | null
   status: $Enums.PropertyStatus
   createdAt: Date
   updatedAt: Date
@@ -277,6 +288,7 @@ export type PropertyWhereInput = {
   monthlyRent?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.StringNullableListFilter<"Property">
+  averageRating?: Prisma.FloatNullableFilter<"Property"> | number | null
   status?: Prisma.EnumPropertyStatusFilter<"Property"> | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
@@ -297,6 +309,7 @@ export type PropertyOrderByWithRelationInput = {
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -320,6 +333,7 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   monthlyRent?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.StringNullableListFilter<"Property">
+  averageRating?: Prisma.FloatNullableFilter<"Property"> | number | null
   status?: Prisma.EnumPropertyStatusFilter<"Property"> | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
@@ -340,6 +354,7 @@ export type PropertyOrderByWithAggregationInput = {
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -364,6 +379,7 @@ export type PropertyScalarWhereWithAggregatesInput = {
   monthlyRent?: Prisma.DecimalWithAggregatesFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalWithAggregatesFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.StringNullableListFilter<"Property">
+  averageRating?: Prisma.FloatNullableWithAggregatesFilter<"Property"> | number | null
   status?: Prisma.EnumPropertyStatusWithAggregatesFilter<"Property"> | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Property"> | Date | string
@@ -378,6 +394,7 @@ export type PropertyCreateInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -398,6 +415,7 @@ export type PropertyUncheckedCreateInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -414,6 +432,7 @@ export type PropertyUpdateInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,6 +453,7 @@ export type PropertyUncheckedUpdateInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -452,6 +472,7 @@ export type PropertyCreateManyInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -466,6 +487,7 @@ export type PropertyUpdateManyMutationInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -482,6 +504,7 @@ export type PropertyUncheckedUpdateManyInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -516,6 +539,7 @@ export type PropertyCountOrderByAggregateInput = {
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
   images?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -524,6 +548,7 @@ export type PropertyCountOrderByAggregateInput = {
 export type PropertyAvgOrderByAggregateInput = {
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
 }
 
 export type PropertyMaxOrderByAggregateInput = {
@@ -536,6 +561,7 @@ export type PropertyMaxOrderByAggregateInput = {
   mapLocation?: Prisma.SortOrder
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -551,6 +577,7 @@ export type PropertyMinOrderByAggregateInput = {
   mapLocation?: Prisma.SortOrder
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -559,6 +586,7 @@ export type PropertyMinOrderByAggregateInput = {
 export type PropertySumOrderByAggregateInput = {
   monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
 }
 
 export type PropertyScalarRelationFilter = {
@@ -615,6 +643,14 @@ export type PropertyCreateimagesInput = {
 export type PropertyUpdateimagesInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type EnumPropertyStatusFieldUpdateOperationsInput = {
@@ -700,6 +736,7 @@ export type PropertyCreateWithoutCategoryInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -718,6 +755,7 @@ export type PropertyUncheckedCreateWithoutCategoryInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -765,6 +803,7 @@ export type PropertyScalarWhereInput = {
   monthlyRent?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.StringNullableListFilter<"Property">
+  averageRating?: Prisma.FloatNullableFilter<"Property"> | number | null
   status?: Prisma.EnumPropertyStatusFilter<"Property"> | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
@@ -779,6 +818,7 @@ export type PropertyCreateWithoutRequestsInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -798,6 +838,7 @@ export type PropertyUncheckedCreateWithoutRequestsInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -829,6 +870,7 @@ export type PropertyUpdateWithoutRequestsInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -848,6 +890,7 @@ export type PropertyUncheckedUpdateWithoutRequestsInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -863,6 +906,7 @@ export type PropertyCreateWithoutReviewsInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -882,6 +926,7 @@ export type PropertyUncheckedCreateWithoutReviewsInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -913,6 +958,7 @@ export type PropertyUpdateWithoutReviewsInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -932,6 +978,7 @@ export type PropertyUncheckedUpdateWithoutReviewsInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -947,6 +994,7 @@ export type PropertyCreateWithoutLandlordInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -965,6 +1013,7 @@ export type PropertyUncheckedCreateWithoutLandlordInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1008,6 +1057,7 @@ export type PropertyCreateManyCategoryInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1022,6 +1072,7 @@ export type PropertyUpdateWithoutCategoryInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1040,6 +1091,7 @@ export type PropertyUncheckedUpdateWithoutCategoryInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1057,6 +1109,7 @@ export type PropertyUncheckedUpdateManyWithoutCategoryInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1072,6 +1125,7 @@ export type PropertyCreateManyLandlordInput = {
   monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyCreateimagesInput | string[]
+  averageRating?: number | null
   status?: $Enums.PropertyStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1086,6 +1140,7 @@ export type PropertyUpdateWithoutLandlordInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1104,6 +1159,7 @@ export type PropertyUncheckedUpdateWithoutLandlordInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1121,6 +1177,7 @@ export type PropertyUncheckedUpdateManyWithoutLandlordInput = {
   monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.PropertyUpdateimagesInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1177,6 +1234,7 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   monthlyRent?: boolean
   securityDeposit?: boolean
   images?: boolean
+  averageRating?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1198,6 +1256,7 @@ export type PropertySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   monthlyRent?: boolean
   securityDeposit?: boolean
   images?: boolean
+  averageRating?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1216,6 +1275,7 @@ export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   monthlyRent?: boolean
   securityDeposit?: boolean
   images?: boolean
+  averageRating?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1234,12 +1294,13 @@ export type PropertySelectScalar = {
   monthlyRent?: boolean
   securityDeposit?: boolean
   images?: boolean
+  averageRating?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "landlordId" | "categoryId" | "title" | "description" | "location" | "mapLocation" | "monthlyRent" | "securityDeposit" | "images" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "landlordId" | "categoryId" | "title" | "description" | "location" | "mapLocation" | "monthlyRent" | "securityDeposit" | "images" | "averageRating" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
 export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   landlord?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1275,6 +1336,7 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     monthlyRent: runtime.Decimal
     securityDeposit: runtime.Decimal
     images: string[]
+    averageRating: number | null
     status: $Enums.PropertyStatus
     createdAt: Date
     updatedAt: Date
@@ -1715,6 +1777,7 @@ export interface PropertyFieldRefs {
   readonly monthlyRent: Prisma.FieldRef<"Property", 'Decimal'>
   readonly securityDeposit: Prisma.FieldRef<"Property", 'Decimal'>
   readonly images: Prisma.FieldRef<"Property", 'String[]'>
+  readonly averageRating: Prisma.FieldRef<"Property", 'Float'>
   readonly status: Prisma.FieldRef<"Property", 'PropertyStatus'>
   readonly createdAt: Prisma.FieldRef<"Property", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Property", 'DateTime'>

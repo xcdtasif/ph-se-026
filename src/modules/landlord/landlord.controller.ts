@@ -10,7 +10,8 @@ import {
   getLandlordPropertyById,
 } from "./landlord.service";
 import { AppError } from "../../utils/app-error";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { sendResponse } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 
 export const createPropertyController = async (
   req: IAuthRequest,

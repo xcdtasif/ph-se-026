@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { ZodType, ZodError } from "zod";
-import { sendResponse, StatusCodes } from "../utils/send-response";
+import { sendResponse } from "../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 
 export const validate = (schema: ZodType) => {
   return async (req: Request, res: Response, next: NextFunction) => {

@@ -6,7 +6,8 @@ import {
   getTenantRequests,
   getRequestById,
 } from "./request.service";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { sendResponse } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 export const createRequestController = async (
   req: IAuthRequest,
   res: Response,

@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 import { stripe } from "../../lib/stripe";
 import type { ICreatePaymentInput } from "./payment.types";
 import type {

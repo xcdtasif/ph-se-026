@@ -6,7 +6,8 @@ import {
   getPayments,
   getPaymentById,
 } from "./payment.service";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { sendResponse } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 import { catchAsync } from "../../utils/catch-async";
 
 export const createPaymentIntentController = catchAsync(

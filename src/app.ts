@@ -7,6 +7,7 @@ import propertyRouter from "./modules/property";
 import requestRouter from "./modules/request";
 import landlordRouter from "./modules/landlord";
 import paymentRouter from "./modules/payment";
+import reviewRouter from "./modules/review";
 import { notFoundHandler } from "./middleware/not-found";
 import { globalErrorHandler } from "./middleware/global-error";
 
@@ -37,6 +38,7 @@ app.use("/api/properties", propertyRouter);
 app.use("/api/requests", requestRouter);
 app.use("/api/landlord", landlordRouter);
 app.use("/api/payments", paymentRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

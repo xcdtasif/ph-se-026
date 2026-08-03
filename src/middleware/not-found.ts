@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { sendResponse, StatusCodes } from "../utils/send-response";
+import { sendResponse } from "../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 
 export const notFoundHandler = (
   req: Request,

@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 import { prisma } from "../lib/prisma";
 import { catchAsync } from "../utils/catch-async";
-import { sendResponse, StatusCodes } from "../utils/send-response";
+import { sendResponse } from "../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 import type { IAuthRequest } from "../types";
 
 export const authenticate = catchAsync(

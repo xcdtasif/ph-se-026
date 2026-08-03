@@ -7,7 +7,8 @@ import {
   deleteCategory as deleteCategoryService,
   getCategoryById,
 } from "./category.service";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { sendResponse } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 import { AppError } from "../../utils/app-error";
 
 export const getCategories = async (req: Request, res: Response) => {

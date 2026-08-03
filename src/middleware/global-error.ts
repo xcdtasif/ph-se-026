@@ -1,13 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { sendResponse, StatusCodes } from "../utils/send-response";
+import { sendResponse } from "../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 import { Prisma } from "../../prisma/generated/prisma/client";
 import { AppError } from "../utils/app-error";
 import Stripe from "stripe";
 import jwt from "jsonwebtoken";
 import config from "../config";
-
-// Re-export for backward compatibility
 
 export const globalErrorHandler = (
   err: Error,

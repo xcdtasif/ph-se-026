@@ -7,7 +7,8 @@ import {
   getCurrentUser,
 } from "./auth.service";
 import type { IAuthTokens } from "./auth.types";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { sendResponse } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 import config from "../../config";
 
 const expiresInToMs = (expiresIn: string): number => {

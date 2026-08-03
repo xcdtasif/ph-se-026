@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const createReviewSchema = z.object({
   body: z.object({
-    propertyId: z.string().uuid(),
-    requestId: z.string().uuid(),
+    propertyId: z.uuid(),
+    requestId: z.uuid(),
     rating: z.number().int().min(1).max(5),
     comment: z.string().max(2000).optional(),
   }),
@@ -11,7 +11,7 @@ export const createReviewSchema = z.object({
 
 export const getPropertyReviewsSchema = z.object({
   params: z.object({
-    id: z.string().uuid(),
+    id: z.uuid(),
   }),
   query: z.object({
     page: z.coerce.number().int().positive().default(1),
@@ -20,4 +20,6 @@ export const getPropertyReviewsSchema = z.object({
 });
 
 export type ICreateReviewInput = z.infer<typeof createReviewSchema>["body"];
-export type IGetPropertyReviewsQuery = z.infer<typeof getPropertyReviewsSchema>["query"];
+export type IGetPropertyReviewsQuery = z.infer<
+  typeof getPropertyReviewsSchema
+>["query"];

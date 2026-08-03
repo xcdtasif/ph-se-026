@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { getProperties, getPropertyById } from "./property.service";
-import { sendResponse, StatusCodes } from "../../utils/send-response";
+import { sendResponse } from "../../utils/send-response";
+import { StatusCodes } from "http-status-codes";
 
 export const getAllProperties = async (req: Request, res: Response) => {
   const {
