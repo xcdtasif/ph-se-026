@@ -15,7 +15,7 @@ A complete backend API for a rental property marketplace with three roles (Tenan
 - **Payments**: Stripe Checkout Sessions
 - **Validation**: Zod
 - **Build**: tsup
-- **Deploy**: Vercel-ready
+- **Deployment**: Vercel
 
 ---
 
@@ -177,8 +177,8 @@ npm run dev
 # Build
 npm run build
 
-# Production
-node dist/server.mjs
+# Deploy
+npm run deploy
 ```
 
 ---
@@ -187,11 +187,12 @@ node dist/server.mjs
 
 | Command               | Description                                               |
 | --------------------- | --------------------------------------------------------- |
-| `npm run dev`         | Development with tsx watch                                |
 | `npm run build`       | Type-check + build with tsup (includes `prisma generate`) |
 | `npm run db:generate` | Generate Prisma Client                                    |
 | `npm run db:migrate`  | Run Prisma migrations (dev)                               |
 | `npm run db:seed`     | Seed database with test data                              |
+| `npm run deploy`      | Deploy to Vercel                                          |
+| `npm run dev`         | Development with tsx watch                                |
 
 ---
 
@@ -203,11 +204,11 @@ node dist/server.mjs
 | `PORT`                          | Yes      | Server port (default: 5000)                        |
 | `FRONTEND_URL`                  | Yes      | Frontend URL for Stripe redirects                  |
 | `DATABASE_URL`                  | Yes      | PostgreSQL connection string                       |
-| `BCRYPT_SALT_ROUNDS`            | Yes      | Password hash rounds (10                           | 12   | 14) |
+| `BCRYPT_SALT_ROUNDS`            | Yes      | Password hash rounds (10/12/14)                    |
 | `JWT_ACCESS_SECRET`             | Yes      | 64+ char random string                             |
-| `JWT_ACCESS_SECRET_EXPIRES_IN`  | Yes      | Access token TTL (15m                              | 1h   | 1d) |
+| `JWT_ACCESS_SECRET_EXPIRES_IN`  | Yes      | Access token TTL (15m/1h/1d)                       |
 | `JWT_REFRESH_SECRET`            | Yes      | 64+ char random string (different from access)     |
-| `JWT_REFRESH_SECRET_EXPIRES_IN` | Yes      | Refresh token TTL (7d                              | 30d) |
+| `JWT_REFRESH_SECRET_EXPIRES_IN` | Yes      | Refresh token TTL (7d/30d)                         |
 | `STRIPE_SECRET_KEY`             | Yes      | Stripe secret key (`sk_test_...` or `sk_live_...`) |
 | `STRIPE_WEBHOOK_SECRET`         | Yes      | Stripe webhook signing secret (`whsec_...`)        |
 | `ADMIN_EMAIL`                   | No       | Seeded admin email (used by seed script)           |
@@ -313,11 +314,11 @@ All responses follow:
 ## Request Status Flow (8 States)
 
 ```
-MOVE_IN_REQUESTED -> MOVE_IN_APPROVED -> MOVED_IN -> MOVE_OUT_REQUESTED -> MOVE_OUT_APPROVED -> MOVED_OUT
-↓                                                    ↓
-↓ (reject)                                           ↓ (reject)
-↓                                                    ↓
-MOVE_IN_REJECTED                                     MOVE_OUT_REJECTED
+MOVE_IN_REQUESTED → MOVE_IN_APPROVED → MOVED_IN → MOVE_OUT_REQUESTED → MOVE_OUT_APPROVED → MOVED_OUT
+↓                                                 ↓
+↓ (reject)                                        ↓ (reject)
+↓                                                 ↓
+MOVE_IN_REJECTED                                  MOVE_OUT_REJECTED
 ```
 
 - **MOVED_IN / MOVED_OUT**: Internal only, triggered by payment webhooks
@@ -327,19 +328,19 @@ MOVE_IN_REJECTED                                     MOVE_OUT_REJECTED
 
 ## Payment Flow (Stripe Checkout)
 
-1. Tenant creates request -> `MOVE_IN_REQUESTED`
-2. Landlord approves -> `MOVE_IN_APPROVED`
+1. Tenant creates request → `MOVE_IN_REQUESTED`
+2. Landlord approves → `MOVE_IN_APPROVED`
 3. Tenant calls `POST /payments` with `{ requestId, type: "SECURITY_DEPOSIT" }`
-4. Returns `checkoutUrl` -> tenant pays on Stripe hosted page
+4. Returns `checkoutUrl` → tenant pays on Stripe hosted page
 5. **Stripe webhook** (`checkout.session.completed`) fires:
-   - Payment -> `PAID`
-   - Request -> `MOVED_IN`
-   - Property -> `RENTED`
-6. **Move-out**: Landlord approves -> `MOVE_OUT_APPROVED`
-7. Tenant pays `MOVE_OUT_REFUND` -> webhook:
-   - Payment -> `REFUNDED`
-   - Request -> `MOVED_OUT`
-   - Property -> `AVAILABLE`
+   - Payment → `PAID`
+   - Request → `MOVED_IN`
+   - Property → `RENTED`
+6. **Move-out**: Landlord approves → `MOVE_OUT_APPROVED`
+7. Tenant pays `MOVE_OUT_REFUND` → webhook:
+   - Payment → `REFUNDED`
+   - Request → `MOVED_OUT`
+   - Property → `AVAILABLE`
 
 **Test Card**: `4242 4242 4242 4242` (any future date, any CVC)
 
@@ -373,7 +374,7 @@ stripe listen --forward-to localhost:5000/api/payments/webhook
 
 See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 - Importing the Postman collection (`ph-se-026.postman_collection.json`)
-- Setting up environments (local + production: `https://ph-se-026.vercel.app/api`)
+- Setting up environments
 - Authentication flow
 - Testing all endpoints
 - Payment flow walkthrough
@@ -387,11 +388,11 @@ See **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** for:
 npm i -g vercel
 
 # Login
-vercel login
+vc login
 
 # Deploy from project root
-vercel --prod
+vc --prod
 ```
 
 **Vercel config** (`vercel.json`) included for serverless function handling. \
-**Environment variables** must be added in Vercel Dashboard -> Project -> Settings -> Environment Variables.
+**Environment variables** must be added in Vercel Dashboard → Project → Settings → Environment Variables.

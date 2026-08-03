@@ -8,6 +8,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seeds",
+    "deploy": "prisma generate && tsup && vc --prod",
     "dev": "tsx watch src/server.ts"
   },
   "keywords": [],
