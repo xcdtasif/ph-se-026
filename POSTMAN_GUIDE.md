@@ -27,7 +27,7 @@ The collection uses a `baseUrl` variable. Set it in your Postman environment:
 All protected endpoints require a **JWT access token** in an `httpOnly` cookie.
 
 ### 1. Register / Login
-- **POST `/auth/register`** — Create account (TENANT, LANDLORD, or ADMIN)
+- **POST `/auth/register`** — Create account (TENANT, LANDLORD)
 - **POST `/auth/login`** — Returns access + refresh tokens in cookies
 
 **Test credentials (seeded):**
@@ -69,30 +69,23 @@ ph-se-026
 │   └── Get Category by ID
 ├── Property
 │   ├── Get All Properties (public)
-│   ├── Get Property by ID (public)
-│   └── [Landlord subfolder]
-│       ├── Create Property (LANDLORD)
-│       ├── Get My Properties (LANDLORD)
-│       ├── Update Property (LANDLORD)
-│       └── Delete Property (LANDLORD)
-├── Landlord
-│   ├── Get My Properties
-│   ├── Create Property
-│   ├── Update Property
-│   └── Delete Property
-├── Request
+│   └── Get Property by ID (public)
+├── Landlord Properties
+│   ├── Create Property (LANDLORD)
+│   ├── Get My Properties (LANDLORD)
+│   ├── Update Property (LANDLORD)
+│   └── Delete Property (LANDLORD)
+├── Requests (Tenant)
 │   ├── Create Request (TENANT)
 │   ├── Get My Requests (TENANT)
 │   ├── Get Request by ID
-│   ├── Cancel Request (TENANT)
-│   ├── [Landlord subfolder]
-│   │   ├── Get Property Requests (LANDLORD)
-│   │   ├── Approve Move-In (LANDLORD)
-│   │   ├── Reject Move-In (LANDLORD)
-│   │   ├── Approve Move-Out (LANDLORD)
-│   │   └── Reject Move-Out (LANDLORD)
-│   └── [Admin subfolder]
-│       └── Get All Requests (ADMIN)
+│   └── Request Move-Out (TENANT)
+├── Landlord Requests
+│   ├── Get Property Requests (LANDLORD)
+│   ├── Approve Move-In (LANDLORD)
+│   ├── Reject Move-In (LANDLORD)
+│   ├── Approve Move-Out (LANDLORD)
+│   └── Reject Move-Out (LANDLORD)
 ├── Payment
 │   ├── Create Checkout Session (TENANT)
 │   ├── Get My Payments (TENANT)
@@ -104,12 +97,12 @@ ph-se-026
 │   ├── Create Review (TENANT, after MOVED_OUT)
 │   └── Get Property Reviews (public)
 └── Admin
+    ├── Get Stats (ADMIN)
     ├── Get Users (ADMIN)
     ├── Ban/Unban User (ADMIN)
     ├── Get All Properties (ADMIN)
     ├── Get All Requests (ADMIN)
-    ├── Get All Payments (ADMIN)
-    └── Get Stats (ADMIN)
+    └── Get All Payments (ADMIN)
 ```
 
 ---
@@ -127,6 +120,7 @@ GET {{baseUrl}}/admin/users?role=TENANT&isBanned=false&search=john
 GET {{baseUrl}}/admin/properties?status=RENTED&landlordId=<uuid>
 GET {{baseUrl}}/admin/requests?status=MOVE_IN_REQUESTED
 GET {{baseUrl}}/admin/payments?status=PAID&type=SECURITY_DEPOSIT
+GET {{baseUrl}}/payments?status=PENDING&type=SECURITY_DEPOSIT
 ```
 
 ### Role-Based Access
@@ -135,10 +129,10 @@ GET {{baseUrl}}/admin/payments?status=PAID&type=SECURITY_DEPOSIT
 | `/auth/*`                         | Public        |
 | `/categories` (GET)               | Public        |
 | `/properties` (GET)               | Public        |
-| `/landlord/*`                     | LANDLORD      |
-| `/requests` (tenant)              | TENANT        |
-| `/requests` (landlord)            | LANDLORD      |
-| `/payments` (tenant)              | TENANT        |
+| `/landlord/properties`            | LANDLORD      |
+| `/requests`                       | TENANT        |
+| `/landlord/requests`              | LANDLORD      |
+| `/payments`                       | TENANT        |
 | `/reviews` (create)               | TENANT        |
 | `/reviews/properties/:id/reviews` | Public        |
 | `/admin/*`                        | ADMIN         |
@@ -182,19 +176,19 @@ Copy the `whsec_...` signing secret to `.env` as `STRIPE_WEBHOOK_SECRET`.
 
 ## Environment Variables Reference
 
-| Variable                | Description                     | Example                               |
-| ----------------------- | ------------------------------- | ------------------------------------- |
-| `DATABASE_URL`          | PostgreSQL connection string    | `postgresql://user:pass@host:5432/db` |
-| `JWT_ACCESS_SECRET`     | Access token signing secret     | `random-64-char-string`               |
-| `JWT_REFRESH_SECRET`    | Refresh token signing secret    | `random-64-char-string`               |
-| `JWT_ACCESS_EXPIRY`     | Access token TTL                | `15m`                                 |
-| `JWT_REFRESH_EXPIRY`    | Refresh token TTL               | `7d`                                  |
-| `STRIPE_SECRET_KEY`     | Stripe secret key               | `sk_test_...`                         |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret   | `whsec_...`                           |
-| `STRIPE_API_VERSION`    | Stripe API version              | `2026-07-29.dahlia`                   |
-| `FRONTEND_URL`          | Frontend base URL for redirects | `http://localhost:5173`               |
-| `PORT`                  | Server port                     | `5000`                                |
-| `NODE_ENV`              | Environment                     | `development` / `production`          |
+| Variable                        | Description                     | Example                               |
+| ------------------------------- | ------------------------------- | ------------------------------------- |
+| `NODE_ENV`                      | Environment                     | `development` / `production`          |
+| `PORT`                          | Server port                     | `5000`                                |
+| `FRONTEND_URL`                  | Frontend base URL for redirects | `http://localhost:5173`               |
+| `DATABASE_URL`                  | PostgreSQL connection string    | `postgresql://user:pass@host:5432/db` |
+| `BCRYPT_SALT_ROUNDS`            | Password hash rounds            | `12`                                  |
+| `JWT_ACCESS_SECRET`             | Access token signing secret     | `random-64-char-string`               |
+| `JWT_ACCESS_SECRET_EXPIRES_IN`  | Access token TTL                | `15m`                                 |
+| `JWT_REFRESH_SECRET`            | Refresh token signing secret    | `random-64-char-string`               |
+| `JWT_REFRESH_SECRET_EXPIRES_IN` | Refresh token TTL               | `7d`                                  |
+| `STRIPE_SECRET_KEY`             | Stripe secret key               | `sk_test_...`                         |
+| `STRIPE_WEBHOOK_SECRET`         | Stripe webhook signing secret   | `whsec_...`                           |
 
 ---
 
