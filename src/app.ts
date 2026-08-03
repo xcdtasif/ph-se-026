@@ -33,6 +33,24 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
+app.get("/api", (req, res) => {
+  res.json({
+    name: "RentNest API",
+    version: "1.0.0",
+    description: "Rental Property Marketplace API",
+    endpoints: {
+      auth: "/api/auth",
+      categories: "/api/categories",
+      properties: "/api/properties",
+      requests: "/api/requests",
+      landlord: "/api/landlord",
+      payments: "/api/payments",
+      reviews: "/api/reviews",
+      admin: "/api/admin",
+    },
+  });
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/properties", propertyRouter);
