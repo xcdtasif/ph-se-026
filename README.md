@@ -219,10 +219,8 @@ All responses follow:
 
 ```
 MOVE_IN_REQUESTED → MOVE_IN_APPROVED → MOVED_IN → MOVE_OUT_REQUESTED → MOVE_OUT_APPROVED → MOVED_OUT
-                      ↓ (reject)
-                  MOVE_IN_REJECTED
-
-MOVE_OUT_APPROVED → MOVE_OUT_REJECTED (if landlord rejects)
+↓ (reject)                                        ↓ (reject)
+MOVE_IN_REJECTED                                  MOVE_OUT_REJECTED
 ```
 
 - **MOVED_IN / MOVED_OUT**: Internal only, triggered by payment webhooks
