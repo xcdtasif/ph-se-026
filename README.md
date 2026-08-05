@@ -21,6 +21,8 @@ A complete backend API for a rental property marketplace with three roles (Tenan
 
 ## Database Schema
 
+[View ERD](./erd.svg)
+
 All models use UUID primary keys. Monetary values use `Decimal` for precision.
 
 ### User

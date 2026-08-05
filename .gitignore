@@ -4,7 +4,7 @@ node_modules
 _inbox
 dist
 .vercel
-_agent
+_context
 PLAN.md
 *.log
 *.txt
