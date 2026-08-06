@@ -1,4 +1,4 @@
-# RentNest -- Rental Property Marketplace API
+# RentNest (Rental Property Marketplace API)
 
 A complete backend API for a rental property marketplace with three roles (Tenant, Landlord, Admin) built with Express, TypeScript, Prisma ORM, PostgreSQL, JWT authentication, and Stripe payments.
 
@@ -21,7 +21,7 @@ A complete backend API for a rental property marketplace with three roles (Tenan
 
 ## Database Schema
 
-[View ERD](./erd.svg)
+[View ERD](./ERD.svg)
 
 All models use UUID primary keys. Monetary values use `Decimal` for precision.
 
@@ -46,7 +46,7 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 | Field         | Type     | Constraints                     |
 | ------------- | -------- | ------------------------------- |
 | `id`          | UUID     | Primary key, `@default(uuid())` |
-| `name`        | String   |                                 |
+| `name`        | String   | `@unique`                       |
 | `description` | String?  | Optional                        |
 | `createdAt`   | DateTime | `@default(now())`               |
 | `updatedAt`   | DateTime | `@updatedAt`                    |
@@ -58,16 +58,13 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 | `id`              | UUID           | Primary key, `@default(uuid())`  |
 | `title`           | String         |                                  |
 | `description`     | String         |                                  |
-| `address`         | String         |                                  |
-| `city`            | String         |                                  |
-| `rent`            | Decimal        | Monthly rent                     |
-| `securityDeposit` | Decimal        |                                  |
-| `bedrooms`        | Int            |                                  |
-| `bathrooms`       | Int            |                                  |
-| `area`            | Float          | Square feet/meters               |
-| `images`          | String[]       | Array of image URLs              |
-| `amenities`       | String[]       | Array of amenities               |
+| `location`        | String         |                                  |
+| `mapLocation`     | String?        | Optional                         |
 | `status`          | PropertyStatus | AVAILABLE / RENTED / UNAVAILABLE |
+| `images`          | String[]       | Array of image URLs              |
+| `averageRating`   | Float?         | Optional                         |
+| `securityDeposit` | Decimal        | `@db.Decimal(10, 2)`             |
+| `monthlyRent`     | Decimal        | `@db.Decimal(10, 2)`             |
 | `landlordId`      | UUID           | Foreign key to User              |
 | `categoryId`      | UUID           | Foreign key to Category          |
 | `createdAt`       | DateTime       | `@default(now())`                |
@@ -75,42 +72,56 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 
 ### Request
 
-| Field         | Type          | Constraints                     |
-| ------------- | ------------- | ------------------------------- |
-| `id`          | UUID          | Primary key, `@default(uuid())` |
-| `status`      | RequestStatus | 8 states (see flow diagram)     |
-| `moveInDate`  | DateTime      |                                 |
-| `moveOutDate` | DateTime?     | Optional                        |
-| `tenantId`    | UUID          | Foreign key to User             |
-| `propertyId`  | UUID          | Foreign key to Property         |
-| `createdAt`   | DateTime      | `@default(now())`               |
-| `updatedAt`   | DateTime      | `@updatedAt`                    |
+| Field               | Type          | Constraints                     |
+| ------------------- | ------------- | ------------------------------- |
+| `id`                | UUID          | Primary key, `@default(uuid())` |
+| `tenantId`          | UUID          | Foreign key to User             |
+| `propertyId`        | UUID          | Foreign key to Property         |
+| `message`           | String?       | Optional                        |
+| `status`            | RequestStatus | 8 states (see flow diagram)     |
+| `securityDeposit`   | Decimal       | `@db.Decimal(10, 2)`            |
+| `monthlyRent`       | Decimal       | `@db.Decimal(10, 2)`            |
+| `moveInDate`        | DateTime      |                                 |
+| `moveInApprovedAt`  | DateTime?     | Optional                        |
+| `moveOutDate`       | DateTime?     | Optional                        |
+| `damageAmount`      | Decimal?      | `@db.Decimal(10, 2)` Optional   |
+| `moveOutApprovedAt` | DateTime?     | Optional                        |
+| `completedAt`       | DateTime?     | Optional                        |
+| `rejectedReason`    | String?       | Optional                        |
+| `rejectedAt`        | DateTime?     | Optional                        |
+| `createdAt`         | DateTime      | `@default(now())`               |
+| `updatedAt`         | DateTime      | `@updatedAt`                    |
 
 ### Payment
 
-| Field                   | Type          | Constraints                                       |
-| ----------------------- | ------------- | ------------------------------------------------- |
-| `id`                    | UUID          | Primary key, `@default(uuid())`                   |
-| `amount`                | Decimal       |                                                   |
-| `currency`              | String        | Default: `BDT`                                    |
-| `status`                | PaymentStatus | PENDING / PAID / FAILED / REFUNDED                |
-| `type`                  | PaymentType   | SECURITY_DEPOSIT / MONTHLY_RENT / MOVE_OUT_REFUND |
-| `stripePaymentIntentId` | String        | Stripe Session ID, `@unique`                      |
-| `userId`                | UUID          | Foreign key to User                               |
-| `requestId`             | UUID          | Foreign key to Request                            |
-| `createdAt`             | DateTime      | `@default(now())`                                 |
-| `updatedAt`             | DateTime      | `@updatedAt`                                      |
+| Field                   | Type            | Constraints                                       |
+| ----------------------- | --------------- | ------------------------------------------------- |
+| `id`                    | UUID            | Primary key, `@default(uuid())`                   |
+| `transactionId`         | String          | `@unique`                                         |
+| `requestId`             | UUID            | Foreign key to Request                            |
+| `userId`                | UUID            | Foreign key to User                               |
+| `amount`                | Decimal         | `@db.Decimal(10, 2)`                              |
+| `currency`              | String          | Default: `BDT`                                    |
+| `type`                  | PaymentType     | SECURITY_DEPOSIT / MONTHLY_RENT / MOVE_OUT_REFUND |
+| `status`                | PaymentStatus   | PENDING / PAID / FAILED / REFUNDED                |
+| `provider`              | PaymentProvider | STRIPE                                            |
+| `stripePaymentIntentId` | String?         | Stripe Session ID, `@unique`                      |
+| `paidAt`                | DateTime?       | Optional                                          |
+| `periodStart`           | DateTime?       | Optional                                          |
+| `periodEnd`             | DateTime?       | Optional                                          |
+| `createdAt`             | DateTime        | `@default(now())`                                 |
+| `updatedAt`             | DateTime        | `@updatedAt`                                      |
 
 ### Review
 
 | Field        | Type     | Constraints                       |
 | ------------ | -------- | --------------------------------- |
 | `id`         | UUID     | Primary key, `@default(uuid())`   |
-| `rating`     | Int      | 1-5                               |
-| `comment`    | String?  | Optional                          |
-| `userId`     | UUID     | Foreign key to User               |
+| `tenantId`   | UUID     | Foreign key to User               |
 | `propertyId` | UUID     | Foreign key to Property           |
 | `requestId`  | UUID     | `@unique` (one review per rental) |
+| `rating`     | Int      | 1-5                               |
+| `comment`    | String?  | Optional                          |
 | `createdAt`  | DateTime | `@default(now())`                 |
 | `updatedAt`  | DateTime | `@updatedAt`                      |
 
@@ -120,33 +131,36 @@ All models use UUID primary keys. Monetary values use `Decimal` for precision.
 
 ```
 src/
-├── app.ts                 # Express app setup
-├── server.ts              # Entry point
-├── config/                # Environment config (validated)
+├── config/
+│   └── index.ts           # Environment config (validated)
 ├── lib/
 │   ├── prisma.ts          # Prisma client
 │   └── stripe.ts          # Stripe client
 ├── middleware/
 │   ├── auth.ts            # JWT auth + role authorization
-│   ├── validate.ts        # Zod validation wrapper
 │   ├── error-handler.ts   # Global error handler
-│   └── not-found.ts       # 404 handler
+│   ├── not-found.ts       # 404 handler
+│   └── validate.ts        # Zod validation wrapper
 ├── modules/
+│   ├── admin/             # User mgmt + platform oversight
 │   ├── auth/              # Register, login, refresh, logout, me
 │   ├── category/          # Categories (admin create, public read)
+│   ├── landlord/          # Landlord property management
+│   ├── payment/           # Stripe checkout + webhook
 │   ├── property/          # Public property browse + landlord CRUD
 │   ├── request/           # Rental requests (tenant/landlord flow)
-│   ├── payment/           # Stripe checkout + webhook
-│   ├── review/            # Property reviews (tenant, after move-out)
-│   └── admin/             # User mgmt + platform oversight
+│   └── review/            # Property reviews (tenant, after move-out)
 ├── types/
 │   └── index.ts           # Global types (IAuthRequest, etc.)
-└── utils/
-    ├── app-error.ts       # AppError class
-    ├── catch-async.ts     # Async wrapper
-    └── send-response.ts   # Standardized response format
+├── utils/
+│   ├── app-error.ts       # AppError class
+│   ├── catch-async.ts     # Async wrapper
+│   ├── jwt.ts             # JWT helpers
+│   ├── password.ts        # Password hashing
+│   └── send-response.ts   # Standardized response format
+├── app.ts                 # Express app setup
+└── server.ts              # Entry point
 ```
-
 ---
 
 ## Prerequisites
@@ -171,6 +185,7 @@ npm run db:generate
 npm run db:migrate     # or: npx prisma db push
 
 # Seed database (creates test users, categories, properties, requests, reviews)
+# Credentials loaded from config (ADMIN_EMAIL, ADMIN_PASSWORD)
 npm run db:seed
 
 # Development
@@ -360,15 +375,17 @@ stripe listen --forward-to localhost:5000/api/payments/webhook
 
 ## Test Credentials (Seeded)
 
-| Role     | Email                  | Password   |
-| -------- | ---------------------- | ---------- |
-| Admin    | `admin01@email.com`    | `1a2s3d4f` |
-| Landlord | `landlord01@email.com` | `1a2s3d4f` |
-| Tenant   | `tenant01@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant02@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant03@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant04@email.com`   | `1a2s3d4f` |
-| Tenant   | `tenant05@email.com`   | `1a2s3d4f` |
+Admin credentials loaded from config (, ). Landlord and tenant credentials are hardcoded in seed.
+
+| Role     | Email                   | Password                   |
+| -------- | ----------------------- | -------------------------- |
+| Admin    | `ADMIN_EMAIL` from .env | `ADMIN_PASSWORD` from .env |
+| Landlord | `landlord01@email.com`  | `1a2s3d4f`                 |
+| Tenant   | `tenant01@email.com`    | `1a2s3d4f`                 |
+| Tenant   | `tenant02@email.com`    | `1a2s3d4f`                 |
+| Tenant   | `tenant03@email.com`    | `1a2s3d4f`                 |
+| Tenant   | `tenant04@email.com`    | `1a2s3d4f`                 |
+| Tenant   | `tenant05@email.com`    | `1a2s3d4f`                 |
 
 ---
 

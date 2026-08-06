@@ -26,12 +26,12 @@ export type AggregateUser = {
 
 export type UserMinAggregateOutputType = {
   id: string | null
+  name: string | null
+  avatar: string | null
   email: string | null
   passwordHash: string | null
-  role: $Enums.UserRole | null
-  name: string | null
   phone: string | null
-  avatar: string | null
+  role: $Enums.UserRole | null
   isBanned: boolean | null
   banReason: string | null
   createdAt: Date | null
@@ -40,12 +40,12 @@ export type UserMinAggregateOutputType = {
 
 export type UserMaxAggregateOutputType = {
   id: string | null
+  name: string | null
+  avatar: string | null
   email: string | null
   passwordHash: string | null
-  role: $Enums.UserRole | null
-  name: string | null
   phone: string | null
-  avatar: string | null
+  role: $Enums.UserRole | null
   isBanned: boolean | null
   banReason: string | null
   createdAt: Date | null
@@ -54,12 +54,12 @@ export type UserMaxAggregateOutputType = {
 
 export type UserCountAggregateOutputType = {
   id: number
+  name: number
+  avatar: number
   email: number
   passwordHash: number
-  role: number
-  name: number
   phone: number
-  avatar: number
+  role: number
   isBanned: number
   banReason: number
   createdAt: number
@@ -70,12 +70,12 @@ export type UserCountAggregateOutputType = {
 
 export type UserMinAggregateInputType = {
   id?: true
+  name?: true
+  avatar?: true
   email?: true
   passwordHash?: true
-  role?: true
-  name?: true
   phone?: true
-  avatar?: true
+  role?: true
   isBanned?: true
   banReason?: true
   createdAt?: true
@@ -84,12 +84,12 @@ export type UserMinAggregateInputType = {
 
 export type UserMaxAggregateInputType = {
   id?: true
+  name?: true
+  avatar?: true
   email?: true
   passwordHash?: true
-  role?: true
-  name?: true
   phone?: true
-  avatar?: true
+  role?: true
   isBanned?: true
   banReason?: true
   createdAt?: true
@@ -98,12 +98,12 @@ export type UserMaxAggregateInputType = {
 
 export type UserCountAggregateInputType = {
   id?: true
+  name?: true
+  avatar?: true
   email?: true
   passwordHash?: true
-  role?: true
-  name?: true
   phone?: true
-  avatar?: true
+  role?: true
   isBanned?: true
   banReason?: true
   createdAt?: true
@@ -185,12 +185,12 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: string
+  name: string
+  avatar: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone: string | null
-  avatar: string | null
+  role: $Enums.UserRole
   isBanned: boolean
   banReason: string | null
   createdAt: Date
@@ -220,12 +220,12 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringFilter<"User"> | string
+  avatar?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringFilter<"User"> | string
   passwordHash?: Prisma.StringFilter<"User"> | string
-  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
-  name?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
-  avatar?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   isBanned?: Prisma.BoolFilter<"User"> | boolean
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -238,12 +238,12 @@ export type UserWhereInput = {
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
-  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -260,11 +260,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  passwordHash?: Prisma.StringFilter<"User"> | string
-  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   name?: Prisma.StringFilter<"User"> | string
-  phone?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringFilter<"User"> | string
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   isBanned?: Prisma.BoolFilter<"User"> | boolean
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -277,12 +277,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
-  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -297,12 +297,12 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
+  name?: Prisma.StringWithAggregatesFilter<"User"> | string
+  avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
-  role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
-  name?: Prisma.StringWithAggregatesFilter<"User"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   isBanned?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   banReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -311,12 +311,12 @@ export type UserScalarWhereWithAggregatesInput = {
 
 export type UserCreateInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -329,12 +329,12 @@ export type UserCreateInput = {
 
 export type UserUncheckedCreateInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -347,12 +347,12 @@ export type UserUncheckedCreateInput = {
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,12 +365,12 @@ export type UserUpdateInput = {
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,12 +383,12 @@ export type UserUncheckedUpdateInput = {
 
 export type UserCreateManyInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -397,12 +397,12 @@ export type UserCreateManyInput = {
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -411,12 +411,12 @@ export type UserUpdateManyMutationInput = {
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -430,12 +430,12 @@ export type UserScalarRelationFilter = {
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -444,12 +444,12 @@ export type UserCountOrderByAggregateInput = {
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -458,12 +458,12 @@ export type UserMaxOrderByAggregateInput = {
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -536,12 +536,12 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type UserCreateWithoutPaymentsInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -553,12 +553,12 @@ export type UserCreateWithoutPaymentsInput = {
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -586,12 +586,12 @@ export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
 
 export type UserUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -603,12 +603,12 @@ export type UserUpdateWithoutPaymentsInput = {
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -620,12 +620,12 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
 
 export type UserCreateWithoutPropertiesInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -637,12 +637,12 @@ export type UserCreateWithoutPropertiesInput = {
 
 export type UserUncheckedCreateWithoutPropertiesInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -670,12 +670,12 @@ export type UserUpdateToOneWithWhereWithoutPropertiesInput = {
 
 export type UserUpdateWithoutPropertiesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -687,12 +687,12 @@ export type UserUpdateWithoutPropertiesInput = {
 
 export type UserUncheckedUpdateWithoutPropertiesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -704,12 +704,12 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
 
 export type UserCreateWithoutRequestsInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -721,12 +721,12 @@ export type UserCreateWithoutRequestsInput = {
 
 export type UserUncheckedCreateWithoutRequestsInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -754,12 +754,12 @@ export type UserUpdateToOneWithWhereWithoutRequestsInput = {
 
 export type UserUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -771,12 +771,12 @@ export type UserUpdateWithoutRequestsInput = {
 
 export type UserUncheckedUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -788,12 +788,12 @@ export type UserUncheckedUpdateWithoutRequestsInput = {
 
 export type UserCreateWithoutReviewsInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -805,12 +805,12 @@ export type UserCreateWithoutReviewsInput = {
 
 export type UserUncheckedCreateWithoutReviewsInput = {
   id?: string
+  name: string
+  avatar?: string | null
   email: string
   passwordHash: string
-  role: $Enums.UserRole
-  name: string
   phone?: string | null
-  avatar?: string | null
+  role: $Enums.UserRole
   isBanned?: boolean
   banReason?: string | null
   createdAt?: Date | string
@@ -838,12 +838,12 @@ export type UserUpdateToOneWithWhereWithoutReviewsInput = {
 
 export type UserUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -855,12 +855,12 @@ export type UserUpdateWithoutReviewsInput = {
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -930,12 +930,12 @@ export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
+  avatar?: boolean
   email?: boolean
   passwordHash?: boolean
-  role?: boolean
-  name?: boolean
   phone?: boolean
-  avatar?: boolean
+  role?: boolean
   isBanned?: boolean
   banReason?: boolean
   createdAt?: boolean
@@ -949,12 +949,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
+  avatar?: boolean
   email?: boolean
   passwordHash?: boolean
-  role?: boolean
-  name?: boolean
   phone?: boolean
-  avatar?: boolean
+  role?: boolean
   isBanned?: boolean
   banReason?: boolean
   createdAt?: boolean
@@ -963,12 +963,12 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
+  avatar?: boolean
   email?: boolean
   passwordHash?: boolean
-  role?: boolean
-  name?: boolean
   phone?: boolean
-  avatar?: boolean
+  role?: boolean
   isBanned?: boolean
   banReason?: boolean
   createdAt?: boolean
@@ -977,19 +977,19 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type UserSelectScalar = {
   id?: boolean
+  name?: boolean
+  avatar?: boolean
   email?: boolean
   passwordHash?: boolean
-  role?: boolean
-  name?: boolean
   phone?: boolean
-  avatar?: boolean
+  role?: boolean
   isBanned?: boolean
   banReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "role" | "name" | "phone" | "avatar" | "isBanned" | "banReason" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "avatar" | "email" | "passwordHash" | "phone" | "role" | "isBanned" | "banReason" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>
   requests?: boolean | Prisma.User$requestsArgs<ExtArgs>
@@ -1010,12 +1010,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    name: string
+    avatar: string | null
     email: string
     passwordHash: string
-    role: $Enums.UserRole
-    name: string
     phone: string | null
-    avatar: string | null
+    role: $Enums.UserRole
     isBanned: boolean
     banReason: string | null
     createdAt: Date
@@ -1448,12 +1448,12 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
+  readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
-  readonly role: Prisma.FieldRef<"User", 'UserRole'>
-  readonly name: Prisma.FieldRef<"User", 'String'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
-  readonly avatar: Prisma.FieldRef<"User", 'String'>
+  readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly isBanned: Prisma.FieldRef<"User", 'Boolean'>
   readonly banReason: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

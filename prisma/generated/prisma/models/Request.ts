@@ -27,14 +27,14 @@ export type AggregateRequest = {
 }
 
 export type RequestAvgAggregateOutputType = {
-  monthlyRent: runtime.Decimal | null
   securityDeposit: runtime.Decimal | null
+  monthlyRent: runtime.Decimal | null
   damageAmount: runtime.Decimal | null
 }
 
 export type RequestSumAggregateOutputType = {
-  monthlyRent: runtime.Decimal | null
   securityDeposit: runtime.Decimal | null
+  monthlyRent: runtime.Decimal | null
   damageAmount: runtime.Decimal | null
 }
 
@@ -42,18 +42,18 @@ export type RequestMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
   propertyId: string | null
-  status: $Enums.RequestStatus | null
-  moveInDate: Date | null
-  monthlyRent: runtime.Decimal | null
-  securityDeposit: runtime.Decimal | null
   message: string | null
+  status: $Enums.RequestStatus | null
+  securityDeposit: runtime.Decimal | null
+  monthlyRent: runtime.Decimal | null
+  moveInApprovedAt: Date | null
+  moveInDate: Date | null
   moveOutDate: Date | null
   damageAmount: runtime.Decimal | null
-  moveInApprovedAt: Date | null
   moveOutApprovedAt: Date | null
-  rejectedAt: Date | null
-  rejectedReason: string | null
   completedAt: Date | null
+  rejectedReason: string | null
+  rejectedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,18 +62,18 @@ export type RequestMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
   propertyId: string | null
-  status: $Enums.RequestStatus | null
-  moveInDate: Date | null
-  monthlyRent: runtime.Decimal | null
-  securityDeposit: runtime.Decimal | null
   message: string | null
+  status: $Enums.RequestStatus | null
+  securityDeposit: runtime.Decimal | null
+  monthlyRent: runtime.Decimal | null
+  moveInApprovedAt: Date | null
+  moveInDate: Date | null
   moveOutDate: Date | null
   damageAmount: runtime.Decimal | null
-  moveInApprovedAt: Date | null
   moveOutApprovedAt: Date | null
-  rejectedAt: Date | null
-  rejectedReason: string | null
   completedAt: Date | null
+  rejectedReason: string | null
+  rejectedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -82,18 +82,18 @@ export type RequestCountAggregateOutputType = {
   id: number
   tenantId: number
   propertyId: number
-  status: number
-  moveInDate: number
-  monthlyRent: number
-  securityDeposit: number
   message: number
+  status: number
+  securityDeposit: number
+  monthlyRent: number
+  moveInApprovedAt: number
+  moveInDate: number
   moveOutDate: number
   damageAmount: number
-  moveInApprovedAt: number
   moveOutApprovedAt: number
-  rejectedAt: number
-  rejectedReason: number
   completedAt: number
+  rejectedReason: number
+  rejectedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -101,14 +101,14 @@ export type RequestCountAggregateOutputType = {
 
 
 export type RequestAvgAggregateInputType = {
-  monthlyRent?: true
   securityDeposit?: true
+  monthlyRent?: true
   damageAmount?: true
 }
 
 export type RequestSumAggregateInputType = {
-  monthlyRent?: true
   securityDeposit?: true
+  monthlyRent?: true
   damageAmount?: true
 }
 
@@ -116,18 +116,18 @@ export type RequestMinAggregateInputType = {
   id?: true
   tenantId?: true
   propertyId?: true
-  status?: true
-  moveInDate?: true
-  monthlyRent?: true
-  securityDeposit?: true
   message?: true
+  status?: true
+  securityDeposit?: true
+  monthlyRent?: true
+  moveInApprovedAt?: true
+  moveInDate?: true
   moveOutDate?: true
   damageAmount?: true
-  moveInApprovedAt?: true
   moveOutApprovedAt?: true
-  rejectedAt?: true
-  rejectedReason?: true
   completedAt?: true
+  rejectedReason?: true
+  rejectedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,18 +136,18 @@ export type RequestMaxAggregateInputType = {
   id?: true
   tenantId?: true
   propertyId?: true
-  status?: true
-  moveInDate?: true
-  monthlyRent?: true
-  securityDeposit?: true
   message?: true
+  status?: true
+  securityDeposit?: true
+  monthlyRent?: true
+  moveInApprovedAt?: true
+  moveInDate?: true
   moveOutDate?: true
   damageAmount?: true
-  moveInApprovedAt?: true
   moveOutApprovedAt?: true
-  rejectedAt?: true
-  rejectedReason?: true
   completedAt?: true
+  rejectedReason?: true
+  rejectedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -156,18 +156,18 @@ export type RequestCountAggregateInputType = {
   id?: true
   tenantId?: true
   propertyId?: true
-  status?: true
-  moveInDate?: true
-  monthlyRent?: true
-  securityDeposit?: true
   message?: true
+  status?: true
+  securityDeposit?: true
+  monthlyRent?: true
+  moveInApprovedAt?: true
+  moveInDate?: true
   moveOutDate?: true
   damageAmount?: true
-  moveInApprovedAt?: true
   moveOutApprovedAt?: true
-  rejectedAt?: true
-  rejectedReason?: true
   completedAt?: true
+  rejectedReason?: true
+  rejectedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -263,18 +263,18 @@ export type RequestGroupByOutputType = {
   id: string
   tenantId: string
   propertyId: string
-  status: $Enums.RequestStatus
-  moveInDate: Date
-  monthlyRent: runtime.Decimal
-  securityDeposit: runtime.Decimal
   message: string | null
+  status: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal
+  monthlyRent: runtime.Decimal
+  moveInApprovedAt: Date | null
+  moveInDate: Date
   moveOutDate: Date | null
   damageAmount: runtime.Decimal | null
-  moveInApprovedAt: Date | null
   moveOutApprovedAt: Date | null
-  rejectedAt: Date | null
-  rejectedReason: string | null
   completedAt: Date | null
+  rejectedReason: string | null
+  rejectedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: RequestCountAggregateOutputType | null
@@ -306,48 +306,48 @@ export type RequestWhereInput = {
   id?: Prisma.StringFilter<"Request"> | string
   tenantId?: Prisma.StringFilter<"Request"> | string
   propertyId?: Prisma.StringFilter<"Request"> | string
-  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFilter<"Request"> | Date | string
-  monthlyRent?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.StringNullableFilter<"Request"> | string | null
+  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
+  moveInDate?: Prisma.DateTimeFilter<"Request"> | Date | string
   moveOutDate?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   damageAmount?: Prisma.DecimalNullableFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   moveOutApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
-  rejectedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
-  rejectedReason?: Prisma.StringNullableFilter<"Request"> | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
+  rejectedReason?: Prisma.StringNullableFilter<"Request"> | string | null
+  rejectedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
-  tenant?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
   payments?: Prisma.PaymentListRelationFilter
   review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
 }
 
 export type RequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  moveInDate?: Prisma.SortOrder
-  monthlyRent?: Prisma.SortOrder
-  securityDeposit?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  moveInApprovedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrderInput | Prisma.SortOrder
   damageAmount?: Prisma.SortOrderInput | Prisma.SortOrder
-  moveInApprovedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   moveOutApprovedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  rejectedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  rejectedReason?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejectedReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejectedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.UserOrderByWithRelationInput
-  property?: Prisma.PropertyOrderByWithRelationInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   review?: Prisma.ReviewOrderByWithRelationInput
+  tenant?: Prisma.UserOrderByWithRelationInput
+  property?: Prisma.PropertyOrderByWithRelationInput
 }
 
 export type RequestWhereUniqueInput = Prisma.AtLeast<{
@@ -357,42 +357,42 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   tenantId?: Prisma.StringFilter<"Request"> | string
   propertyId?: Prisma.StringFilter<"Request"> | string
-  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFilter<"Request"> | Date | string
-  monthlyRent?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.StringNullableFilter<"Request"> | string | null
+  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
+  moveInDate?: Prisma.DateTimeFilter<"Request"> | Date | string
   moveOutDate?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   damageAmount?: Prisma.DecimalNullableFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   moveOutApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
-  rejectedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
-  rejectedReason?: Prisma.StringNullableFilter<"Request"> | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
+  rejectedReason?: Prisma.StringNullableFilter<"Request"> | string | null
+  rejectedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
-  tenant?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
   payments?: Prisma.PaymentListRelationFilter
   review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
 }, "id">
 
 export type RequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  moveInDate?: Prisma.SortOrder
-  monthlyRent?: Prisma.SortOrder
-  securityDeposit?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  moveInApprovedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrderInput | Prisma.SortOrder
   damageAmount?: Prisma.SortOrderInput | Prisma.SortOrder
-  moveInApprovedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   moveOutApprovedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  rejectedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  rejectedReason?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejectedReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejectedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RequestCountOrderByAggregateInput
@@ -409,60 +409,60 @@ export type RequestScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Request"> | string
   tenantId?: Prisma.StringWithAggregatesFilter<"Request"> | string
   propertyId?: Prisma.StringWithAggregatesFilter<"Request"> | string
-  status?: Prisma.EnumRequestStatusWithAggregatesFilter<"Request"> | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
-  monthlyRent?: Prisma.DecimalWithAggregatesFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalWithAggregatesFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
+  status?: Prisma.EnumRequestStatusWithAggregatesFilter<"Request"> | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalWithAggregatesFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalWithAggregatesFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
+  moveInDate?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
   moveOutDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
   damageAmount?: Prisma.DecimalNullableWithAggregatesFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
   moveOutApprovedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
-  rejectedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
-  rejectedReason?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
+  rejectedReason?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
+  rejectedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
 }
 
 export type RequestCreateInput = {
   id?: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.UserCreateNestedOneWithoutRequestsInput
-  property: Prisma.PropertyCreateNestedOneWithoutRequestsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutRequestInput
   review?: Prisma.ReviewCreateNestedOneWithoutRequestInput
+  tenant: Prisma.UserCreateNestedOneWithoutRequestsInput
+  property: Prisma.PropertyCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateInput = {
   id?: string
   tenantId: string
   propertyId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutRequestInput
@@ -471,42 +471,42 @@ export type RequestUncheckedCreateInput = {
 
 export type RequestUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
-  property?: Prisma.PropertyUpdateOneRequiredWithoutRequestsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutRequestNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRequestNestedInput
+  tenant?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutRequestNestedInput
@@ -517,36 +517,36 @@ export type RequestCreateManyInput = {
   id?: string
   tenantId: string
   propertyId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -555,18 +555,18 @@ export type RequestUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -590,25 +590,25 @@ export type RequestCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  moveInDate?: Prisma.SortOrder
-  monthlyRent?: Prisma.SortOrder
-  securityDeposit?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  moveInApprovedAt?: Prisma.SortOrder
+  moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrder
   damageAmount?: Prisma.SortOrder
-  moveInApprovedAt?: Prisma.SortOrder
   moveOutApprovedAt?: Prisma.SortOrder
-  rejectedAt?: Prisma.SortOrder
-  rejectedReason?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  rejectedReason?: Prisma.SortOrder
+  rejectedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type RequestAvgOrderByAggregateInput = {
-  monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
   damageAmount?: Prisma.SortOrder
 }
 
@@ -616,18 +616,18 @@ export type RequestMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  moveInDate?: Prisma.SortOrder
-  monthlyRent?: Prisma.SortOrder
-  securityDeposit?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  moveInApprovedAt?: Prisma.SortOrder
+  moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrder
   damageAmount?: Prisma.SortOrder
-  moveInApprovedAt?: Prisma.SortOrder
   moveOutApprovedAt?: Prisma.SortOrder
-  rejectedAt?: Prisma.SortOrder
-  rejectedReason?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  rejectedReason?: Prisma.SortOrder
+  rejectedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -636,25 +636,25 @@ export type RequestMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  moveInDate?: Prisma.SortOrder
-  monthlyRent?: Prisma.SortOrder
-  securityDeposit?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  moveInApprovedAt?: Prisma.SortOrder
+  moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrder
   damageAmount?: Prisma.SortOrder
-  moveInApprovedAt?: Prisma.SortOrder
   moveOutApprovedAt?: Prisma.SortOrder
-  rejectedAt?: Prisma.SortOrder
-  rejectedReason?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  rejectedReason?: Prisma.SortOrder
+  rejectedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type RequestSumOrderByAggregateInput = {
-  monthlyRent?: Prisma.SortOrder
   securityDeposit?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
   damageAmount?: Prisma.SortOrder
 }
 
@@ -784,41 +784,41 @@ export type RequestUncheckedUpdateManyWithoutTenantNestedInput = {
 
 export type RequestCreateWithoutPaymentsInput = {
   id?: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  review?: Prisma.ReviewCreateNestedOneWithoutRequestInput
   tenant: Prisma.UserCreateNestedOneWithoutRequestsInput
   property: Prisma.PropertyCreateNestedOneWithoutRequestsInput
-  review?: Prisma.ReviewCreateNestedOneWithoutRequestInput
 }
 
 export type RequestUncheckedCreateWithoutPaymentsInput = {
   id?: string
   tenantId: string
   propertyId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRequestInput
@@ -842,41 +842,41 @@ export type RequestUpdateToOneWithWhereWithoutPaymentsInput = {
 
 export type RequestUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  review?: Prisma.ReviewUpdateOneWithoutRequestNestedInput
   tenant?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutRequestsNestedInput
-  review?: Prisma.ReviewUpdateOneWithoutRequestNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRequestNestedInput
@@ -884,40 +884,40 @@ export type RequestUncheckedUpdateWithoutPaymentsInput = {
 
 export type RequestCreateWithoutPropertyInput = {
   id?: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.UserCreateNestedOneWithoutRequestsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutRequestInput
   review?: Prisma.ReviewCreateNestedOneWithoutRequestInput
+  tenant: Prisma.UserCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateWithoutPropertyInput = {
   id?: string
   tenantId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutRequestInput
@@ -957,59 +957,59 @@ export type RequestScalarWhereInput = {
   id?: Prisma.StringFilter<"Request"> | string
   tenantId?: Prisma.StringFilter<"Request"> | string
   propertyId?: Prisma.StringFilter<"Request"> | string
-  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFilter<"Request"> | Date | string
-  monthlyRent?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.StringNullableFilter<"Request"> | string | null
+  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
+  moveInDate?: Prisma.DateTimeFilter<"Request"> | Date | string
   moveOutDate?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   damageAmount?: Prisma.DecimalNullableFilter<"Request"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   moveOutApprovedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
-  rejectedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
-  rejectedReason?: Prisma.StringNullableFilter<"Request"> | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
+  rejectedReason?: Prisma.StringNullableFilter<"Request"> | string | null
+  rejectedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
 }
 
 export type RequestCreateWithoutReviewInput = {
   id?: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  payments?: Prisma.PaymentCreateNestedManyWithoutRequestInput
   tenant: Prisma.UserCreateNestedOneWithoutRequestsInput
   property: Prisma.PropertyCreateNestedOneWithoutRequestsInput
-  payments?: Prisma.PaymentCreateNestedManyWithoutRequestInput
 }
 
 export type RequestUncheckedCreateWithoutReviewInput = {
   id?: string
   tenantId: string
   propertyId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutRequestInput
@@ -1033,41 +1033,41 @@ export type RequestUpdateToOneWithWhereWithoutReviewInput = {
 
 export type RequestUpdateWithoutReviewInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payments?: Prisma.PaymentUpdateManyWithoutRequestNestedInput
   tenant?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutRequestsNestedInput
-  payments?: Prisma.PaymentUpdateManyWithoutRequestNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutReviewInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutRequestNestedInput
@@ -1075,40 +1075,40 @@ export type RequestUncheckedUpdateWithoutReviewInput = {
 
 export type RequestCreateWithoutTenantInput = {
   id?: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  property: Prisma.PropertyCreateNestedOneWithoutRequestsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutRequestInput
   review?: Prisma.ReviewCreateNestedOneWithoutRequestInput
+  property: Prisma.PropertyCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateWithoutTenantInput = {
   id?: string
   propertyId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutRequestInput
@@ -1144,58 +1144,58 @@ export type RequestUpdateManyWithWhereWithoutTenantInput = {
 export type RequestCreateManyPropertyInput = {
   id?: string
   tenantId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUpdateWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutRequestNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRequestNestedInput
+  tenant?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutRequestNestedInput
@@ -1205,18 +1205,18 @@ export type RequestUncheckedUpdateWithoutPropertyInput = {
 export type RequestUncheckedUpdateManyWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1224,58 +1224,58 @@ export type RequestUncheckedUpdateManyWithoutPropertyInput = {
 export type RequestCreateManyTenantInput = {
   id?: string
   propertyId: string
-  status?: $Enums.RequestStatus
-  moveInDate: Date | string
-  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: string | null
+  status?: $Enums.RequestStatus
+  securityDeposit: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Date | string | null
+  moveInDate: Date | string
   moveOutDate?: Date | string | null
   damageAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Date | string | null
   moveOutApprovedAt?: Date | string | null
-  rejectedAt?: Date | string | null
-  rejectedReason?: string | null
   completedAt?: Date | string | null
+  rejectedReason?: string | null
+  rejectedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  property?: Prisma.PropertyUpdateOneRequiredWithoutRequestsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutRequestNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRequestNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutRequestNestedInput
@@ -1285,18 +1285,18 @@ export type RequestUncheckedUpdateWithoutTenantInput = {
 export type RequestUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
-  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  securityDeposit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveInDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   damageAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  moveInApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutApprovedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1336,24 +1336,24 @@ export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   tenantId?: boolean
   propertyId?: boolean
-  status?: boolean
-  moveInDate?: boolean
-  monthlyRent?: boolean
-  securityDeposit?: boolean
   message?: boolean
+  status?: boolean
+  securityDeposit?: boolean
+  monthlyRent?: boolean
+  moveInApprovedAt?: boolean
+  moveInDate?: boolean
   moveOutDate?: boolean
   damageAmount?: boolean
-  moveInApprovedAt?: boolean
   moveOutApprovedAt?: boolean
-  rejectedAt?: boolean
-  rejectedReason?: boolean
   completedAt?: boolean
+  rejectedReason?: boolean
+  rejectedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Request$paymentsArgs<ExtArgs>
   review?: boolean | Prisma.Request$reviewArgs<ExtArgs>
+  tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.RequestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["request"]>
 
@@ -1361,18 +1361,18 @@ export type RequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   tenantId?: boolean
   propertyId?: boolean
-  status?: boolean
-  moveInDate?: boolean
-  monthlyRent?: boolean
-  securityDeposit?: boolean
   message?: boolean
+  status?: boolean
+  securityDeposit?: boolean
+  monthlyRent?: boolean
+  moveInApprovedAt?: boolean
+  moveInDate?: boolean
   moveOutDate?: boolean
   damageAmount?: boolean
-  moveInApprovedAt?: boolean
   moveOutApprovedAt?: boolean
-  rejectedAt?: boolean
-  rejectedReason?: boolean
   completedAt?: boolean
+  rejectedReason?: boolean
+  rejectedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1383,18 +1383,18 @@ export type RequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   tenantId?: boolean
   propertyId?: boolean
-  status?: boolean
-  moveInDate?: boolean
-  monthlyRent?: boolean
-  securityDeposit?: boolean
   message?: boolean
+  status?: boolean
+  securityDeposit?: boolean
+  monthlyRent?: boolean
+  moveInApprovedAt?: boolean
+  moveInDate?: boolean
   moveOutDate?: boolean
   damageAmount?: boolean
-  moveInApprovedAt?: boolean
   moveOutApprovedAt?: boolean
-  rejectedAt?: boolean
-  rejectedReason?: boolean
   completedAt?: boolean
+  rejectedReason?: boolean
+  rejectedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1405,28 +1405,28 @@ export type RequestSelectScalar = {
   id?: boolean
   tenantId?: boolean
   propertyId?: boolean
-  status?: boolean
-  moveInDate?: boolean
-  monthlyRent?: boolean
-  securityDeposit?: boolean
   message?: boolean
+  status?: boolean
+  securityDeposit?: boolean
+  monthlyRent?: boolean
+  moveInApprovedAt?: boolean
+  moveInDate?: boolean
   moveOutDate?: boolean
   damageAmount?: boolean
-  moveInApprovedAt?: boolean
   moveOutApprovedAt?: boolean
-  rejectedAt?: boolean
-  rejectedReason?: boolean
   completedAt?: boolean
+  rejectedReason?: boolean
+  rejectedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "propertyId" | "status" | "moveInDate" | "monthlyRent" | "securityDeposit" | "message" | "moveOutDate" | "damageAmount" | "moveInApprovedAt" | "moveOutApprovedAt" | "rejectedAt" | "rejectedReason" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["request"]>
+export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "propertyId" | "message" | "status" | "securityDeposit" | "monthlyRent" | "moveInApprovedAt" | "moveInDate" | "moveOutDate" | "damageAmount" | "moveOutApprovedAt" | "completedAt" | "rejectedReason" | "rejectedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["request"]>
 export type RequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Request$paymentsArgs<ExtArgs>
   review?: boolean | Prisma.Request$reviewArgs<ExtArgs>
+  tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.RequestCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1441,27 +1441,27 @@ export type RequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Request"
   objects: {
-    tenant: Prisma.$UserPayload<ExtArgs>
-    property: Prisma.$PropertyPayload<ExtArgs>
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     review: Prisma.$ReviewPayload<ExtArgs> | null
+    tenant: Prisma.$UserPayload<ExtArgs>
+    property: Prisma.$PropertyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
     propertyId: string
-    status: $Enums.RequestStatus
-    moveInDate: Date
-    monthlyRent: runtime.Decimal
-    securityDeposit: runtime.Decimal
     message: string | null
+    status: $Enums.RequestStatus
+    securityDeposit: runtime.Decimal
+    monthlyRent: runtime.Decimal
+    moveInApprovedAt: Date | null
+    moveInDate: Date
     moveOutDate: Date | null
     damageAmount: runtime.Decimal | null
-    moveInApprovedAt: Date | null
     moveOutApprovedAt: Date | null
-    rejectedAt: Date | null
-    rejectedReason: string | null
     completedAt: Date | null
+    rejectedReason: string | null
+    rejectedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["request"]>
@@ -1858,10 +1858,10 @@ readonly fields: RequestFieldRefs;
  */
 export interface Prisma__RequestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  property<T extends Prisma.PropertyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   payments<T extends Prisma.Request$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Request$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   review<T extends Prisma.Request$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Request$reviewArgs<ExtArgs>>): Prisma.Prisma__ReviewClient<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  property<T extends Prisma.PropertyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1894,18 +1894,18 @@ export interface RequestFieldRefs {
   readonly id: Prisma.FieldRef<"Request", 'String'>
   readonly tenantId: Prisma.FieldRef<"Request", 'String'>
   readonly propertyId: Prisma.FieldRef<"Request", 'String'>
-  readonly status: Prisma.FieldRef<"Request", 'RequestStatus'>
-  readonly moveInDate: Prisma.FieldRef<"Request", 'DateTime'>
-  readonly monthlyRent: Prisma.FieldRef<"Request", 'Decimal'>
-  readonly securityDeposit: Prisma.FieldRef<"Request", 'Decimal'>
   readonly message: Prisma.FieldRef<"Request", 'String'>
+  readonly status: Prisma.FieldRef<"Request", 'RequestStatus'>
+  readonly securityDeposit: Prisma.FieldRef<"Request", 'Decimal'>
+  readonly monthlyRent: Prisma.FieldRef<"Request", 'Decimal'>
+  readonly moveInApprovedAt: Prisma.FieldRef<"Request", 'DateTime'>
+  readonly moveInDate: Prisma.FieldRef<"Request", 'DateTime'>
   readonly moveOutDate: Prisma.FieldRef<"Request", 'DateTime'>
   readonly damageAmount: Prisma.FieldRef<"Request", 'Decimal'>
-  readonly moveInApprovedAt: Prisma.FieldRef<"Request", 'DateTime'>
   readonly moveOutApprovedAt: Prisma.FieldRef<"Request", 'DateTime'>
-  readonly rejectedAt: Prisma.FieldRef<"Request", 'DateTime'>
-  readonly rejectedReason: Prisma.FieldRef<"Request", 'String'>
   readonly completedAt: Prisma.FieldRef<"Request", 'DateTime'>
+  readonly rejectedReason: Prisma.FieldRef<"Request", 'String'>
+  readonly rejectedAt: Prisma.FieldRef<"Request", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Request", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Request", 'DateTime'>
 }

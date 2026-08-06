@@ -918,18 +918,18 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 
 export const PaymentScalarFieldEnum = {
   id: 'id',
+  transactionId: 'transactionId',
   requestId: 'requestId',
   userId: 'userId',
   amount: 'amount',
   currency: 'currency',
   type: 'type',
-  provider: 'provider',
-  transactionId: 'transactionId',
   status: 'status',
+  provider: 'provider',
+  paidAt: 'paidAt',
+  stripePaymentIntentId: 'stripePaymentIntentId',
   periodStart: 'periodStart',
   periodEnd: 'periodEnd',
-  stripePaymentIntentId: 'stripePaymentIntentId',
-  paidAt: 'paidAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -943,13 +943,13 @@ export const PropertyScalarFieldEnum = {
   categoryId: 'categoryId',
   title: 'title',
   description: 'description',
+  status: 'status',
   location: 'location',
   mapLocation: 'mapLocation',
-  monthlyRent: 'monthlyRent',
-  securityDeposit: 'securityDeposit',
   images: 'images',
   averageRating: 'averageRating',
-  status: 'status',
+  securityDeposit: 'securityDeposit',
+  monthlyRent: 'monthlyRent',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -961,18 +961,18 @@ export const RequestScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   propertyId: 'propertyId',
-  status: 'status',
-  moveInDate: 'moveInDate',
-  monthlyRent: 'monthlyRent',
-  securityDeposit: 'securityDeposit',
   message: 'message',
+  status: 'status',
+  securityDeposit: 'securityDeposit',
+  monthlyRent: 'monthlyRent',
+  moveInApprovedAt: 'moveInApprovedAt',
+  moveInDate: 'moveInDate',
   moveOutDate: 'moveOutDate',
   damageAmount: 'damageAmount',
-  moveInApprovedAt: 'moveInApprovedAt',
   moveOutApprovedAt: 'moveOutApprovedAt',
-  rejectedAt: 'rejectedAt',
-  rejectedReason: 'rejectedReason',
   completedAt: 'completedAt',
+  rejectedReason: 'rejectedReason',
+  rejectedAt: 'rejectedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -996,12 +996,12 @@ export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof 
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
+  avatar: 'avatar',
   email: 'email',
   passwordHash: 'passwordHash',
-  role: 'role',
-  name: 'name',
   phone: 'phone',
-  avatar: 'avatar',
+  role: 'role',
   isBanned: 'isBanned',
   banReason: 'banReason',
   createdAt: 'createdAt',
@@ -1098,20 +1098,6 @@ export type ListEnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
- * Reference to a field of type 'PaymentProvider'
- */
-export type EnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentProvider[]'
- */
-export type ListEnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider[]'>
-    
-
-
-/**
  * Reference to a field of type 'PaymentStatus'
  */
 export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
@@ -1126,16 +1112,16 @@ export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
- * Reference to a field of type 'Float'
+ * Reference to a field of type 'PaymentProvider'
  */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+export type EnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider'>
     
 
 
 /**
- * Reference to a field of type 'Float[]'
+ * Reference to a field of type 'PaymentProvider[]'
  */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+export type ListEnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider[]'>
     
 
 
@@ -1150,6 +1136,20 @@ export type EnumPropertyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'PropertyStatus[]'
  */
 export type ListEnumPropertyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PropertyStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 

@@ -1,29 +1,32 @@
 model Request {
-  id         String        @id @default(uuid())
+  id         String @id @default(uuid())
   tenantId   String
   propertyId String
-  status     RequestStatus @default(MOVE_IN_REQUESTED)
 
-  moveInDate      DateTime
-  monthlyRent     Decimal  @db.Decimal(10, 2)
-  securityDeposit Decimal  @db.Decimal(10, 2)
-  message         String?
+  message String?
+  status  RequestStatus @default(MOVE_IN_REQUESTED)
 
-  moveOutDate  DateTime?
-  damageAmount Decimal?  @db.Decimal(10, 2)
+  securityDeposit  Decimal   @db.Decimal(10, 2)
+  monthlyRent      Decimal   @db.Decimal(10, 2)
+  moveInApprovedAt DateTime?
+  moveInDate       DateTime
 
-  moveInApprovedAt  DateTime?
+  moveOutDate       DateTime?
+  damageAmount      Decimal?  @db.Decimal(10, 2)
   moveOutApprovedAt DateTime?
-  rejectedAt        DateTime?
-  rejectedReason    String?
   completedAt       DateTime?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
 
-  tenant   User      @relation("TenantRequests", fields: [tenantId], references: [id], onDelete: Cascade)
-  property Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  rejectedReason String?
+  rejectedAt     DateTime?
+
   payments Payment[]
   review   Review?
+
+  tenant   User     @relation("TenantRequests", fields: [tenantId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([tenantId])
   @@index([propertyId])
