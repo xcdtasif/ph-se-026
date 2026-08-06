@@ -10,5 +10,11 @@
       "src": "/(.*)",
       "dest": "dist/server.mjs"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/cleanup-rejected-requests",
+      "schedule": "0 2 * * *"
+    }
   ]
 }

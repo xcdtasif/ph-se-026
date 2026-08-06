@@ -138,7 +138,7 @@ src/
 │   └── stripe.ts          # Stripe client
 ├── middleware/
 │   ├── auth.ts            # JWT auth + role authorization
-│   ├── error-handler.ts   # Global error handler
+│   ├── global-error.ts   # Global error handler
 │   ├── not-found.ts       # 404 handler
 │   └── validate.ts        # Zod validation wrapper
 ├── modules/
@@ -230,6 +230,7 @@ npm run deploy
 | `STRIPE_WEBHOOK_SECRET`         | Yes      | Stripe webhook signing secret (`whsec_...`)        |
 | `ADMIN_EMAIL`                   | No       | Seeded admin email (used by seed script)           |
 | `ADMIN_PASSWORD`                | No       | Seeded admin password (used by seed script)        |
+| `CRON_SECRET`                   | No       | Secret for cron endpoint auth (Vercel Cron)        |
 
 ---
 
@@ -375,7 +376,7 @@ stripe listen --forward-to localhost:5000/api/payments/webhook
 
 ## Test Credentials (Seeded)
 
-Admin credentials loaded from config (, ). Landlord and tenant credentials are hardcoded in seed.
+Admin credentials loaded from config (`ADMIN_EMAIL`, `ADMIN_PASSWORD`). Landlord and tenant credentials are hardcoded in seed.
 
 | Role     | Email                   | Password                   |
 | -------- | ----------------------- | -------------------------- |
@@ -388,6 +389,22 @@ Admin credentials loaded from config (, ). Landlord and tenant credentials are h
 | Tenant   | `tenant05@email.com`    | `1a2s3d4f`                 |
 
 ---
+
+## Cron Cleanup (Auto-delete rejected move-in requests)
+
+A scheduled job deletes `MOVE_IN_REJECTED` requests older than 7 days.
+
+**Local development:** Runs via `node-cron` daily at 2:00 AM (started in `server.ts`).
+
+**Vercel production:** Runs via Vercel Cron daily at 2:00 AM, hitting `GET /api/cron/cleanup-rejected-requests`.
+
+**Security:** The endpoint requires `Authorization: Bearer <CRON_SECRET>` header.
+
+**Manual trigger (for testing):**
+```bash
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
+  https://your-domain.vercel.app/api/cron/cleanup-rejected-requests
+```
 
 ## API Documentation
 

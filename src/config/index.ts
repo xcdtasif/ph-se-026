@@ -41,6 +41,8 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string().min(1, "STRIPE_SECRET_KEY is required"),
   STRIPE_WEBHOOK_SECRET: z.string().min(1, "STRIPE_WEBHOOK_SECRET is required"),
 
+  CRON_SECRET: z.string().optional(),
+
   ADMIN_EMAIL: z.email({ message: "ADMIN_EMAIL must be a valid email" }),
   ADMIN_PASSWORD: z.string().min(1, "ADMIN_PASSWORD is required"),
 });
@@ -66,9 +68,10 @@ const config = {
   jwtAccessSecretExpiresIn: env.JWT_ACCESS_SECRET_EXPIRES_IN,
   jwtRefreshSecret: env.JWT_REFRESH_SECRET,
   jwtRefreshSecretExpiresIn: env.JWT_REFRESH_SECRET_EXPIRES_IN,
-
   stripeSecretKey: env.STRIPE_SECRET_KEY,
   stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+
+  cronSecret: env.CRON_SECRET,
 
   adminEmail: env.ADMIN_EMAIL,
   adminPassword: env.ADMIN_PASSWORD,
