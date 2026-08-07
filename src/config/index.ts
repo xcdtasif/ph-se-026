@@ -2,10 +2,13 @@ import dotenv from "dotenv";
 import path from "path";
 import { z } from "zod";
 
-dotenv.config({
-  path: path.join(process.cwd(), ".env"),
-  override: true,
-});
+// Only load .env for local development, don't override Vercel env vars
+if (process.env.VERCEL !== "1") {
+  dotenv.config({
+    path: path.join(process.cwd(), ".env"),
+    override: false,
+  });
+}
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"], {
@@ -37,9 +40,9 @@ const envSchema = z.object({
       /^\d+[smhd]$/,
       "Must be number + unit (s|m|h|d), e.g., 15m, 1h, 1d, 7d",
     ),
-
   STRIPE_SECRET_KEY: z.string().min(1, "STRIPE_SECRET_KEY is required"),
   STRIPE_WEBHOOK_SECRET: z.string().min(1, "STRIPE_WEBHOOK_SECRET is required"),
+  FRONTEND_URL: z.url({ message: "FRONTEND_URL must be a valid URL" }),
 
   CRON_SECRET: z.string().optional(),
 
@@ -70,6 +73,7 @@ const config = {
   jwtRefreshSecretExpiresIn: env.JWT_REFRESH_SECRET_EXPIRES_IN,
   stripeSecretKey: env.STRIPE_SECRET_KEY,
   stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+  frontendUrl: env.FRONTEND_URL,
 
   cronSecret: env.CRON_SECRET,
 

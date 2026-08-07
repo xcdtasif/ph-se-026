@@ -11,13 +11,13 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Create User",
+          "name": "Register User",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\t\"name\": \"Tenant 01\",\r\n\t\"email\": \"tenant01@email.com\",\r\n\t\"password\": \"1a2s3d4f\",\r\n\t\"role\": \"TENANT\"\r\n}",
+              "raw": "{\r\n\t\"name\": \"Admin 02\",\r\n\t\"email\": \"admin02@email.com\",\r\n\t\"password\": \"1a2s3d4f\",\r\n\t\"role\": \"ADMIN\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -25,12 +25,11 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/register",
+              "raw": "{{baseUrl}}/auth/register",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "auth",
                 "register"
               ]
@@ -45,7 +44,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"admin01@email.com\",\r\n    \"password\": \"1a2s3d4f\"\r\n}",
+              "raw": "{\r\n    \"email\": \"tenant01@email.com\",\r\n    \"password\": \"1a2s3d4f\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -66,38 +65,36 @@
           "response": []
         },
         {
-          "name": "Get My Profile",
+          "name": "Refresh Tokens",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/me",
+              "raw": "{{baseUrl}}/auth/refresh",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "auth",
-                "me"
+                "refresh"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Refresh Tokens",
+          "name": "Get My Profile",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/refresh",
+              "raw": "{{baseUrl}}/auth/me",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "auth",
-                "refresh"
+                "me"
               ]
             }
           },
@@ -109,12 +106,11 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/logout",
+              "raw": "{{baseUrl}}/auth/logout",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "auth",
                 "logout"
               ]
@@ -133,13 +129,26 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/categories",
+              "raw": "{{baseUrl}}/categories?page=1&limit=2&search=vi",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "categories"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                },
+                {
+                  "key": "search",
+                  "value": "vi"
+                }
               ]
             }
           },
@@ -151,27 +160,26 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/categories/043d486c-1e10-42c8-9860-177245e03083",
+              "raw": "{{baseUrl}}/categories/9791b925-5d72-45d9-a36d-258d3e89af07",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "categories",
-                "043d486c-1e10-42c8-9860-177245e03083"
+                "9791b925-5d72-45d9-a36d-258d3e89af07"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Post Category",
+          "name": "Create Category",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Townhouse\",\r\n    \"description\": \"Multi-level townhouses with private entrances\"\r\n}",
+              "raw": "{\r\n    \"name\": \"Mansion\",\r\n    \"description\": \"Large luxury residential estates\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -179,12 +187,11 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/categories",
+              "raw": "{{baseUrl}}/categories",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "categories"
               ]
             }
@@ -206,14 +213,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/categories/83cef6e4-fd2c-4cec-b67f-e064c94b2434",
+              "raw": "{{baseUrl}}/categories/674e0ac8-1c13-46fa-818b-1d0eaeac34a5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "categories",
-                "83cef6e4-fd2c-4cec-b67f-e064c94b2434"
+                "674e0ac8-1c13-46fa-818b-1d0eaeac34a5"
               ]
             }
           },
@@ -225,14 +231,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/categories/83cef6e4-fd2c-4cec-b67f-e064c94b2434",
+              "raw": "{{baseUrl}}/categories/4be7867f-941e-45dc-a6ca-99be0145880d",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "categories",
-                "83cef6e4-fd2c-4cec-b67f-e064c94b2434"
+                "4be7867f-941e-45dc-a6ca-99be0145880d"
               ]
             }
           },
@@ -249,12 +254,58 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/properties",
+              "raw": "{{baseUrl}}/properties?status=PENDING",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "properties"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "minPrice",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt",
+                  "disabled": true
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc",
+                  "disabled": true
+                }
               ]
             }
           },
@@ -266,66 +317,32 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/properties/3634fad7-af02-40e9-a218-8ac2d346fde8",
+              "raw": "{{baseUrl}}/properties/0e6fcbad-4790-4856-bb22-fa38c70dbab0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
                 "properties",
-                "3634fad7-af02-40e9-a218-8ac2d346fde8"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Landlord",
-      "item": [
-        {
-          "name": "Create Property",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n\t\"title\": \"Luxury Apartment in Gulshan\",\r\n\t\"description\": \"Spacious 3-bed apartment with modern amenities, balcony, and parking\",\r\n\t\"location\": \"Gulshan-1, Dhaka\",\r\n\t\"mapLocation\": \"https://maps.google.com/?q=23.7808,90.4182\",\r\n\t\"price\": 45000,\r\n\t\"images\": [\r\n\t\t\"https://example.com/img1.jpg\",\r\n\t\t\"https://example.com/img2.jpg\"\r\n\t],\r\n\t\"categoryId\": \"043d486c-1e10-42c8-9860-177245e03083\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/landlord/properties",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "landlord",
-                "properties"
+                "0e6fcbad-4790-4856-bb22-fa38c70dbab0"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Get My Properties",
+          "name": "Get Property Reviews",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/landlord/properties?page=1&limit=10&sortBy=createdAt&sortOrder=desc",
+              "raw": "{{baseUrl}}/properties/0e6fcbad-4790-4856-bb22-fa38c70dbab0/reviews?page=1&limit=10",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
-                "landlord",
-                "properties"
+                "properties",
+                "0e6fcbad-4790-4856-bb22-fa38c70dbab0",
+                "reviews"
               ],
               "query": [
                 {
@@ -335,88 +352,7 @@
                 {
                   "key": "limit",
                   "value": "10"
-                },
-                {
-                  "key": "sortBy",
-                  "value": "createdAt"
-                },
-                {
-                  "key": "sortOrder",
-                  "value": "desc"
                 }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get My Property",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/landlord/properties/1032abfe-7a16-4ac5-861c-1ef3eeb7bdb3",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "landlord",
-                "properties",
-                "1032abfe-7a16-4ac5-861c-1ef3eeb7bdb3"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Update Property",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"title\": \"Updated: Luxury Apartment in Gulshan\",\r\n    \"price\": 48000,\r\n    \"isAvailable\": true\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/landlord/properties/1032abfe-7a16-4ac5-861c-1ef3eeb7bdb3",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "landlord",
-                "properties",
-                "1032abfe-7a16-4ac5-861c-1ef3eeb7bdb3"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete Property",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"title\": \"Updated: Luxury Apartment in Gulshan\",\r\n    \"price\": 48000,\r\n    \"isAvailable\": true\r\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/landlord/properties/1032abfe-7a16-4ac5-861c-1ef3eeb7bdb3",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "landlord",
-                "properties",
-                "1032abfe-7a16-4ac5-861c-1ef3eeb7bdb3"
               ]
             }
           },
@@ -428,54 +364,13 @@
       "name": "Request",
       "item": [
         {
-          "name": "Get Tenant Requests",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/requests?status=MOVED_OUT",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "requests"
-              ],
-              "query": [
-                {
-                  "key": "status",
-                  "value": "MOVED_OUT"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Tenant Request",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/requests/2eb27c72-19a9-4272-abab-9f72e189f543",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "requests",
-                "2eb27c72-19a9-4272-abab-9f72e189f543"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "Create MoveIn Request",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"propertyId\": \"870ea283-ec58-4bae-a205-a921a7019a12\",\r\n    \"moveInDate\": \"2026-10-01\",\r\n    \"message\": \"Interested in renting this villa\"\r\n}",
+              "raw": "{\r\n    \"propertyId\": \"0a3456aa-27a8-422f-8030-c8f6362b4341\",\r\n    \"moveInDate\": \"2026-08-15\",\r\n    \"message\": \"Interested in this property\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -495,51 +390,45 @@
           "response": []
         },
         {
-          "name": "Create MoveOut Request",
+          "name": "Get Tenant Requests",
           "request": {
-            "method": "PATCH",
+            "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n\t\"status\": \"MOVE_OUT_REQUESTED\",\r\n\t\"moveOutDate\": \"2026-08-25\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
-              "raw": "{{baseUrl}}/requests/2eb27c72-19a9-4272-abab-9f72e189f543",
+              "raw": "{{baseUrl}}/requests?page=1&limit=10",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "requests",
-                "2eb27c72-19a9-4272-abab-9f72e189f543"
+                "requests"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Get Landlord Requests",
+          "name": "Get Tenant Request",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/landlord/requests?status=MOVE_IN_REQUESTED",
+              "raw": "{{baseUrl}}/requests/37f965e1-6559-4b3f-a49c-6a2f1724d0cc",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "landlord",
-                "requests"
-              ],
-              "query": [
-                {
-                  "key": "status",
-                  "value": "MOVE_IN_REQUESTED"
-                }
+                "requests",
+                "37f965e1-6559-4b3f-a49c-6a2f1724d0cc"
               ]
             }
           },
@@ -552,7 +441,34 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\t\"status\": \"MOVE_IN_APPROVED\"\r\n}",
+              "raw": "{\r\n    \"status\": \"MOVE_IN_APPROVED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/requests/37f965e1-6559-4b3f-a49c-6a2f1724d0cc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "requests",
+                "37f965e1-6559-4b3f-a49c-6a2f1724d0cc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject MoveIn Request",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"MOVE_IN_REJECTED\",\r\n    \"rejectedReason\": \"Not suitable\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -573,13 +489,13 @@
           "response": []
         },
         {
-          "name": "Reject MoveIn Request",
+          "name": "Request MoveOut",
           "request": {
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"status\": \"MOVE_IN_REJECTED\"\r\n}",
+              "raw": "{\r\n    \"status\": \"MOVE_OUT_REQUESTED\",\r\n    \"moveOutDate\": \"2026-08-30\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -606,7 +522,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\t\"status\": \"MOVE_OUT_APPROVED\",\r\n\t\"damageAmount\": 0\r\n}",
+              "raw": "{\r\n    \"status\": \"MOVE_OUT_APPROVED\",\r\n    \"damageAmount\": 5000\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -633,7 +549,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"status\": \"MOVE_OUT_REJECTED\"\r\n}",
+              "raw": "{\r\n    \"status\": \"MOVE_OUT_REJECTED\",\r\n    \"rejectedReason\": \"Damage exceeds deposit\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -656,6 +572,169 @@
       ]
     },
     {
+      "name": "Landlord",
+      "item": [
+        {
+          "name": "Create Property",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Test Apartment\",\r\n    \"description\": \"Nice place in Dhaka\",\r\n    \"location\": \"Dhaka\",\r\n    \"mapLocation\": \"https://maps.google.com/?q=...\",\r\n    \"monthlyRent\": 25000,\r\n    \"securityDeposit\": 50000,\r\n    \"images\": [\r\n        \"https://example.com/img1.jpg\"\r\n    ],\r\n    \"categoryId\": \"9791b925-5d72-45d9-a36d-258d3e89af07\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/landlord/properties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "landlord",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Properties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/landlord/properties?page=1&limit=3&sortBy=createdAt&sortOrder=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "landlord",
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "3"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Property",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/landlord/properties/5d67f117-66da-40e5-83b9-86a377de130c",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "landlord",
+                "properties",
+                "5d67f117-66da-40e5-83b9-86a377de130c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Property",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Updated Apartment\",\r\n    \"monthlyRent\": 27000,\r\n    \"status\": \"UNAVAILABLE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/landlord/properties/5d67f117-66da-40e5-83b9-86a377de130c",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "landlord",
+                "properties",
+                "5d67f117-66da-40e5-83b9-86a377de130c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Property",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Updated: Luxury Apartment in Gulshan\",\r\n    \"price\": 48000,\r\n    \"isAvailable\": true\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/landlord/properties/5d67f117-66da-40e5-83b9-86a377de130c",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "landlord",
+                "properties",
+                "5d67f117-66da-40e5-83b9-86a377de130c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Landlord Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/landlord/requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "landlord",
+                "requests"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "MOVE_IN_REQUESTED",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Payment",
       "item": [
         {
@@ -665,7 +744,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\t\"requestId\": \"c71ceae3-c3fe-424c-8de2-a0a92895c918\",\r\n\t\"type\": \"SECURITY_DEPOSIT\"\r\n}",
+              "raw": "{\r\n\t\"requestId\": \"0a960e32-35fb-45e0-86f2-eb92566f80d5\",\r\n\t\"type\": \"SECURITY_DEPOSIT\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -685,12 +764,12 @@
           "response": []
         },
         {
-          "name": "Verify Payments",
+          "name": "Get My Payments",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/payments?id=01428b70-2c56-429e-b7a2-6ecb8bfa2d09",
+              "raw": "{{baseUrl}}/payments",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -699,8 +778,24 @@
               ],
               "query": [
                 {
-                  "key": "id",
-                  "value": "01428b70-2c56-429e-b7a2-6ecb8bfa2d09"
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "PAID",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "SECURITY_DEPOSIT",
+                  "disabled": true
                 }
               ]
             }
@@ -708,23 +803,18 @@
           "response": []
         },
         {
-          "name": "Verify Requests",
+          "name": "Get My Payment",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/requests?id=c71ceae3-c3fe-424c-8de2-a0a92895c918",
+              "raw": "{{baseUrl}}/payments/d65ee334-1061-4650-a861-c90842f5c31a",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "requests"
-              ],
-              "query": [
-                {
-                  "key": "id",
-                  "value": "c71ceae3-c3fe-424c-8de2-a0a92895c918"
-                }
+                "payments",
+                "d65ee334-1061-4650-a861-c90842f5c31a"
               ]
             }
           },
@@ -742,7 +832,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"propertyId\": \"5a6d629a-cf9d-4ade-920f-18dc84a6b706\",\r\n    \"requestId\": \"934a65c8-e5a8-43fd-956f-92500bb8d87a\",\r\n    \"rating\": 5,\r\n    \"comment\": \"Great place! The landlord was very responsive and the apartment was clean.\"\r\n}",
+              "raw": "{\r\n    \"propertyId\": \"6f1f753a-4714-469d-a19c-20655c8eee29\",\r\n    \"requestId\": \"1c4dea3c-1513-42e3-a5cc-f2d7ec410662\",\r\n    \"rating\": 5,\r\n    \"comment\": \"Great place, highly recommended!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -760,26 +850,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "Get Reviews",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/reviews/properties/5a6d629a-cf9d-4ade-920f-18dc84a6b706/reviews",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "reviews",
-                "properties",
-                "5a6d629a-cf9d-4ade-920f-18dc84a6b706",
-                "reviews"
-              ]
-            }
-          },
-          "response": []
         }
       ]
     },
@@ -792,7 +862,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/admin/users?page=1&limit=10&role=TENANT&isBanned=false&search=tenant 05",
+              "raw": "{{baseUrl}}/admin/users?page=1&limit=10&role=TENANT&isBanned=false&search=tenant",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -819,7 +889,7 @@
                 },
                 {
                   "key": "search",
-                  "value": "tenant 05"
+                  "value": "tenant"
                 }
               ]
             }
@@ -833,7 +903,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"isBanned\": true,\r\n    \"banReason\": \"Violated terms of service\"\r\n}",
+              "raw": "{\r\n    \"isBanned\": true,\r\n    \"banReason\": \"Violation of terms\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -841,14 +911,14 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/admin/users/ce124f89-62ba-4b42-99a4-69f014cd2ba7",
+              "raw": "{{baseUrl}}/admin/users/c6041f01-10e6-4942-a4cc-c8821834bf2f",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "admin",
                 "users",
-                "ce124f89-62ba-4b42-99a4-69f014cd2ba7"
+                "c6041f01-10e6-4942-a4cc-c8821834bf2f"
               ]
             }
           },
@@ -878,7 +948,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/admin/properties?page=1&limit=10&status=RENTED",
+              "raw": "{{baseUrl}}/admin/properties",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -889,15 +959,18 @@
               "query": [
                 {
                   "key": "page",
-                  "value": "1"
+                  "value": "1",
+                  "disabled": true
                 },
                 {
                   "key": "limit",
-                  "value": "10"
+                  "value": "10",
+                  "disabled": true
                 },
                 {
                   "key": "status",
-                  "value": "RENTED"
+                  "value": "RENTED",
+                  "disabled": true
                 },
                 {
                   "key": "landlordId",
@@ -915,7 +988,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/admin/requests?page=1&limit=10&status=MOVE_IN_REJECTED",
+              "raw": "{{baseUrl}}/admin/requests",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -926,15 +999,18 @@
               "query": [
                 {
                   "key": "page",
-                  "value": "1"
+                  "value": "1",
+                  "disabled": true
                 },
                 {
                   "key": "limit",
-                  "value": "10"
+                  "value": "10",
+                  "disabled": true
                 },
                 {
                   "key": "status",
-                  "value": "MOVE_IN_REJECTED"
+                  "value": "MOVE_IN_REJECTED",
+                  "disabled": true
                 }
               ]
             }
@@ -947,7 +1023,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/admin/payments?page=1&limit=10&status=PAID&type=SECURITY_DEPOSIT",
+              "raw": "{{baseUrl}}/admin/payments",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -958,19 +1034,23 @@
               "query": [
                 {
                   "key": "page",
-                  "value": "1"
+                  "value": "1",
+                  "disabled": true
                 },
                 {
                   "key": "limit",
-                  "value": "10"
+                  "value": "10",
+                  "disabled": true
                 },
                 {
                   "key": "status",
-                  "value": "PAID"
+                  "value": "PAID",
+                  "disabled": true
                 },
                 {
                   "key": "type",
-                  "value": "SECURITY_DEPOSIT"
+                  "value": "SECURITY_DEPOSIT",
+                  "disabled": true
                 }
               ]
             }

@@ -38,8 +38,10 @@ export const updateProperty = async (
     location?: string;
     mapLocation?: string;
     monthlyRent?: number;
+    securityDeposit?: number;
     images?: string[];
     categoryId?: string;
+    status?: "AVAILABLE" | "RENTED" | "UNAVAILABLE";
   },
 ) => {
   const property = await prisma.property.findUnique({ where: { id } });
@@ -58,10 +60,12 @@ export const updateProperty = async (
   if (data.title !== undefined) updateData.title = data.title;
   if (data.description !== undefined) updateData.description = data.description;
   if (data.location !== undefined) updateData.location = data.location;
-  if (data.mapLocation !== undefined) updateData.mapLocation = data.mapLocation;
   if (data.monthlyRent !== undefined) updateData.monthlyRent = data.monthlyRent;
+  if (data.securityDeposit !== undefined)
+    updateData.securityDeposit = data.securityDeposit;
   if (data.images !== undefined) updateData.images = data.images;
   if (data.categoryId !== undefined) updateData.categoryId = data.categoryId;
+  if (data.status !== undefined) updateData.status = data.status;
 
   // Check for active rental requests
   const activeRequests = await prisma.request.count({
@@ -193,59 +197,6 @@ export const getLandlordRequests = async (
   };
 
   return { data: requests, meta };
-};
-export const updateRequestStatus = async (
-  requestId: string,
-  landlordId: string,
-  status: "MOVE_IN_APPROVED" | "MOVE_IN_REJECTED",
-  rejectedReason?: string,
-) => {
-  const request = await prisma.request.findUnique({
-    where: { id: requestId },
-    include: { property: true },
-  });
-
-  if (!request) {
-    throw new AppError(StatusCodes.NOT_FOUND, "Request not found");
-  }
-
-  if (request.property.landlordId !== landlordId) {
-    throw new AppError(
-      StatusCodes.FORBIDDEN,
-      "You can only manage requests for your own properties",
-    );
-  }
-
-  if (request.status !== "MOVE_IN_REQUESTED") {
-    throw new AppError(
-      StatusCodes.BAD_REQUEST,
-      `Cannot ${status.toLowerCase()} a ${request.status.toLowerCase()} request`,
-    );
-  }
-
-  const updateData: Record<string, unknown> = {
-    status,
-    rejectedReason: rejectedReason ?? null,
-  };
-
-  if (status === "MOVE_IN_APPROVED") {
-    updateData.moveInApprovedAt = new Date();
-    await prisma.property.update({
-      where: { id: request.propertyId },
-      data: { status: "RENTED" },
-    });
-  } else {
-    updateData.rejectedAt = new Date();
-  }
-
-  return prisma.request.update({
-    where: { id: requestId },
-    data: updateData,
-    include: {
-      property: { select: { id: true, title: true } },
-      tenant: { select: { id: true, name: true, email: true } },
-    },
-  });
 };
 
 export const getLandlordPropertyById = async (

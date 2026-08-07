@@ -2,10 +2,7 @@
 CREATE TYPE "UserRole" AS ENUM ('TENANT', 'LANDLORD', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "RequestType" AS ENUM ('MOVE_IN', 'MOVE_OUT');
-
--- CreateEnum
-CREATE TYPE "RequestStatus" AS ENUM ('MOVE_IN_REQUESTED', 'APPROVED', 'REJECTED', 'ACTIVE', 'MOVE_OUT_REQUESTED', 'COMPLETED');
+CREATE TYPE "RequestStatus" AS ENUM ('MOVE_IN_REQUESTED', 'MOVE_IN_APPROVED', 'MOVE_IN_REJECTED', 'MOVED_IN', 'MOVE_OUT_REQUESTED', 'MOVE_OUT_APPROVED', 'MOVE_OUT_REJECTED', 'MOVED_OUT');
 
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'FAILED', 'REFUNDED');
@@ -14,17 +11,16 @@ CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'FAILED', 'REFUNDED');
 CREATE TYPE "PaymentProvider" AS ENUM ('STRIPE');
 
 -- CreateEnum
-CREATE TYPE "PaymentType" AS ENUM ('first_payment', 'monthly_rent', 'refund');
+CREATE TYPE "PaymentType" AS ENUM ('SECURITY_DEPOSIT', 'MONTHLY_RENT', 'MOVE_OUT_REFUND');
 
 -- CreateEnum
-CREATE TYPE "PropertyStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'RENTED');
+CREATE TYPE "PropertyStatus" AS ENUM ('AVAILABLE', 'RENTED', 'UNAVAILABLE');
 
 -- CreateTable
 CREATE TABLE "categories" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "createdById" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -34,17 +30,18 @@ CREATE TABLE "categories" (
 -- CreateTable
 CREATE TABLE "payments" (
     "id" TEXT NOT NULL,
+    "transactionId" TEXT NOT NULL,
     "requestId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "amount" DECIMAL(10,2) NOT NULL,
+    "currency" TEXT NOT NULL DEFAULT 'BDT',
     "type" "PaymentType" NOT NULL,
-    "provider" "PaymentProvider" NOT NULL DEFAULT 'STRIPE',
-    "transactionId" TEXT NOT NULL,
     "status" "PaymentStatus" NOT NULL DEFAULT 'PENDING',
+    "provider" "PaymentProvider" NOT NULL DEFAULT 'STRIPE',
+    "paidAt" TIMESTAMP(3),
+    "stripePaymentIntentId" TEXT,
     "periodStart" TIMESTAMP(3),
     "periodEnd" TIMESTAMP(3),
-    "stripePaymentIntentId" TEXT,
-    "paidAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -58,13 +55,13 @@ CREATE TABLE "properties" (
     "categoryId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "status" "PropertyStatus" NOT NULL DEFAULT 'AVAILABLE',
     "location" TEXT NOT NULL,
     "mapLocation" TEXT,
-    "price" DECIMAL(10,2) NOT NULL,
-    "securityDeposit" DECIMAL(10,2) NOT NULL,
     "images" TEXT[] DEFAULT ARRAY[]::TEXT[],
-    "isAvailable" BOOLEAN NOT NULL DEFAULT true,
-    "status" "PropertyStatus" NOT NULL DEFAULT 'ACTIVE',
+    "averageRating" DOUBLE PRECISION,
+    "securityDeposit" DECIMAL(10,2) NOT NULL,
+    "monthlyRent" DECIMAL(10,2) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -76,19 +73,18 @@ CREATE TABLE "requests" (
     "id" TEXT NOT NULL,
     "tenantId" TEXT NOT NULL,
     "propertyId" TEXT NOT NULL,
-    "type" "RequestType" NOT NULL,
-    "status" "RequestStatus" NOT NULL,
-    "moveInDate" TIMESTAMP(3) NOT NULL,
-    "monthlyRent" DECIMAL(10,2) NOT NULL,
-    "securityDeposit" DECIMAL(10,2) NOT NULL,
     "message" TEXT,
+    "status" "RequestStatus" NOT NULL DEFAULT 'MOVE_IN_REQUESTED',
+    "securityDeposit" DECIMAL(10,2) NOT NULL,
+    "monthlyRent" DECIMAL(10,2) NOT NULL,
+    "moveInApprovedAt" TIMESTAMP(3),
+    "moveInDate" TIMESTAMP(3) NOT NULL,
     "moveOutDate" TIMESTAMP(3),
     "damageAmount" DECIMAL(10,2),
-    "moveInApprovedAt" TIMESTAMP(3),
     "moveOutApprovedAt" TIMESTAMP(3),
-    "rejectedAt" TIMESTAMP(3),
-    "rejectedReason" TEXT,
     "completedAt" TIMESTAMP(3),
+    "rejectedReason" TEXT,
+    "rejectedAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -112,13 +108,14 @@ CREATE TABLE "reviews" (
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "avatar" TEXT,
     "email" TEXT NOT NULL,
     "passwordHash" TEXT NOT NULL,
-    "role" "UserRole" NOT NULL,
-    "name" TEXT NOT NULL,
     "phone" TEXT,
-    "avatar" TEXT,
+    "role" "UserRole" NOT NULL,
     "isBanned" BOOLEAN NOT NULL DEFAULT false,
+    "banReason" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -129,10 +126,13 @@ CREATE TABLE "users" (
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "payments_requestId_key" ON "payments"("requestId");
+CREATE UNIQUE INDEX "payments_transactionId_key" ON "payments"("transactionId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "payments_transactionId_key" ON "payments"("transactionId");
+CREATE UNIQUE INDEX "payments_stripePaymentIntentId_key" ON "payments"("stripePaymentIntentId");
+
+-- CreateIndex
+CREATE INDEX "payments_requestId_idx" ON "payments"("requestId");
 
 -- CreateIndex
 CREATE INDEX "payments_userId_idx" ON "payments"("userId");
@@ -147,6 +147,9 @@ CREATE INDEX "payments_type_idx" ON "payments"("type");
 CREATE INDEX "payments_periodStart_periodEnd_idx" ON "payments"("periodStart", "periodEnd");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "payments_requestId_type_periodStart_key" ON "payments"("requestId", "type", "periodStart");
+
+-- CreateIndex
 CREATE INDEX "properties_landlordId_idx" ON "properties"("landlordId");
 
 -- CreateIndex
@@ -156,7 +159,7 @@ CREATE INDEX "properties_categoryId_idx" ON "properties"("categoryId");
 CREATE INDEX "properties_location_idx" ON "properties"("location");
 
 -- CreateIndex
-CREATE INDEX "properties_isAvailable_idx" ON "properties"("isAvailable");
+CREATE INDEX "properties_status_idx" ON "properties"("status");
 
 -- CreateIndex
 CREATE INDEX "requests_tenantId_idx" ON "requests"("tenantId");
@@ -166,9 +169,6 @@ CREATE INDEX "requests_propertyId_idx" ON "requests"("propertyId");
 
 -- CreateIndex
 CREATE INDEX "requests_status_idx" ON "requests"("status");
-
--- CreateIndex
-CREATE INDEX "requests_type_idx" ON "requests"("type");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "reviews_requestId_key" ON "reviews"("requestId");
@@ -181,9 +181,6 @@ CREATE INDEX "reviews_propertyId_idx" ON "reviews"("propertyId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
-
--- AddForeignKey
-ALTER TABLE "categories" ADD CONSTRAINT "categories_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payments" ADD CONSTRAINT "payments_requestId_fkey" FOREIGN KEY ("requestId") REFERENCES "requests"("id") ON DELETE CASCADE ON UPDATE CASCADE;

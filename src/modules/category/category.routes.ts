@@ -11,16 +11,19 @@ import {
   createCategorySchema,
   updateCategorySchema,
   categoryParamsSchema,
+  getCategoriesQuerySchema,
 } from "./category.validation";
 import { authenticate, authorize, optionalAuth } from "../../middleware/auth";
 
 const router = Router();
 
-// Public routes
-router.get("/", optionalAuth, getCategories);
+router.get(
+  "/",
+  optionalAuth,
+  validate(getCategoriesQuerySchema),
+  getCategories,
+);
 router.get("/:id", optionalAuth, validate(categoryParamsSchema), getCategory);
-
-// Admin only routes
 router.post(
   "/",
   authenticate,

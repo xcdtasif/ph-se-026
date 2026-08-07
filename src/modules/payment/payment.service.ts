@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import { StatusCodes } from "http-status-codes";
 import { stripe } from "../../lib/stripe";
+import config from "../../config";
 import type { ICreatePaymentInput } from "./payment.types";
 import type {
   PaymentStatus,
@@ -22,14 +23,22 @@ export const createPayment = async (
   if (!request) {
     throw new AppError(StatusCodes.NOT_FOUND, "Request not found");
   }
-
-  if (request.tenantId !== userId) {
-    throw new AppError(
-      StatusCodes.FORBIDDEN,
-      "You can only create payments for your own requests",
-    );
+  // Authorization: tenant for security deposit/rent, landlord for refunds
+  if (data.type === "MOVE_OUT_REFUND") {
+    if (request.property.landlordId !== userId) {
+      throw new AppError(
+        StatusCodes.FORBIDDEN,
+        "Only the landlord can create refund payments",
+      );
+    }
+  } else {
+    if (request.tenantId !== userId) {
+      throw new AppError(
+        StatusCodes.FORBIDDEN,
+        "You can only create payments for your own requests",
+      );
+    }
   }
-
   // Validate request status for payment type
   if (
     data.type === "SECURITY_DEPOSIT" &&
@@ -65,12 +74,37 @@ export const createPayment = async (
 
   // Auto-determine amount based on payment type and property
   let amount = data.amount;
+  let periodStart: Date | null = null;
+  let periodEnd: Date | null = null;
   if (data.type === "SECURITY_DEPOSIT") {
     amount = Number(request.property.securityDeposit);
   } else if (data.type === "MONTHLY_RENT") {
     amount = Number(request.property.monthlyRent);
+    // Auto-calculate period: first day to last day of current month
+    const now = new Date();
+    periodStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    periodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    // Check for existing monthly rent payment for this period
+    const existingPayment = await prisma.payment.findUnique({
+      where: {
+        requestId_type_periodStart: {
+          requestId: data.requestId,
+          type: "MONTHLY_RENT",
+          periodStart,
+        },
+      },
+    });
+    if (existingPayment) {
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
+        "Monthly rent for this period has already been paid",
+      );
+    }
+  } else if (data.type === "MOVE_OUT_REFUND") {
+    const securityDeposit = Number(request.property.securityDeposit);
+    const damageAmount = Number(request.damageAmount || 0);
+    amount = securityDeposit - damageAmount;
   }
-
   // Get user email for checkout session
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -79,8 +113,6 @@ export const createPayment = async (
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found");
   }
-
-  // Create Stripe Checkout Session
   let session;
   try {
     session = await stripe.checkout.sessions.create({
@@ -107,10 +139,14 @@ export const createPayment = async (
         requestId: data.requestId,
         userId,
         type: data.type,
-        ...(data.periodStart && { periodStart: data.periodStart }),
+        ...(data.type === "MONTHLY_RENT" &&
+          periodStart && {
+            periodStart: periodStart.toISOString(),
+            periodEnd: periodEnd!.toISOString(),
+          }),
       },
-      success_url: `${process.env.FRONTEND_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
+      success_url: `${config.frontendUrl}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${config.frontendUrl}/payment/cancel`,
     });
 
     // Create payment record with session ID
@@ -123,9 +159,10 @@ export const createPayment = async (
         type: data.type,
         status: "PENDING",
         provider: "STRIPE",
-        stripePaymentIntentId: session.id, // Store session ID here for lookup
+        stripePaymentIntentId: session.id,
         transactionId: session.id,
-        periodStart: data.periodStart ? new Date(data.periodStart) : null,
+        periodStart,
+        periodEnd,
       },
     });
 
@@ -178,9 +215,12 @@ export const handleWebhook = async (payload: Buffer, signature: string) => {
 };
 
 const handleSuccessfulCheckout = async (session: Stripe.Checkout.Session) => {
-  const { requestId, userId, type, periodStart } = session.metadata || {};
+  const { requestId, userId, type, periodStart, periodEnd } =
+    session.metadata || {};
   const parsedPeriodStart =
     periodStart && periodStart !== "" ? new Date(periodStart) : null;
+  const parsedPeriodEnd =
+    periodEnd && periodEnd !== "" ? new Date(periodEnd) : null;
 
   if (!requestId || !userId || !type) {
     throw new AppError(
@@ -211,7 +251,11 @@ const handleSuccessfulCheckout = async (session: Stripe.Checkout.Session) => {
     data: {
       status: "PAID",
       paidAt: new Date(),
-      periodStart: parsedPeriodStart ?? null,
+      ...(type === "MONTHLY_RENT" &&
+        parsedPeriodStart && {
+          periodStart: parsedPeriodStart,
+          periodEnd: parsedPeriodEnd,
+        }),
     },
   });
 
@@ -224,6 +268,20 @@ const handleSuccessfulCheckout = async (session: Stripe.Checkout.Session) => {
     await prisma.property.update({
       where: { id: request.propertyId },
       data: { status: "RENTED" },
+    });
+
+    // Reject other pending move-in requests for this property
+    await prisma.request.updateMany({
+      where: {
+        propertyId: request.propertyId,
+        id: { not: requestId },
+        status: { in: ["MOVE_IN_REQUESTED", "MOVE_IN_APPROVED"] },
+      },
+      data: {
+        status: "MOVE_IN_REJECTED",
+        rejectedReason: "Property is rented",
+        rejectedAt: new Date(),
+      },
     });
   } else if (type === "MONTHLY_RENT") {
     // Monthly rent payment recorded, no status change

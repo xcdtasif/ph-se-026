@@ -22,8 +22,10 @@ export const updatePropertySchema = z.object({
     location: z.string().min(2).optional(),
     mapLocation: z.url().optional(),
     monthlyRent: z.number().positive().optional(),
+    securityDeposit: z.number().positive().optional(),
     images: z.array(z.url()).optional(),
     categoryId: z.uuid().optional(),
+    status: z.enum(["AVAILABLE", "RENTED", "UNAVAILABLE"]).optional(),
   }),
   params: z.object({
     id: z.uuid("Invalid property ID"),
@@ -51,11 +53,5 @@ export const landlordQuerySchema = z.object({
 export const landlordParamsSchema = z.object({
   params: z.object({
     id: z.uuid("Invalid property ID"),
-  }),
-});
-
-export const landlordRequestParamsSchema = z.object({
-  params: z.object({
-    id: z.uuid("Invalid rental request ID"),
   }),
 });

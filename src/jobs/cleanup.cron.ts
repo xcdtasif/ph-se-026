@@ -7,7 +7,9 @@ export function startCleanupCron() {
     console.log("[CRON] Starting cleanup of old rejected move-in requests...");
     try {
       const deletedCount = await deleteOldRejectedMoveInRequests();
-      console.log(`[CRON] Deleted ${deletedCount} old MOVE_IN_REJECTED requests`);
+      console.log(
+        `[CRON] Deleted ${deletedCount} old MOVE_IN_REJECTED requests`,
+      );
     } catch (error) {
       console.error("[CRON] Error cleaning up rejected requests:", error);
     }

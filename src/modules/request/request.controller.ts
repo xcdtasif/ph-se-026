@@ -8,6 +8,7 @@ import {
 } from "./request.service";
 import { sendResponse } from "../../utils/send-response";
 import { StatusCodes } from "http-status-codes";
+import { AppError } from "../../utils/app-error";
 export const createRequestController = async (
   req: IAuthRequest,
   res: Response,
@@ -36,10 +37,12 @@ export const updateRequestStatusController = async (
   const userId = req.user!.id;
   const userRole = req.user!.role as "TENANT" | "LANDLORD" | "ADMIN";
   const { id } = req.params;
-  const requestId = Array.isArray(id) ? id[0] : id!;
+  const requestId = Array.isArray(id) ? id[0] : id;
+  if (!requestId)
+    throw new AppError(StatusCodes.BAD_REQUEST, "Request ID is required");
   const { status, rejectedReason, damageAmount, moveOutDate } = req.body;
 
-  const request = await updateRequestStatus(userId, userRole, requestId!, {
+  const request = await updateRequestStatus(userId, userRole, requestId, {
     status,
     rejectedReason,
     damageAmount,

@@ -6,6 +6,7 @@ import type {
   TPaginatedResponse,
 } from "../../types";
 import { StatusCodes } from "http-status-codes";
+import type { RequestStatus } from "../../../prisma/generated/prisma/enums";
 
 export const createRequest = async (
   tenantId: string,
@@ -39,6 +40,7 @@ export const createRequest = async (
           "MOVED_IN",
           "MOVE_OUT_REQUESTED",
           "MOVE_OUT_APPROVED",
+          "MOVE_OUT_REJECTED",
         ],
       },
     },
@@ -56,7 +58,7 @@ export const createRequest = async (
       tenantId,
       propertyId: data.propertyId,
       moveInDate: data.moveInDate,
-      message: data.message,
+      message: data.message ?? null,
       securityDeposit: property.securityDeposit,
       monthlyRent: property.monthlyRent,
       status: "MOVE_IN_REQUESTED",
@@ -66,12 +68,24 @@ export const createRequest = async (
         include: {
           category: true,
           landlord: {
-            select: { id: true, name: true, email: true, phone: true, avatar: true },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phone: true,
+              avatar: true,
+            },
           },
         },
       },
       tenant: {
-        select: { id: true, name: true, email: true, phone: true, avatar: true },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          avatar: true,
+        },
       },
     },
   });
@@ -82,10 +96,19 @@ export const updateRequestStatus = async (
   userRole: "TENANT" | "LANDLORD" | "ADMIN",
   requestId: string,
   data: {
-    status: "MOVE_IN_APPROVED" | "MOVE_IN_REJECTED" | "MOVE_OUT_REQUESTED" | "MOVE_OUT_APPROVED" | "MOVE_OUT_REJECTED";
+    status:
+      | "MOVE_IN_APPROVED"
+      | "MOVE_IN_REJECTED"
+      | "MOVE_OUT_REQUESTED"
+      | "MOVE_OUT_APPROVED"
+      | "MOVE_OUT_REJECTED";
     rejectedReason?: string;
+    damageAmount?: number;
+    moveOutDate?: string | Date;
   },
 ) => {
+  const { status, rejectedReason, damageAmount, moveOutDate } = data;
+
   const request = await prisma.request.findUnique({
     where: { id: requestId },
     include: { property: true },
@@ -102,34 +125,116 @@ export const updateRequestStatus = async (
   if (userRole === "LANDLORD" && request.property.landlordId !== userId) {
     throw new AppError(StatusCodes.FORBIDDEN, "Not your property");
   }
-
-  const { status, rejectedReason } = data;
-
   // Validate transitions
-  const validTransitions: Record<string, string[]> = {
+  const validTransitions: Record<
+    "TENANT" | "LANDLORD" | "ADMIN",
+    Record<RequestStatus, RequestStatus[]>
+  > = {
     TENANT: {
       MOVE_IN_REQUESTED: ["MOVE_OUT_REQUESTED"],
       MOVE_IN_APPROVED: ["MOVE_OUT_REQUESTED"],
       MOVED_IN: ["MOVE_OUT_REQUESTED"],
+      MOVE_IN_REJECTED: [],
+      MOVE_OUT_REQUESTED: [],
+      MOVE_OUT_APPROVED: [],
       MOVE_OUT_REJECTED: ["MOVE_OUT_REQUESTED"],
+      MOVED_OUT: [],
     },
     LANDLORD: {
       MOVE_IN_REQUESTED: ["MOVE_IN_APPROVED", "MOVE_IN_REJECTED"],
+      MOVE_IN_APPROVED: [],
+      MOVE_IN_REJECTED: [],
+      MOVED_IN: [],
       MOVE_OUT_REQUESTED: ["MOVE_OUT_APPROVED", "MOVE_OUT_REJECTED"],
+      MOVE_OUT_APPROVED: [],
+      MOVE_OUT_REJECTED: [],
+      MOVED_OUT: [],
     },
     ADMIN: {
       MOVE_IN_REQUESTED: ["MOVE_IN_APPROVED", "MOVE_IN_REJECTED"],
       MOVE_IN_APPROVED: ["MOVE_IN_REJECTED"],
+      MOVE_IN_REJECTED: [],
+      MOVED_IN: [],
       MOVE_OUT_REQUESTED: ["MOVE_OUT_APPROVED", "MOVE_OUT_REJECTED"],
+      MOVE_OUT_APPROVED: [],
+      MOVE_OUT_REJECTED: [],
+      MOVED_OUT: [],
     },
   };
 
-  const allowed = validTransitions[userRole]?.[request.status]?.includes(status);
+  const allowed =
+    validTransitions[userRole]?.[request.status]?.includes(status);
   if (!allowed) {
     throw new AppError(
       StatusCodes.BAD_REQUEST,
       `Invalid status transition from ${request.status} to ${status} for ${userRole}`,
     );
+  }
+
+  // Validate fields per transition
+  if (userRole === "TENANT") {
+    // Tenant can only request move-out, no damageAmount or rejectedReason
+    if (status === "MOVE_OUT_REQUESTED") {
+      if (damageAmount !== undefined) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          "Tenants cannot specify damage amount",
+        );
+      }
+      if (rejectedReason !== undefined) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          "Tenants cannot provide rejection reason",
+        );
+      }
+    }
+  }
+
+  if (userRole === "LANDLORD") {
+    // Landlord approving/rejecting move-in
+    if (request.status === "MOVE_IN_REQUESTED") {
+      if (status === "MOVE_IN_REJECTED" && !rejectedReason) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          "Rejection reason is required when rejecting move-in request",
+        );
+      }
+      if (damageAmount !== undefined) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          "Landlords cannot specify damage amount for move-in decision",
+        );
+      }
+      if (moveOutDate !== undefined) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          "Landlords cannot specify move-out date for move-in decision",
+        );
+      }
+    }
+    // Landlord approving/rejecting move-out
+    if (request.status === "MOVE_OUT_REQUESTED") {
+      if (status === "MOVE_OUT_REJECTED" && !rejectedReason) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          "Rejection reason is required when rejecting move-out request",
+        );
+      }
+      if (status === "MOVE_OUT_APPROVED") {
+        if (damageAmount !== undefined && damageAmount < 0) {
+          throw new AppError(
+            StatusCodes.BAD_REQUEST,
+            "Damage amount cannot be negative",
+          );
+        }
+        if (moveOutDate !== undefined) {
+          throw new AppError(
+            StatusCodes.BAD_REQUEST,
+            "Landlords cannot specify move-out date for move-out approval",
+          );
+        }
+      }
+    }
   }
 
   // Move-out window validation (1st-10th of month)
@@ -142,14 +247,15 @@ export const updateRequestStatus = async (
         "Move-out can only be requested between 1st and 10th of the month",
       );
     }
-    // Calculate move-out date (11th of next month or end of current month)
-    const moveOutDate = new Date(now.getFullYear(), now.getMonth() + 1, 10);
+    // Use provided moveOutDate or calculate default (10th of next month)
+    const moveOutDateValue = data.moveOutDate
+      ? new Date(data.moveOutDate)
+      : new Date(now.getFullYear(), now.getMonth() + 1, 10);
     return prisma.request.update({
       where: { id: requestId },
       data: {
         status,
-        moveOutDate,
-        moveOutRequestedAt: now,
+        moveOutDate: moveOutDateValue,
       },
       include: { property: true, tenant: true },
     });
@@ -165,8 +271,10 @@ export const updateRequestStatus = async (
   }
   if (status === "MOVE_OUT_APPROVED") {
     updateData.moveOutApprovedAt = new Date();
+    if (damageAmount !== undefined) {
+      updateData.damageAmount = damageAmount;
+    }
   }
-
   return prisma.request.update({
     where: { id: requestId },
     data: updateData,
@@ -195,7 +303,13 @@ export const getTenantRequests = async (
           include: {
             category: true,
             landlord: {
-              select: { id: true, name: true, email: true, phone: true, avatar: true },
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                avatar: true,
+              },
             },
           },
         },
@@ -227,12 +341,24 @@ export const getRequestById = async (id: string, tenantId: string) => {
         include: {
           category: true,
           landlord: {
-            select: { id: true, name: true, email: true, phone: true, avatar: true },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phone: true,
+              avatar: true,
+            },
           },
         },
       },
       tenant: {
-        select: { id: true, name: true, email: true, phone: true, avatar: true },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          avatar: true,
+        },
       },
       payments: true,
       review: true,

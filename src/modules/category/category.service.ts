@@ -1,22 +1,51 @@
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utils/app-error";
-export const getAllCategories = async () => {
-  return prisma.category.findMany({
-    orderBy: { name: "asc" },
-  });
+export const getAllCategories = async (options?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+}) => {
+  const page = options?.page ?? 1;
+  const limit = options?.limit ?? 10;
+  const skip = (page - 1) * limit;
+  const where = options?.search
+    ? {
+        name: {
+          contains: options.search,
+          mode: "insensitive" as const,
+        },
+      }
+    : {};
+
+  const [data, total] = await Promise.all([
+    prisma.category.findMany({
+      where,
+      orderBy: { name: "asc" },
+      skip,
+      take: limit,
+    }),
+    prisma.category.count({ where }),
+  ]);
+
+  return {
+    data,
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      hasNextPage: page < Math.ceil(total / limit),
+      hasPrevPage: page > 1,
+    },
+  };
 };
 
-export const createCategory = async (
-  name: string,
-  createdById: string,
-  description?: string,
-) => {
+export const createCategory = async (name: string, description?: string) => {
   return prisma.category.create({
     data: {
       name,
       description: description ?? null,
-      createdById,
     },
   });
 };
@@ -57,6 +86,8 @@ export const deleteCategory = async (id: string) => {
       "Cannot delete category with associated properties",
     );
   }
+
+  await prisma.category.delete({ where: { id } });
 };
 
 export const getCategoryById = async (id: string) => {

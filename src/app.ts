@@ -61,6 +61,7 @@ app.use("/api/requests", requestRouter);
 app.use("/api/landlord", landlordRouter);
 app.use("/api/payments", paymentRouter);
 app.use("/api/reviews", reviewRouter);
+app.use("/api/admin", adminRouter);
 
 app.get("/api/cron/cleanup-rejected-requests", async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -82,8 +83,6 @@ app.get("/api/cron/cleanup-rejected-requests", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-
-app.use("/api/admin", adminRouter);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

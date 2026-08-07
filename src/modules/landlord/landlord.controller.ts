@@ -6,10 +6,8 @@ import {
   deleteProperty,
   getLandlordProperties,
   getLandlordRequests,
-  updateRequestStatus,
   getLandlordPropertyById,
 } from "./landlord.service";
-import { AppError } from "../../utils/app-error";
 import { sendResponse } from "../../utils/send-response";
 import { StatusCodes } from "http-status-codes";
 
@@ -18,7 +16,9 @@ export const createPropertyController = async (
   res: Response,
 ) => {
   const landlordId = req.user!.id;
-  const property = await createProperty(landlordId, req.body);
+  const data = req.body;
+
+  const property = await createProperty(landlordId, data);
 
   sendResponse(res, {
     success: true,
@@ -34,8 +34,9 @@ export const updatePropertyController = async (
 ) => {
   const landlordId = req.user!.id;
   const id = req.params.id as string;
+  const data = req.body;
 
-  const property = await updateProperty(id, landlordId, req.body);
+  const property = await updateProperty(id, landlordId, data);
 
   sendResponse(res, {
     success: true,
@@ -67,8 +68,8 @@ export const getMyPropertiesController = async (
   res: Response,
 ) => {
   const landlordId = req.user!.id;
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
   const sortBy = (req.query.sortBy as string) || "createdAt";
   const sortOrder = (req.query.sortOrder as "asc" | "desc") || "desc";
 
@@ -110,21 +111,19 @@ export const getMyRequestsController = async (
   res: Response,
 ) => {
   const landlordId = req.user!.id;
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const status = req.query.status as string | undefined;
   const sortBy = (req.query.sortBy as string) || "createdAt";
   const sortOrder = (req.query.sortOrder as "asc" | "desc") || "desc";
-  const status = req.query.status as string | undefined;
 
-  const options: Record<string, unknown> = {
+  const result = await getLandlordRequests(landlordId, {
     page,
     limit,
     sortBy,
     sortOrder,
-  };
-  if (status !== undefined) options.status = status;
-
-  const result = await getLandlordRequests(landlordId, options as any);
+    ...(status ? { status } : {}),
+  });
 
   sendResponse(res, {
     success: true,
@@ -132,35 +131,5 @@ export const getMyRequestsController = async (
     message: "Requests retrieved successfully",
     data: result.data,
     meta: result.meta,
-  });
-};
-
-export const updateRequestStatusController = async (
-  req: IAuthRequest,
-  res: Response,
-) => {
-  const landlordId = req.user!.id;
-  const id = req.params.id as string;
-  const { status, rejectedReason } = req.body;
-
-  if (!["MOVE_IN_APPROVED", "MOVE_IN_REJECTED"].includes(status)) {
-    throw new AppError(
-      StatusCodes.BAD_REQUEST,
-      "Invalid status. Must be MOVE_IN_APPROVED or MOVE_IN_REJECTED",
-    );
-  }
-
-  const request = await updateRequestStatus(
-    id,
-    landlordId,
-    status,
-    rejectedReason,
-  );
-
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: `Request ${status.toLowerCase()} successfully`,
-    data: request,
   });
 };

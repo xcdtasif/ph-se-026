@@ -12,7 +12,21 @@ import { StatusCodes } from "http-status-codes";
 import { AppError } from "../../utils/app-error";
 
 export const getCategories = async (req: Request, res: Response) => {
-  const categories = await getAllCategories();
+  const {
+    page = 1,
+    limit = 10,
+    search,
+  } = req.query as {
+    page?: string;
+    limit?: string;
+    search?: string;
+  };
+
+  const categories = await getAllCategories({
+    page: Number(page),
+    limit: Number(limit),
+    ...(search ? { search } : {}),
+  });
 
   sendResponse(res, {
     success: true,
@@ -24,9 +38,8 @@ export const getCategories = async (req: Request, res: Response) => {
 
 export const createCategory = async (req: IAuthRequest, res: Response) => {
   const { name, description } = req.body;
-  const createdById = req.user!.id;
 
-  const category = await createCategoryService(name, createdById, description);
+  const category = await createCategoryService(name, description);
 
   sendResponse(res, {
     success: true,

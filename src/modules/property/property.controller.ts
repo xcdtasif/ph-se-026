@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { getProperties, getPropertyById } from "./property.service";
+import { getPropertyReviews } from "../review/review.service";
 import { sendResponse } from "../../utils/send-response";
 import { StatusCodes } from "http-status-codes";
 
@@ -62,5 +63,27 @@ export const getPropertyDetails = async (req: Request, res: Response) => {
     statusCode: StatusCodes.OK,
     message: "Property retrieved successfully",
     data: property,
+  });
+};
+
+export const getPropertyReviewsController = async (
+  req: Request,
+  res: Response,
+) => {
+  const propertyId = req.params.id as string;
+  const { page, limit } = req.query;
+
+  const result = await getPropertyReviews(
+    propertyId,
+    page ? Number(page) : 1,
+    limit ? Number(limit) : 10,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Property reviews retrieved",
+    data: result.data,
+    meta: result.meta,
   });
 };

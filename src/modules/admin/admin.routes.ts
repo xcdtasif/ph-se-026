@@ -21,10 +21,8 @@ import {
 
 const router = Router();
 
-// All admin routes require ADMIN role
 router.use(authenticate, authorize("ADMIN"));
 
-// User management
 router.get(
   "/users",
   validate(adminUserQuerySchema),
@@ -36,8 +34,6 @@ router.patch(
   validate(adminBanUserSchema),
   catchAsync(banUnbanUserController),
 );
-
-// Platform oversight
 router.get("/stats", catchAsync(getAdminStatsController));
 router.get(
   "/properties",

@@ -9,14 +9,12 @@ import { authenticate } from "../../middleware/auth";
 import { validate } from "../../middleware/validate";
 import {
   createPaymentIntentSchema,
-  webhookSchema,
   paymentQuerySchema,
   paymentParamsSchema,
 } from "./payment.validation";
 
 const router = Router();
 
-// Webhook needs raw body - will be handled in app.ts
 router.post("/webhook", stripeWebhookController);
 
 router.use(authenticate);
